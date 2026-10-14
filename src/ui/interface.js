@@ -296,7 +296,9 @@ export class Interface {
     this.refreshActions();
   }
   cameo(d) {
-    return d.kind === "infantry" ? "/art/soldier.svg" : "/art/tank.svg";
+    return d.kind === "infantry"
+      ? `${import.meta.env.BASE_URL}art/soldier.svg`
+      : `${import.meta.env.BASE_URL}art/tank.svg`;
   }
   button(label, meta, fn, options = {}) {
     const b = document.createElement("button");
@@ -464,7 +466,7 @@ export class Interface {
               `${g.cost(0, b)} cr${b.population ? " · +" + b.population + " pop" : ""} · ${b.hotkey.toUpperCase()}`,
               () => this.controls.build(id),
               {
-                icon: "/art/tank.svg",
+                icon: `${import.meta.env.BASE_URL}art/tank.svg`,
                 tooltip: `${b.description || b.name}\nVereist: ${missing.join(", ") || "gereed"} · power ${b.powerUse}`,
                 disabled: missing.length > 0,
               },

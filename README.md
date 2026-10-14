@@ -2,6 +2,12 @@
 
 Een modulaire, speelbare 3D RTS geïnspireerd op Generals en Zero Hour. Drie facties, negen generaalsvarianten, economie, basisbouw, gevechten, AI, campaign en superwapens. De modellen en audio zijn eigen placeholders; dit is geen exacte reconstructie van het originele spel.
 
+## Direct in de browser spelen
+
+De websitebestanden worden gepubliceerd op de branch `gh-pages`. Zet eenmalig in de repository **Settings → Pages → Source: Deploy from a branch → Branch: gh-pages → /(root) → Save**. GitHub toont daar de gepubliceerde link zodra de deployment voltooid is. Daarna speel je via `https://officialdlt.github.io/GeneralsNoLimits/`, zonder ZIP, executable, Node.js of terminal te gebruiken.
+
+De workflow `Publish browser game` bouwt en publiceert volgende wijzigingen aan `main` automatisch naar `gh-pages`. Mocht GitHub Actions uitgeschakeld zijn, dan kan een ontwikkelaar `npm run deploy:pages` uitvoeren. De publicatie maakt een nieuwe commit op de websitebranch zonder de historie te resetten. De Pages-instelling moet wel eenmaal zijn ingeschakeld; een push alleen is geen bewijs dat de website live is.
+
 ## Windows: dubbelklikken
 
 Download [releases/GeneralsNoLimits.exe](https://github.com/OfficialDLT/GeneralsNoLimits/blob/main/releases/GeneralsNoLimits.exe) met **Download raw file** en dubbelklik. De ingebouwde game opent in je standaardbrowser. Je hebt geen terminal, Node.js of losse spelbestanden nodig. De executable is Windows x64, niet digitaal ondertekend, en wordt vanuit Linux gebouwd; Windows-browseropening moet op Windows worden getest.

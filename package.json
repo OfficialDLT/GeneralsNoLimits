@@ -7,7 +7,8 @@
     "dev": "vite --host 0.0.0.0",
     "build": "vite build",
     "test": "node --test src/game.test.js src/simulation/*.test.js",
-    "test:browser": "node scripts/browser-smoke.mjs"
+    "test:browser": "node scripts/browser-smoke.mjs",
+    "deploy:pages": "npm run build && node scripts/publish-pages.mjs"
   },
   "dependencies": {
     "three": "^0.180.0"
