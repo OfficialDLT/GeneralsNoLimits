@@ -23,13 +23,14 @@ Open de door Vite getoonde URL in een browser met WebGL. `npm run build` maakt d
 
 ## Spelen
 
-- WASD of pijltjestoetsen: camera bewegen. Scroll: in-/uitzoomen. Klik op de minimap om naar een sector te gaan.
+- WASD of pijltjestoetsen: camera bewegen, relatief aan de kijkrichting. Beweeg de muis naar een schermrand om de camera mee te laten bewegen. Houd de scrollknop ingedrukt en sleep om de camera te draaien. Scroll: in-/uitzoomen. Klik op de minimap om naar een sector te gaan.
 - Linkerklik: een gebouw of eenheid selecteren. Shift + klik: eenheden aan selectie toevoegen/verwijderen.
 - Sleep met de linkermuisknop een selectiekader om meerdere eenheden te selecteren. Shift + slepen voegt eenheden toe.
 - Dubbelklik op een eenheid om alle zichtbare eenheden van hetzelfde type te selecteren.
 - Rechterklik: geselecteerde eenheden laten bewegen in formatie.
 - Ctrl + rechterklik: aanval op de grond. Eenheden bewegen binnen bereik en blijven schieten; een gewone rechterklik stopt de aanval.
-- Gebruik het commandopaneel om gebouwen te plaatsen. Esc of rechterklik annuleert bouwen.
+- Gebruik het commandopaneel om gebouwen te plaatsen. Houd de linkermuisknop ingedrukt op de gewenste bouwplek, sleep om het gebouw te draaien en laat los om te bouwen. Een gewone klik plaatst direct. Esc of rechterklik annuleert bouwen.
+- Selecteer een barracks of tankfabriek en klik met rechts op de kaart om een verzamelvlag te zetten. Nieuw geproduceerde eenheden gaan automatisch naar die vlag. Elk productiegebouw heeft zijn eigen verzamelpunt; de vlag verschijnt wanneer je het gebouw selecteert.
 - Selecteer barracks om soldaten te trainen; selecteer een tankfabriek om tanks te maken. Onderin verschijnt een productiekaart met een eigen illustratie, resterende tijd, voortgang en vijf wachtrijslots.
 
 Je begint met 3.000 credits, een hoofdkwartier, barracks, tankfabriek, twee soldaten en één tank. Het hoofdkwartier levert 30 credits per seconde en 10 populatiepunten. Elke barracks kost 400 credits en geeft 20 extra populatiepunten. Een tankfabriek kost 700 credits. Soldaten kosten 100 credits en 1 populatiepunt; tanks kosten 300 credits en 3 populatiepunten. Een productiegebouw heeft vijf wachtrijplaatsen. Eenheden in productie reserveren al populatieruimte.

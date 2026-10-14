@@ -11,7 +11,8 @@ scene.background = new THREE.Color('#91a99a');
 scene.fog = new THREE.Fog('#91a99a', 650, 1600);
 const camera = new THREE.PerspectiveCamera(48, innerWidth / innerHeight, 1, 4000);
 const focus = new THREE.Vector3(0, 0, 0);
-let zoom = 180;
+let zoom = 180, cameraYaw = 0;
+let orbitDrag = null, placementDrag = null, pointerScreen = null;
 scene.add(new THREE.HemisphereLight(0xdaf0ec, 0x545c38, 2.5));
 const sun = new THREE.DirectionalLight(0xffefd5, 3);
 sun.position.set(150, 250, 100); sun.castShadow = true;
@@ -59,9 +60,9 @@ let selected = [], placing = null, ghost = null, pointerGround = null;
 function ring(radius) {
   const m = new THREE.Mesh(new THREE.RingGeometry(radius,radius+.35,48),new THREE.MeshBasicMaterial({color:0xd1ff87,side:THREE.DoubleSide}));m.rotation.x=-Math.PI/2;m.position.y=.2;m.visible=false;return m;
 }
-function addBuilding(type,x,z) {
-  const group=model(type);group.position.set(x,0,z);scene.add(group);
-  const b={type,x,z,group,queue:[],ring:ring(RULES[type].radius)};group.add(b.ring);state.buildings.push(b);return b;
+function addBuilding(type,x,z,rotation=0) {
+  const group=model(type);group.position.set(x,0,z);group.rotation.y=rotation;scene.add(group);
+  const b={type,x,z,rotation,group,queue:[],rallyPoint:null,rallyFlag:null,ring:ring(RULES[type].radius)};group.add(b.ring);state.buildings.push(b);return b;
 }
 function addUnit(type,x,z) {
   const group=model(type);group.position.set(x,0,z);scene.add(group);
@@ -69,16 +70,16 @@ function addUnit(type,x,z) {
 }
 const hq=addBuilding('hq',0,0);addBuilding('barracks',-45,0);addBuilding('factory',45,0);
 addUnit('soldier',-30,-32);addUnit('soldier',-24,-32);addUnit('tank',30,-35);
-function select(items) {selected.forEach(e=>e.ring.visible=false);selected=items;selected.forEach(e=>e.ring.visible=true);renderPanel();updateProduction();}
+function select(items) {selected.forEach(e=>e.ring.visible=false);selected=items;selected.forEach(e=>e.ring.visible=true);state.buildings.forEach(b=>{if(b.rallyFlag)b.rallyFlag.visible=items.length===1&&items[0]===b;});renderPanel();updateProduction();}
 let toastTimer;
 function toast(message){const el=document.querySelector('#toast');el.textContent=message;el.style.opacity=1;clearTimeout(toastTimer);toastTimer=setTimeout(()=>el.style.opacity=0,3500);}
-function cancelPlacement(){placing=null;if(ghost){scene.remove(ghost);ghost.traverse(o=>{if(o.isMesh){o.geometry.dispose();o.material.dispose();}});ghost=null;}}
-function startPlacement(type){cancelPlacement();placing=type;ghost=model(type);ghost.traverse(o=>{if(o.isMesh){o.material.transparent=true;o.material.opacity=.55;}});scene.add(ghost);toast('Klik op de kaart om te bouwen · Esc om te annuleren');}
+function cancelPlacement(){placementDrag=null;placing=null;if(ghost){scene.remove(ghost);ghost.traverse(o=>{if(o.isMesh){o.geometry.dispose();o.material.dispose();}});ghost=null;}}
+function startPlacement(type){cancelPlacement();placing=type;ghost=model(type);ghost.traverse(o=>{if(o.isMesh){o.material.transparent=true;o.material.opacity=.55;}});ghost.visible=false;scene.add(ghost);toast('Houd links ingedrukt en sleep om te draaien · Laat los om te bouwen');}
 function button(label,detail,fn){const b=document.createElement('button');const text=document.createElement('strong');text.textContent=label;const meta=document.createElement('span');meta.textContent=detail;b.append(text,meta);b.onclick=fn;document.querySelector('#actions').append(b);}
 function renderPanel(){
   const first=selected[0];document.querySelector('#actions').replaceChildren();
   document.querySelector('#selection').textContent=selected.length>1?`${selected.length} eenheden`:first?RULES[first.type].name:'Basis bouwen';
-  document.querySelector('#description').textContent=first?.type==='barracks'?'+20 populatieruimte · Soldaten trainen':first?.type==='factory'?'Pantserproductie · Tank kost 3 populatiepunten':first&&RULES[first.type].population?'Rechterklik op de kaart om te bewegen.':'Hoofdkwartier verdient 30 credits per seconde.';
+  document.querySelector('#description').textContent=first?.type==='barracks'?'+20 populatieruimte · Rechterklik op de kaart: verzamelvlag':first?.type==='factory'?'Tank: 3 pop · Rechterklik op de kaart: verzamelvlag':first&&RULES[first.type].population?'Rechterklik op de kaart om te bewegen.':'Hoofdkwartier verdient 30 credits per seconde.';
   if(first?.queue){for(const type of ['soldier','tank'])if(RULES[type].producer===first.type)button(`Train ${RULES[type].name}`,`${RULES[type].cost} cr · ${RULES[type].population} pop`,()=>{const error=enqueue(type,first,state);toast(error||`${RULES[type].name} toegevoegd aan wachtrij`);});}
   button('Bouw barracks','400 cr · +20 pop',()=>startPlacement('barracks'));
   button('Bouw tankfabriek','700 cr',()=>startPlacement('factory'));
@@ -110,29 +111,52 @@ let drag = null;
 function screenPosition(u){const p=new THREE.Vector3(u.x,2,u.z).project(camera);return {x:(p.x+1)*innerWidth/2,y:(1-p.y)*innerHeight/2,visible:p.z>-1&&p.z<1&&Math.abs(p.x)<=1&&Math.abs(p.y)<=1};}
 function entityAt(e){worldPoint(e);const objects=[...state.units,...state.buildings];const hit=raycaster.intersectObjects(objects.map(o=>o.group),true).find(h=>!objects.some(o=>o.ring===h.object));return hit&&objects.find(o=>{let node=hit.object;while(node){if(node===o.group)return true;node=node.parent;}return false;});}
 function endDrag(){drag=null;selectionBox.style.display='none';}
+window.addEventListener('pointermove',e=>{pointerScreen={clientX:e.clientX,clientY:e.clientY};});
+document.addEventListener('pointerleave',()=>{pointerScreen=null;});
 canvas.addEventListener('pointermove',e=>{
   pointerGround=worldPoint(e);
+  if(orbitDrag){cameraYaw-=(e.clientX-orbitDrag.x)*.008;orbitDrag.x=e.clientX;return;}
+  if(placementDrag){if(Math.hypot(e.clientX-placementDrag.screenX,e.clientY-placementDrag.screenY)>8&&pointerGround){placementDrag.rotation=Math.atan2(pointerGround.x-placementDrag.x,pointerGround.z-placementDrag.z);}return;}
   if(drag){const x=Math.min(drag.x,e.clientX),y=Math.min(drag.y,e.clientY);drag.moved ||= Math.hypot(e.clientX-drag.x,e.clientY-drag.y)>5;if(drag.moved)Object.assign(selectionBox.style,{display:'block',left:x+'px',top:y+'px',width:Math.abs(e.clientX-drag.x)+'px',height:Math.abs(e.clientY-drag.y)+'px'});}
 });
 canvas.addEventListener('pointerdown',e=>{
+  pointerScreen={clientX:e.clientX,clientY:e.clientY};
+  if(e.button===1){e.preventDefault();endDrag();orbitDrag={x:e.clientX};canvas.setPointerCapture(e.pointerId);return;}
   const p=worldPoint(e);if(!p)return;
   if(e.button===2){
     cancelPlacement();endDrag();const units=selected.filter(u=>state.units.includes(u));
+    const producer=selected.length===1&&selected[0];
+    if(!e.ctrlKey&&producer?.queue&&['barracks','factory'].includes(producer.type)){setRallyPoint(producer,p);return;}
     if(e.ctrlKey){units.forEach(u=>{u.attack={x:p.x,z:p.z};u.target=null;u.cooldown=0;});if(units.length){markAttack(p);toast('Aanval op grond · Rechterklik om te stoppen');}return;}
     const cols=Math.ceil(Math.sqrt(units.length));units.forEach((u,i)=>{u.attack=null;u.target={x:THREE.MathUtils.clamp(p.x+(i%cols-(cols-1)/2)*9,-990,990),z:THREE.MathUtils.clamp(p.z+(Math.floor(i/cols)-(cols-1)/2)*9,-990,990)};});return;
   }
   if(e.button!==0)return;
-  if(placing){if(state.money<RULES[placing].cost){toast('Onvoldoende credits.');return;}if(!canPlace(placing,p.x,p.z,state.buildings)){toast('Geen ruimte: kies een vrije plek binnen de kaart.');return;}state.money-=RULES[placing].cost;const b=addBuilding(placing,p.x,p.z);cancelPlacement();select([b]);return;}
+  if(placing){placementDrag={x:p.x,z:p.z,rotation:ghost.rotation.y,screenX:e.clientX,screenY:e.clientY};canvas.setPointerCapture(e.pointerId);return;}
   drag={x:e.clientX,y:e.clientY,shift:e.shiftKey,moved:false};canvas.setPointerCapture(e.pointerId);
 });
 canvas.addEventListener('pointerup',e=>{
+  if(e.button===1){orbitDrag=null;if(canvas.hasPointerCapture(e.pointerId))canvas.releasePointerCapture(e.pointerId);return;}
+  if(e.button===0&&placementDrag){const placement=placementDrag;placementDrag=null;if(canvas.hasPointerCapture(e.pointerId))canvas.releasePointerCapture(e.pointerId);
+    if(!placing)return;
+    if(state.money<RULES[placing].cost){toast('Onvoldoende credits.');return;}
+    if(!canPlace(placing,placement.x,placement.z,state.buildings)){toast('Geen ruimte: kies een vrije plek binnen de kaart.');return;}
+    state.money-=RULES[placing].cost;const b=addBuilding(placing,placement.x,placement.z,placement.rotation);cancelPlacement();select([b]);return;
+  }
   if(e.button!==0||!drag)return;
   if(drag.moved){const left=Math.min(drag.x,e.clientX),right=Math.max(drag.x,e.clientX),top=Math.min(drag.y,e.clientY),bottom=Math.max(drag.y,e.clientY);const items=state.units.filter(u=>{const p=screenPosition(u);return p.visible&&p.x>=left&&p.x<=right&&p.y>=top&&p.y<=bottom;});select(drag.shift?[...new Set([...selected.filter(u=>state.units.includes(u)),...items])]:items);}
   else {const entity=entityAt(e);if(entity){if(drag.shift&&state.units.includes(entity)){const current=selected.filter(u=>state.units.includes(u));select(current.includes(entity)?current.filter(u=>u!==entity):[...current,entity]);}else select([entity]);}else if(!drag.shift)select([]);}
   endDrag();if(canvas.hasPointerCapture(e.pointerId))canvas.releasePointerCapture(e.pointerId);
 });
-canvas.addEventListener('pointercancel',endDrag);
+function cancelGestures(){orbitDrag=null;placementDrag=null;endDrag();}
+canvas.addEventListener('pointercancel',cancelGestures);
+canvas.addEventListener('lostpointercapture',cancelGestures);
+canvas.addEventListener('auxclick',e=>{if(e.button===1)e.preventDefault();});
 canvas.addEventListener('dblclick',e=>{if(placing)return;const entity=entityAt(e);if(entity&&state.units.includes(entity)){const same=state.units.filter(u=>u.type===entity.type&&screenPosition(u).visible);select(e.shiftKey?[...new Set([...selected.filter(u=>state.units.includes(u)),...same])]:same);}});
+function setRallyPoint(building,p){
+  building.rallyPoint={x:p.x,z:p.z};
+  if(!building.rallyFlag){const flag=new THREE.Group();box(flag,.5,12,.5,0xdfe9c7,0,6);box(flag,7,4,.25,0xc6ef75,3.5,10);const base=ring(3);base.visible=true;flag.add(base);scene.add(flag);building.rallyFlag=flag;}
+  building.rallyFlag.position.set(p.x,0,p.z);building.rallyFlag.visible=true;toast('Verzamelpunt ingesteld · Nieuwe eenheden gaan naar de vlag');
+}
 const effects=[];
 function effect(mesh,life,update){scene.add(mesh);effects.push({mesh,life,total:life,update});}
 function markAttack(p){const m=ring(5);m.visible=true;m.position.set(p.x,.3,p.z);m.material.color.set(0xff7653);effect(m,1.2,(fx)=>{fx.mesh.scale.setScalar(1+(1-fx.life/fx.total)*2);});}
@@ -144,19 +168,29 @@ function fire(u){
 }
 canvas.addEventListener('contextmenu',e=>e.preventDefault());
 canvas.addEventListener('wheel',e=>{e.preventDefault();zoom=THREE.MathUtils.clamp(zoom+e.deltaY*.15,60,700);},{passive:false});
-const keys=new Set();window.addEventListener('keydown',e=>{if(['ArrowUp','ArrowDown','ArrowLeft','ArrowRight',' '].includes(e.key))e.preventDefault();keys.add(e.key.toLowerCase());if(e.key==='Escape'){cancelPlacement();endDrag();}});window.addEventListener('keyup',e=>keys.delete(e.key.toLowerCase()));window.addEventListener('blur',()=>{keys.clear();endDrag();});
+const keys=new Set();window.addEventListener('keydown',e=>{if(['ArrowUp','ArrowDown','ArrowLeft','ArrowRight',' '].includes(e.key))e.preventDefault();keys.add(e.key.toLowerCase());if(e.key==='Escape'){cancelPlacement();cancelGestures();}});window.addEventListener('keyup',e=>keys.delete(e.key.toLowerCase()));window.addEventListener('blur',()=>{keys.clear();pointerScreen=null;cancelPlacement();cancelGestures();});
 function resize(){renderer.setSize(innerWidth,innerHeight);camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix();}window.addEventListener('resize',resize);resize();
 const minimap=document.querySelector('#minimap');const ctx=minimap.getContext('2d');
 minimap.addEventListener('pointerdown',e=>{const r=minimap.getBoundingClientRect();focus.x=((e.clientX-r.left)/r.width-.5)*MAP_SIZE;focus.z=((e.clientY-r.top)/r.height-.5)*MAP_SIZE;});
-function mini(){ctx.fillStyle='#4b6046';ctx.fillRect(0,0,200,200);ctx.strokeStyle='#718460';for(let i=0;i<=200;i+=20){ctx.beginPath();ctx.moveTo(i,0);ctx.lineTo(i,200);ctx.moveTo(0,i);ctx.lineTo(200,i);ctx.stroke();}for(const e of [...state.buildings,...state.units]){ctx.fillStyle=state.buildings.includes(e)?'#d5f69b':'#fff0b6';const s=state.buildings.includes(e)?4:2;ctx.fillRect((e.x/MAP_SIZE+.5)*200-s/2,(e.z/MAP_SIZE+.5)*200-s/2,s,s);}ctx.strokeStyle='#ffffff';ctx.strokeRect((focus.x/MAP_SIZE+.5)*200-zoom/20,(focus.z/MAP_SIZE+.5)*200-zoom/25,zoom/10,zoom/12.5);}
+function mini(){ctx.fillStyle='#4b6046';ctx.fillRect(0,0,200,200);ctx.strokeStyle='#718460';for(let i=0;i<=200;i+=20){ctx.beginPath();ctx.moveTo(i,0);ctx.lineTo(i,200);ctx.moveTo(0,i);ctx.lineTo(200,i);ctx.stroke();}for(const e of [...state.buildings,...state.units]){ctx.fillStyle=state.buildings.includes(e)?'#d5f69b':'#fff0b6';const s=state.buildings.includes(e)?4:2;ctx.fillRect((e.x/MAP_SIZE+.5)*200-s/2,(e.z/MAP_SIZE+.5)*200-s/2,s,s);}ctx.save();ctx.translate((focus.x/MAP_SIZE+.5)*200,(focus.z/MAP_SIZE+.5)*200);ctx.rotate(-cameraYaw);ctx.strokeStyle='#ffffff';ctx.strokeRect(-zoom/20,-zoom/25,zoom/10,zoom/12.5);ctx.restore();}
 const clock=new THREE.Clock();let hudElapsed=0;
 function frame(){requestAnimationFrame(frame);const dt=Math.min(clock.getDelta(),.1);state.money+=dt*30;
-  const speed=zoom*.8*dt;if(keys.has('w')||keys.has('arrowup'))focus.z-=speed;if(keys.has('s')||keys.has('arrowdown'))focus.z+=speed;if(keys.has('a')||keys.has('arrowleft'))focus.x-=speed;if(keys.has('d')||keys.has('arrowright'))focus.x+=speed;
+  const speed=zoom*.8*dt;
+  let horizontal=Number(keys.has('d')||keys.has('arrowright'))-Number(keys.has('a')||keys.has('arrowleft'));
+  let vertical=Number(keys.has('s')||keys.has('arrowdown'))-Number(keys.has('w')||keys.has('arrowup'));
+  if(pointerScreen&&!orbitDrag&&!placementDrag&&document.hasFocus()){
+    const edge=20,x=pointerScreen.clientX,y=pointerScreen.clientY;
+    if(x>=0&&x<innerWidth&&y>=0&&y<innerHeight){horizontal+=x<edge?-1:x>innerWidth-edge?1:0;vertical+=y<edge?-1:y>innerHeight-edge?1:0;}
+  }
+  const length=Math.max(1,Math.hypot(horizontal,vertical));horizontal/=length;vertical/=length;
+  focus.x+=(horizontal*Math.cos(cameraYaw)+vertical*Math.sin(cameraYaw))*speed;
+  focus.z+=(-horizontal*Math.sin(cameraYaw)+vertical*Math.cos(cameraYaw))*speed;
   focus.x=THREE.MathUtils.clamp(focus.x,-970,970);focus.z=THREE.MathUtils.clamp(focus.z,-970,970);
-  camera.position.set(focus.x,zoom,focus.z+zoom*.85);camera.lookAt(focus);
+  camera.position.set(focus.x+Math.sin(cameraYaw)*zoom*.85,zoom,focus.z+Math.cos(cameraYaw)*zoom*.85);camera.lookAt(focus);camera.updateMatrixWorld();
   sun.position.set(focus.x+150,250,focus.z+100);sun.target.position.copy(focus);
-  if(ghost&&pointerGround){ghost.position.set(pointerGround.x,0,pointerGround.z);const valid=canPlace(placing,pointerGround.x,pointerGround.z,state.buildings)&&state.money>=RULES[placing].cost;ghost.traverse(o=>{if(o.isMesh)o.material.color.set(valid?0xbde979:0xe56e5e);});}
-  for(const b of state.buildings){const q=b.queue[0];if(q){q.remaining-=dt;if(q.remaining<=0){const angle=random()*Math.PI;addUnit(q.type,b.x+Math.cos(angle)*(RULES[b.type].radius+12),b.z-Math.sin(angle)*(RULES[b.type].radius+12));b.queue.shift();toast(`${RULES[q.type].name} klaar`);}}}
+  if(pointerScreen&&!placementDrag)pointerGround=worldPoint(pointerScreen);
+  if(ghost){const pos=placementDrag||pointerGround;ghost.visible=!!pos;if(pos){ghost.position.set(pos.x,0,pos.z);if(placementDrag)ghost.rotation.y=placementDrag.rotation;const valid=canPlace(placing,pos.x,pos.z,state.buildings)&&state.money>=RULES[placing].cost;ghost.traverse(o=>{if(o.isMesh)o.material.color.set(valid?0xbde979:0xe56e5e);});}}
+  for(const b of state.buildings){const q=b.queue[0];if(q){q.remaining-=dt;if(q.remaining<=0){const angle=random()*Math.PI;const u=addUnit(q.type,b.x+Math.cos(angle)*(RULES[b.type].radius+12),b.z-Math.sin(angle)*(RULES[b.type].radius+12));if(b.rallyPoint)u.target={...b.rallyPoint};b.queue.shift();toast(`${RULES[q.type].name} klaar`);}}}
   for(const u of state.units){
     if(u.attack){const dx=u.attack.x-u.x,dz=u.attack.z-u.z,range=u.type==='tank'?95:55;u.group.rotation.y=Math.atan2(-dx,-dz);if(Math.hypot(dx,dz)>range){u.target={...u.attack};}else{u.target=null;u.cooldown-=dt;if(u.cooldown<=0){fire(u);u.cooldown=u.type==='tank'?1.7:.55;}}}
     if(!u.target)continue;const dx=u.target.x-u.x,dz=u.target.z-u.z,d=Math.hypot(dx,dz);if(d<.6){u.target=null;continue;}const step=Math.min(d,RULES[u.type].speed*dt);const nx=u.x+dx/d*step,nz=u.z+dz/d*step;

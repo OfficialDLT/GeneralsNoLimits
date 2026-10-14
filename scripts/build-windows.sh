@@ -2,6 +2,7 @@
 set -euo pipefail
 cd "$(dirname "$0")/.."
 npm run build
+rm -rf launcher/web
 mkdir -p launcher/web releases
 cp -R dist/. launcher/web/
 cd launcher
