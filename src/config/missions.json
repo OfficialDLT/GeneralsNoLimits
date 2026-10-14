@@ -1,0 +1,20 @@
+{
+  "usa": {
+    "name": "Operation First Light",
+    "briefing": "Bouw een Supply Center, capture de oliebron en versla de vijandelijke basis.",
+    "objectives": ["supply", "oil", "victory"],
+    "enemy": "gla"
+  },
+  "china": {
+    "name": "Iron Frontier",
+    "briefing": "Bouw een Propaganda Center, verzamel vijf tanks en versla de vijand.",
+    "objectives": ["tech", "tanks", "victory"],
+    "enemy": "usa"
+  },
+  "gla": {
+    "name": "Hidden Routes",
+    "briefing": "Bouw twee tunnels, capture een oliebron en vernietig de vijand.",
+    "objectives": ["tunnels", "oil", "victory"],
+    "enemy": "china"
+  }
+}

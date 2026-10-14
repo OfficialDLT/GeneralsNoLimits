@@ -1,0 +1,92 @@
+{
+  "usa": {
+    "name": "USA",
+    "color": "#63b9ff",
+    "voice": {
+      "select": "Ready for orders, commander.",
+      "move": "On our way.",
+      "attack": "Target acquired."
+    },
+    "music": [110, 165, 220],
+    "builder": "usa_dozer",
+    "collector": "chinook",
+    "subs": {
+      "standard": {},
+      "air_force": {
+        "name": "Air Force",
+        "airCost": 0.7,
+        "special": "king_raptor"
+      },
+      "laser": {
+        "name": "Laser",
+        "damage": 1.15,
+        "special": "laser_crusader"
+      },
+      "superweapons": {
+        "name": "Superweapons",
+        "superTime": 0.75,
+        "special": "alpha_aurora"
+      }
+    }
+  },
+  "china": {
+    "name": "China",
+    "color": "#ff7f65",
+    "voice": {
+      "select": "China stands ready.",
+      "move": "Advancing together.",
+      "attack": "For the people!"
+    },
+    "music": [98, 147, 196],
+    "builder": "china_dozer",
+    "collector": "supply_truck",
+    "subs": {
+      "standard": {},
+      "tank": {
+        "name": "Tank",
+        "tankCost": 0.75,
+        "special": "emperor"
+      },
+      "infantry": {
+        "name": "Infantry",
+        "infantryDamage": 1.3,
+        "special": "mini_gunner"
+      },
+      "nuke": {
+        "name": "Nuke",
+        "speed": 1.2,
+        "special": "nuke_battlemaster"
+      }
+    }
+  },
+  "gla": {
+    "name": "GLA",
+    "color": "#a7dc66",
+    "voice": {
+      "select": "We are ready.",
+      "move": "A new path.",
+      "attack": "Strike now!"
+    },
+    "music": [82, 123, 164],
+    "builder": "worker",
+    "collector": "worker",
+    "subs": {
+      "standard": {},
+      "toxin": {
+        "name": "Toxin",
+        "damageType": "Toxin",
+        "special": "toxin_rebel"
+      },
+      "stealth": {
+        "name": "Stealth",
+        "stealth": true,
+        "special": "stealth_hijacker"
+      },
+      "demolition": {
+        "name": "Demolition",
+        "explosionDamage": 1.4,
+        "special": "demo_bike"
+      }
+    }
+  }
+}

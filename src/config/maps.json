@@ -1,0 +1,23 @@
+{
+  "small": {
+    "name": "Border Crossing",
+    "size": 600,
+    "seed": 31,
+    "weather": "clear",
+    "description": "Snelle confrontatie met rivier en bruggen"
+  },
+  "medium": {
+    "name": "Desert Front",
+    "size": 1200,
+    "seed": 42,
+    "weather": "rain",
+    "description": "Uitbreiden naar olievelden"
+  },
+  "large": {
+    "name": "No Limits",
+    "size": 2000,
+    "seed": 53,
+    "weather": "snow",
+    "description": "2 × 2 km, acht startposities"
+  }
+}

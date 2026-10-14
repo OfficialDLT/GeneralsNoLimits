@@ -1,0 +1,62 @@
+{
+  "armor": {
+    "Bullet": {
+      "Infantry": 1.2,
+      "Vehicle": 0.5,
+      "Tank": 0.25,
+      "Aircraft": 0.7,
+      "Structure": 0.35
+    },
+    "Missile": {
+      "Infantry": 0.6,
+      "Vehicle": 1.2,
+      "Tank": 1.2,
+      "Aircraft": 1.5,
+      "Structure": 0.8
+    },
+    "Explosion": {
+      "Infantry": 1.2,
+      "Vehicle": 1,
+      "Tank": 1,
+      "Aircraft": 0.2,
+      "Structure": 1.1
+    },
+    "Flame": {
+      "Infantry": 2,
+      "Vehicle": 0.6,
+      "Tank": 0.4,
+      "Aircraft": 0,
+      "Structure": 1.2
+    },
+    "Toxin": {
+      "Infantry": 2,
+      "Vehicle": 0.7,
+      "Tank": 0.5,
+      "Aircraft": 0,
+      "Structure": 0.7
+    },
+    "Radiation": {
+      "Infantry": 1.8,
+      "Vehicle": 0.8,
+      "Tank": 0.8,
+      "Aircraft": 0,
+      "Structure": 1
+    },
+    "Laser": {
+      "Infantry": 1,
+      "Vehicle": 1.3,
+      "Tank": 1.3,
+      "Aircraft": 1,
+      "Structure": 1
+    },
+    "Crush": {
+      "Infantry": 10,
+      "Vehicle": 0,
+      "Tank": 0,
+      "Aircraft": 0,
+      "Structure": 0
+    }
+  },
+  "veterancy": [0, 150, 500, 1000],
+  "rankXP": [0, 300, 900, 1800, 3500]
+}

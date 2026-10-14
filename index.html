@@ -1,1 +1,49 @@
-<!doctype html><html lang="nl"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Generals No Limits</title></head><body><canvas id="world"></canvas><header><div><small>TACTICAL SANDBOX · 01</small><h1>GENERALS <span>NO LIMITS</span></h1></div><div id="resources"></div></header><aside><small>COMMAND CENTER</small><h2 id="selection">Hoofdkwartier</h2><p id="description">Bouw je basis. Stel je leger samen.</p><div id="actions"></div><div id="queue"></div></aside><footer><span>WASD / pijlen: camera · Scroll: zoom · Scrollknop slepen: draaien · Schermrand: camera · Sleep: groep · Dubbelklik: zelfde type · Shift: toevoegen · Rechterklik: bewegen · Ctrl + rechterklik: grondaanval · Esc: annuleren</span></footer><div id="toast" role="status"></div><div id="mapbox"><small>SECTOR OVERVIEW · 2 × 2 KM</small><canvas id="minimap" width="200" height="200"></canvas></div><script type="module" src="/src/main.js"></script></body></html>
+<!doctype html>
+<html lang="nl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Generals No Limits</title>
+  </head>
+  <body>
+    <canvas id="world"></canvas>
+    <div id="world-labels"></div>
+    <div id="float-labels"></div>
+    <div id="selection-box"></div>
+    <header id="hud" hidden>
+      <div>
+        <small>SKIRMISH COMMAND</small>
+        <h1>GENERALS <span>NO LIMITS</span></h1>
+      </div>
+      <div id="resources"></div>
+      <button id="pause-button">Ⅱ Menu</button>
+    </header>
+    <aside id="command" hidden>
+      <small>COMMAND BAR</small>
+      <h2 id="selection">Command Center</h2>
+      <p id="description"></p>
+      <div id="actions"></div>
+      <div id="queue"></div>
+    </aside>
+    <section id="production" hidden></section>
+    <section id="powers-panel" hidden>
+      <small>GENERAL'S POWERS</small>
+      <div id="rank"></div>
+      <div id="powers"></div>
+      <div id="super-timers"></div>
+      <div id="objectives"></div>
+    </section>
+    <footer id="help">
+      WASD / schermrand: camera · Scroll: zoom · Scrollknop slepen: draaien ·
+      Sleep: groep · Ctrl + rechts: Force Fire · Ctrl+1–9: groepen · Esc: menu
+    </footer>
+    <div id="toast" role="status"></div>
+    <div id="mapbox" hidden>
+      <small>TACTICAL RADAR</small
+      ><canvas id="minimap" width="200" height="200"></canvas>
+    </div>
+    <div id="overlay"></div>
+    <input id="load-file" type="file" accept=".json" hidden />
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>

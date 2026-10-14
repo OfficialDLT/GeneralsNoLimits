@@ -1,0 +1,266 @@
+import { chromium } from "@playwright/test";
+import { spawn } from "node:child_process";
+import assert from "node:assert/strict";
+const server = spawn(
+  process.execPath,
+  [
+    "node_modules/vite/bin/vite.js",
+    "--host",
+    "127.0.0.1",
+    "--port",
+    "5179",
+    "--strictPort",
+  ],
+  { stdio: "pipe" },
+);
+let serverLog = "";
+server.stdout.on("data", (d) => (serverLog += d));
+server.stderr.on("data", (d) => (serverLog += d));
+let browser;
+try {
+  const url = "http://127.0.0.1:5179";
+  let ready = false;
+  for (let i = 0; i < 100; i++) {
+    try {
+      const r = await fetch(url);
+      if (r.ok) {
+        ready = true;
+        break;
+      }
+    } catch {}
+    await new Promise((r) => setTimeout(r, 100));
+  }
+  assert.ok(ready, serverLog);
+  browser = await chromium.launch({
+    headless: true,
+    ...(process.env.CHROMIUM_PATH
+      ? { executablePath: process.env.CHROMIUM_PATH }
+      : {}),
+    args: [
+      "--no-sandbox",
+      "--use-gl=angle",
+      "--use-angle=swiftshader",
+      "--enable-unsafe-swiftshader",
+    ],
+  });
+  const page = await browser.newPage({
+      viewport: { width: 1440, height: 1000 },
+    }),
+    errors = [];
+  page.on("pageerror", (e) => errors.push(e.message));
+  // A development-only route adds probes to test actual UI commands without shipping debug globals.
+  await page.route("**/src/main.js*", async (route) => {
+    const response = await route.fetch();
+    await route.fulfill({
+      response,
+      body:
+        (await response.text()) +
+        "\nwindow.__probe={get game(){return game;},view,ui,controls,activate,Game};",
+    });
+  });
+  await page.goto(url);
+  await page.getByRole("button", { name: "Sandbox" }).click();
+  await page.locator("#map").selectOption("small");
+  await page.getByRole("button", { name: "Start operatie" }).click();
+  await page.waitForFunction(() => window.__probe?.game);
+  await page.mouse.move(700, 350);
+  await page.mouse.down({ button: "middle" });
+  await page.mouse.move(810, 350, { steps: 6 });
+  await page.mouse.up({ button: "middle" });
+  assert.ok(await page.evaluate(() => Math.abs(window.__probe.view.yaw) > 0.5));
+  const before = await page.evaluate(() => ({
+    x: window.__probe.view.focus.x,
+    z: window.__probe.view.focus.z,
+  }));
+  await page.mouse.move(1438, 300);
+  await page.waitForFunction(
+    (b) =>
+      Math.hypot(
+        window.__probe.view.focus.x - b.x,
+        window.__probe.view.focus.z - b.z,
+      ) > 3,
+    before,
+  );
+  await page.mouse.move(700, 350);
+  await page.evaluate(() => {
+    window.__probe.view.yaw = 0;
+    window.__probe.controls.center(window.__probe.game.player.home);
+  });
+  await page.waitForFunction(() => {
+    const v = window.__probe.view;
+    return (
+      Math.abs(v.camera.position.x - v.focus.x) < 0.01 &&
+      Math.abs(v.camera.position.z - v.focus.z - v.zoom * 0.85) < 0.01
+    );
+  });
+  const points = await page.evaluate(() =>
+    window.__probe.game.units
+      .filter((u) => u.owner === 0 && u.type === "ranger")
+      .map((u) => window.__probe.view.screen(u)),
+  );
+  const left = Math.min(...points.map((p) => p.x)) - 10,
+    top = Math.min(...points.map((p) => p.y)) - 10,
+    right = Math.max(...points.map((p) => p.x)) + 10,
+    bottom = Math.max(...points.map((p) => p.y)) + 10;
+  await page.mouse.move(left, top);
+  await page.mouse.down();
+  await page.mouse.move(right, bottom, { steps: 6 });
+  await page.mouse.up();
+  if (
+    (await page.evaluate(() => window.__probe.controls.selected.length)) !== 3
+  ) {
+    console.log(
+      "selection diagnostic",
+      points,
+      await page.evaluate(() => ({
+        focus: window.__probe.view.focus.toArray(),
+        camera: window.__probe.view.camera.position.toArray(),
+        selected: window.__probe.controls.selected,
+        drag: window.__probe.controls.drag,
+      })),
+    );
+    await page.screenshot({ path: "/tmp/generals-selection-failure.png" });
+  }
+  assert.equal(
+    await page.evaluate(() => window.__probe.controls.selected.length),
+    3,
+  );
+  await page.mouse.dblclick(points[0].x, points[0].y - 3);
+  assert.equal(
+    await page.evaluate(() => window.__probe.controls.selected.length),
+    3,
+  );
+  await page.keyboard.press("Control+1");
+  await page.evaluate(() => window.__probe.controls.select([]));
+  await page.keyboard.press("1");
+  assert.equal(
+    await page.evaluate(() => window.__probe.controls.selected.length),
+    3,
+  );
+  await page.keyboard.down("Control");
+  await page.mouse.click(850, 310, { button: "right" });
+  await page.keyboard.up("Control");
+  assert.ok(
+    await page.evaluate(() =>
+      window.__probe.controls.selected.every(
+        (id) => window.__probe.game.get(id).order.type === "forceFire",
+      ),
+    ),
+  );
+  await page.evaluate(() => {
+    const b = window.__probe.game.buildings.find(
+      (b) => b.owner === 0 && b.type === "usa_barracks",
+    );
+    window.__probe.controls.select([b.id]);
+  });
+  await page.getByRole("button", { name: /^Ranger / }).click();
+  await page.locator("#production").waitFor({ state: "visible" });
+  await page.waitForFunction(
+    () => document.querySelectorAll("#queue button").length === 1,
+  );
+  assert.equal(await page.locator("#queue button").count(), 1);
+  await page
+    .getByRole("button", { name: "Productie pauzeren", exact: true })
+    .click();
+  assert.ok(
+    await page.evaluate(
+      () =>
+        window.__probe.game.get(window.__probe.controls.selected[0])
+          .queuePaused,
+    ),
+  );
+  await page
+    .getByRole("button", { name: "Productie hervatten", exact: true })
+    .click();
+  await page.mouse.click(930, 350, { button: "right" });
+  assert.ok(
+    await page.evaluate(
+      () =>
+        window.__probe.game.get(window.__probe.controls.selected[0]).rallyPoint,
+    ),
+  );
+  await page.waitForFunction(
+    () =>
+      window.__probe.game.units.filter(
+        (e) => e.owner === 0 && e.type === "ranger",
+      ).length === 4,
+    null,
+    { timeout: 30000 },
+  );
+  const n = await page.evaluate(() => window.__probe.game.buildings.length);
+  const spot = await page.evaluate(() => {
+    const u = window.__probe.game.units.find((u) => u.type === "usa_dozer");
+    window.__probe.controls.select([u.id]);
+    return window.__probe.view.screen({ x: u.x - 65, z: u.z - 60 });
+  });
+  await page.getByRole("button", { name: /^Barracks / }).click();
+  await page.mouse.move(spot.x, spot.y);
+  await page.mouse.down();
+  await page.mouse.move(spot.x + 70, spot.y, { steps: 6 });
+  assert.ok(
+    await page.evaluate(
+      () => Math.abs(window.__probe.view.ghost.rotation.y) > 0.3,
+    ),
+  );
+  await page.mouse.up();
+  assert.equal(
+    await page.evaluate(() => window.__probe.game.buildings.length),
+    n + 1,
+  );
+  await page.keyboard.press("Escape");
+  await page
+    .getByRole("button", { name: "Verder spelen", exact: true })
+    .click();
+  assert.equal(await page.evaluate(() => window.__probe.game.paused), false);
+  await page.evaluate(() => {
+    const p = window.__probe;
+    const saved = p.game.save();
+    p.activate(p.Game.load(saved));
+  });
+  assert.ok(await page.locator("#resources").textContent());
+  for (const faction of ["china", "gla"]) {
+    await page.evaluate(
+      (f) =>
+        window.__probe.activate(
+          new window.__probe.Game({
+            mode: "sandbox",
+            faction: f,
+            players: 1,
+            map: "small",
+          }),
+        ),
+      faction,
+    );
+    await page.waitForTimeout(400);
+    assert.ok(
+      await page
+        .getByRole("button", {
+          name: faction === "china" ? "Dozer" : "Worker",
+          exact: false,
+        })
+        .count(),
+    );
+  }
+  await page.evaluate(() =>
+    window.__probe.activate(
+      new window.__probe.Game({
+        mode: "skirmish",
+        players: 8,
+        map: "large",
+        difficulty: "brutal",
+      }),
+    ),
+  );
+  await page.waitForTimeout(800);
+  assert.equal(
+    await page.evaluate(() => window.__probe.game.players.length),
+    8,
+  );
+  assert.deepEqual(errors, []);
+  console.log(
+    "PASS browser: menus, 3 factions, 8-player start, camera/edge movement, group/double-click/control groups, Force Fire, queues/pause, rally, rotated placement, save-load and UI",
+  );
+} finally {
+  await browser?.close();
+  server.kill();
+}

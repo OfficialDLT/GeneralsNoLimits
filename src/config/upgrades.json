@@ -1,0 +1,156 @@
+{
+  "capture": {
+    "name": "Capture Building",
+    "faction": "all",
+    "building": "barracks",
+    "cost": 400,
+    "seconds": 6,
+    "effects": {
+      "capture": true
+    }
+  },
+  "flash_bang": {
+    "name": "Flash Bang",
+    "faction": "usa",
+    "building": "barracks",
+    "cost": 500,
+    "seconds": 6,
+    "effects": {
+      "garrisonDamage": 3
+    }
+  },
+  "composite": {
+    "name": "Composite Armor",
+    "faction": "usa",
+    "building": "tech",
+    "cost": 1000,
+    "seconds": 6,
+    "effects": {
+      "armor": 0.75
+    }
+  },
+  "supply_lines": {
+    "name": "Supply Lines",
+    "faction": "usa",
+    "building": "supply",
+    "cost": 800,
+    "seconds": 6,
+    "effects": {
+      "income": 1.3
+    }
+  },
+  "nationalism": {
+    "name": "Nationalism",
+    "faction": "china",
+    "building": "tech",
+    "cost": 700,
+    "seconds": 6,
+    "effects": {
+      "horde": 1.4
+    }
+  },
+  "nuclear": {
+    "name": "Nuclear Tanks",
+    "faction": "china",
+    "building": "tech",
+    "cost": 1000,
+    "seconds": 6,
+    "effects": {
+      "speed": 1.3,
+      "damage": 1.2
+    }
+  },
+  "mines": {
+    "name": "Mines",
+    "faction": "china",
+    "building": "hq",
+    "cost": 500,
+    "seconds": 6,
+    "effects": {
+      "mines": true
+    }
+  },
+  "toxin": {
+    "name": "Toxin Shells",
+    "faction": "gla",
+    "building": "tech",
+    "cost": 900,
+    "seconds": 6,
+    "effects": {
+      "damageType": "Toxin",
+      "damage": 1.25
+    }
+  },
+  "camouflage": {
+    "name": "Camouflage",
+    "faction": "gla",
+    "building": "barracks",
+    "cost": 500,
+    "seconds": 6,
+    "effects": {
+      "camouflage": true
+    }
+  },
+  "salvage": {
+    "name": "Salvage Training",
+    "faction": "gla",
+    "building": "factory",
+    "cost": 700,
+    "seconds": 6,
+    "effects": {
+      "salvage": 2
+    }
+  },
+  "drone": {
+    "name": "Battle Drones",
+    "faction": "usa",
+    "building": "factory",
+    "cost": 500,
+    "seconds": 6,
+    "effects": {
+      "heal": 3,
+      "detector": true
+    }
+  },
+  "laser_defense": {
+    "name": "Laser Defense",
+    "faction": "usa",
+    "building": "tech",
+    "cost": 900,
+    "seconds": 6,
+    "effects": {
+      "laserDefense": true
+    }
+  },
+  "internet": {
+    "name": "Advanced Internet",
+    "faction": "china",
+    "building": "income",
+    "cost": 800,
+    "seconds": 6,
+    "effects": {
+      "income": 1.5
+    }
+  },
+  "overlord": {
+    "name": "Overlord Systems",
+    "faction": "china",
+    "building": "factory",
+    "cost": 1000,
+    "seconds": 6,
+    "effects": {
+      "heal": 5,
+      "damage": 1.15
+    }
+  },
+  "terror_cells": {
+    "name": "Terror Cells",
+    "faction": "gla",
+    "building": "tech",
+    "cost": 800,
+    "seconds": 6,
+    "effects": {
+      "terrorCells": true
+    }
+  }
+}

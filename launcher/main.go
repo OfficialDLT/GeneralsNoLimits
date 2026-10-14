@@ -78,7 +78,10 @@ func showError(err error) {
 func main() {
 	noBrowser := flag.Bool("no-browser", false, "Do not open a browser (validation)")
 	flag.Parse()
-	listener, err := net.Listen("tcp4", "127.0.0.1:0")
+	listener, err := net.Listen("tcp4", "127.0.0.1:41731")
+	if err != nil {
+		listener, err = net.Listen("tcp4", "127.0.0.1:0")
+	}
 	if err != nil {
 		showError(err)
 		return

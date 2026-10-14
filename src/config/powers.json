@@ -1,0 +1,156 @@
+{
+  "a10": {
+    "name": "A-10 Strike",
+    "faction": "usa",
+    "effect": "strike",
+    "rank": 2,
+    "points": 1,
+    "cooldown": 45,
+    "radius": 50,
+    "damage": 600,
+    "description": "A-10 Strike · rang 2"
+  },
+  "paradrop": {
+    "name": "Paradrop",
+    "faction": "usa",
+    "effect": "spawn",
+    "rank": 1,
+    "points": 1,
+    "cooldown": 45,
+    "radius": 0,
+    "damage": 0,
+    "description": "Paradrop · rang 1"
+  },
+  "spectre": {
+    "name": "Spectre Gunship",
+    "faction": "usa",
+    "effect": "strike",
+    "rank": 4,
+    "points": 1,
+    "cooldown": 75,
+    "radius": 70,
+    "damage": 900,
+    "description": "Spectre Gunship · rang 4"
+  },
+  "fuel_air": {
+    "name": "Fuel Air Bomb",
+    "faction": "usa",
+    "effect": "strike",
+    "rank": 4,
+    "points": 1,
+    "cooldown": 75,
+    "radius": 85,
+    "damage": 1100,
+    "description": "Fuel Air Bomb · rang 4"
+  },
+  "repair": {
+    "name": "Emergency Repair",
+    "faction": "all",
+    "effect": "repair",
+    "rank": 1,
+    "points": 1,
+    "cooldown": 45,
+    "radius": 100,
+    "damage": 0,
+    "description": "Emergency Repair · rang 1"
+  },
+  "spy": {
+    "name": "Spy Satellite",
+    "faction": "usa",
+    "effect": "reveal",
+    "rank": 1,
+    "points": 1,
+    "cooldown": 45,
+    "radius": 250,
+    "damage": 0,
+    "description": "Spy Satellite · rang 1"
+  },
+  "carpet": {
+    "name": "Carpet Bomb",
+    "faction": "all",
+    "effect": "strike",
+    "rank": 3,
+    "points": 1,
+    "cooldown": 75,
+    "radius": 100,
+    "damage": 800,
+    "description": "Carpet Bomb · rang 3"
+  },
+  "mines": {
+    "name": "Cluster Mines",
+    "faction": "china",
+    "effect": "mines",
+    "rank": 2,
+    "points": 1,
+    "cooldown": 45,
+    "radius": 70,
+    "damage": 300,
+    "description": "Cluster Mines · rang 2"
+  },
+  "emp": {
+    "name": "EMP Pulse",
+    "faction": "china",
+    "effect": "emp",
+    "rank": 3,
+    "points": 1,
+    "cooldown": 75,
+    "radius": 100,
+    "damage": 0,
+    "description": "EMP Pulse · rang 3"
+  },
+  "artillery": {
+    "name": "Artillery Barrage",
+    "faction": "china",
+    "effect": "strike",
+    "rank": 2,
+    "points": 1,
+    "cooldown": 45,
+    "radius": 70,
+    "damage": 700,
+    "description": "Artillery Barrage · rang 2"
+  },
+  "cash_hack": {
+    "name": "Cash Hack",
+    "faction": "china",
+    "effect": "cash",
+    "rank": 2,
+    "points": 1,
+    "cooldown": 45,
+    "radius": 0,
+    "damage": 0,
+    "description": "Cash Hack · rang 2"
+  },
+  "sneak": {
+    "name": "Sneak Attack",
+    "faction": "gla",
+    "effect": "tunnel",
+    "rank": 3,
+    "points": 1,
+    "cooldown": 75,
+    "radius": 0,
+    "damage": 0,
+    "description": "Sneak Attack · rang 3"
+  },
+  "anthrax": {
+    "name": "Anthrax Bomb",
+    "faction": "gla",
+    "effect": "toxin",
+    "rank": 4,
+    "points": 1,
+    "cooldown": 75,
+    "radius": 90,
+    "damage": 650,
+    "description": "Anthrax Bomb · rang 4"
+  },
+  "terror": {
+    "name": "Terror Cell",
+    "faction": "gla",
+    "effect": "spawn",
+    "rank": 2,
+    "points": 1,
+    "cooldown": 45,
+    "radius": 0,
+    "damage": 0,
+    "description": "Terror Cell · rang 2"
+  }
+}

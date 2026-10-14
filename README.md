@@ -1,42 +1,88 @@
 # Generals No Limits
 
-Een speelbaar RTS-prototype met Three.js: een 3D-kaart van 2 × 2 kilometer, een basis, soldaten en tanks. De spelregels staan los van de weergave in `src/game.js`.
+Een modulaire, speelbare 3D RTS geïnspireerd op Generals en Zero Hour. Drie facties, negen generaalsvarianten, economie, basisbouw, gevechten, AI, campaign en superwapens. De modellen en audio zijn eigen placeholders; dit is geen exacte reconstructie van het originele spel.
 
-## Windows: starten zonder terminal
+## Windows: dubbelklikken
 
-Download `releases/GeneralsNoLimits.exe` vanaf GitHub met de knop **Download raw file**. Dubbelklik op het bestand: het spel opent automatisch in je standaardbrowser. Node.js, npm en een terminal zijn niet nodig. Internet is niet nodig voor het spel; het optionele webfont gebruikt een lokale fallback als je offline bent.
+Download [releases/GeneralsNoLimits.exe](https://github.com/OfficialDLT/GeneralsNoLimits/blob/main/releases/GeneralsNoLimits.exe) met **Download raw file** en dubbelklik. De ingebouwde game opent in je standaardbrowser. Je hebt geen terminal, Node.js of losse spelbestanden nodig. De executable is Windows x64, niet digitaal ondertekend, en wordt vanuit Linux gebouwd; Windows-browseropening moet op Windows worden getest.
 
-De launcher luistert alleen op je eigen computer (`127.0.0.1`) op een vrije poort. Na het sluiten van alle spelpagina's stopt hij na ongeveer twee minuten. Sla je spel niet op door het tabblad te sluiten: opslaan is nog niet ingebouwd. De executable is voor Windows x64 en is niet digitaal ondertekend. Een melding van SmartScreen is daarom mogelijk.
+De lokale server luistert alleen op `127.0.0.1` op poort 41731, met een vrije poort als fallback. De vaste voorkeurpoort houdt browseropties bij volgende starts beschikbaar. Sluit alle spelpagina's; de server stopt na ongeveer twee minuten. Download na een update de nieuwe executable en vervang de vorige. Je oude executable heeft geen automatische updater. De SHA-256 staat in `releases/SHA256SUMS.txt`.
 
-De Windows-build is vanuit Linux samengesteld. De ingebouwde server en webversie worden hier getest; Windows-start en browseropening moeten nog op een Windows-computer worden gecontroleerd.
+## Snel spelen
 
-## Starten voor ontwikkeling
+1. Kies **Sandbox** om bediening en een factie te ontdekken, of **Skirmish** voor een echte tegenstander.
+2. Kies USA, China of GLA, een generaal, kaart, startgeld en moeilijkheid. Extra spelers zijn lokale AI, maximaal acht totaal. Teams kunnen speler 2 bondgenoot maken.
+3. Je begint met een hoofdkwartier, bouwer, barracks, factory, supplygebouw, collector en klein leger. USA/China hebben ook een energiecentrale.
+4. Selecteer je bouwer of Command Center voor de bouwlijst. Bouw barracks voor **+20 populatieruimte** per gebouw. Er is geen passief hoofdkwartierinkomen: collectors halen geld uit eindige supply piles.
+5. Bouw een techgebouw om geavanceerde units, upgrades, secundaire economie en superwapens te ontgrendelen. Research is te vinden bij de geselecteerde gebouwen.
+6. Verzamel XP uit kills, ontgrendel General's Powers en kies hun doelen op de kaart. Vernietig alle vijandelijke gebouwen om te winnen.
+
+De drie campaign-missies hebben een briefing en factiespecifieke doelen; de kaarten en tegenstander gebruiken de skirmish-simulatie. Een save of replay kun je vanuit het pauzemenu als JSON downloaden en vanuit het menu laden.
+
+## Besturing
+
+| Actie                                         | Bediening                                                                                        |
+| --------------------------------------------- | ------------------------------------------------------------------------------------------------ |
+| Camera bewegen                                | WASD, pijltjestoetsen of muis tegen schermrand                                                   |
+| Camera draaien / zoomen                       | Scrollknop vasthouden en slepen / scrollen                                                       |
+| Selectie                                      | Links klikken/slepen, Shift voegt toe, dubbelklik selecteert hetzelfde zichtbare type            |
+| Control groups                                | Ctrl+1–9 opslaan, 1–9 selecteren, dubbel indrukken centreren                                     |
+| Bewegen / aanvallen                           | Rechterklik op grond / vijand                                                                    |
+| Force Fire                                    | Ctrl+rechterklik; gewone rechterklik geeft nieuw bevel                                           |
+| Waypoints                                     | Shift+rechterklik of Q en doel kiezen                                                            |
+| Attack-Move / Guard / Stop / Scatter / Patrol | X / G / K / F / P                                                                                |
+| Basis / laatste aanval / alle eigen units     | Home / Space / E                                                                                 |
+| Bouwen en draaien                             | Kies gebouw, houd links op bouwplek vast, sleep om te draaien, laat los                          |
+| Rally-vlag                                    | Productiegebouw selecteren, rechterklik op kaart                                                 |
+| Garrison / transport                          | Infanterie selecteren, rechterklik op geschikt eigen gebouw/transport; knop voor neutrale doelen |
+| Capture                                       | Capture-upgrade onderzoeken; capture-knop, doel kiezen (Black Lotus heeft directe capture)       |
+| Pauze, save, replay, snelheid, weer, opties   | Esc of Menu                                                                                      |
+
+Bouw- en trainhotkeys staan in de JSON-configs en op de knoppen; ze werken in de context van het geselecteerde gebouw of de bouwer. Actietoetsen, volume en grafische kwaliteit zijn instelbaar via Options. Opties worden lokaal in de browser bewaard. **K** is Stop, zodat **S** de bestaande WASD-camera blijft bedienen. Capturen, hero abilities, tunneltransport, Strategy Center-modes, uitladen en repairs hebben expliciete actieknoppen.
+
+## Wat zit erin en hoe test ik het?
+
+Het volledige overzicht van **alle 67 gevraagde punten**, met status, vereenvoudigingen en teststappen, staat in [docs/FEATURES.md](docs/FEATURES.md). Lees dat overzicht voor de verschillen met Generals/Zero Hour.
+
+Belangrijke grenzen: alle extra spelers zijn lokale AI; online multiplayer ontbreekt. Units delen geometrische modelarchetypen en twee generieke cameo's. Spraak is browsersynthese; muziek en geluid zijn procedurele tonen. Powers delen enkele effecttypen. Water, kliffen, bruggen, vliegen/landen en damage states zijn vereenvoudigd. Er is geen originele assetbibliotheek, realistische sloopfysica of uitgebreide verhalende campaign.
+
+## Ontwikkelen en stats aanpassen
 
 Node.js 22.12+ of 24:
 
 ```sh
-npm ci --cache /tmp/generals-npm-cache
+npm ci
 npm run dev
 ```
 
-Open de door Vite getoonde URL in een browser met WebGL. `npm run build` maakt de productieversie; `npm test` controleert de economische spelregels.
+Als jouw npm het postinstall-script van esbuild blokkeert: `npm install-scripts approve esbuild` en `npm rebuild esbuild`.
 
-## Spelen
+- `src/config/units.json`: namen, kosten, HP, snelheid, bevolking, wapens, armor, productiegebouw en prerequisites.
+- `src/config/buildings.json`: kosten, bouwtijd, radius, power, capaciteit, economie, defenses en superwapens.
+- `src/config/upgrades.json`, `powers.json`, `factions.json`: effecten, cooldowns, kleuren, generaalsvarianten en voice lines.
+- `src/config/combat.json`: armor/damage-matrix, veterancy en promotiedrempels.
+- `src/config/maps.json`, `missions.json`: kaartpresets en campaign-briefings/doelen. Via Skirmish kun je een kaart-JSON laden/exporteren: `name`, `size` (400–2400), `seed`, `weather` (`clear`, `rain`, `snow`). Terreinpatronen zijn procedureel, geen vrije sculpting-editor.
 
-- WASD of pijltjestoetsen: camera bewegen, relatief aan de kijkrichting. Beweeg de muis naar een schermrand om de camera mee te laten bewegen. Houd de scrollknop ingedrukt en sleep om de camera te draaien. Scroll: in-/uitzoomen. Klik op de minimap om naar een sector te gaan.
-- Linkerklik: een gebouw of eenheid selecteren. Shift + klik: eenheden aan selectie toevoegen/verwijderen.
-- Sleep met de linkermuisknop een selectiekader om meerdere eenheden te selecteren. Shift + slepen voegt eenheden toe.
-- Dubbelklik op een eenheid om alle zichtbare eenheden van hetzelfde type te selecteren.
-- Rechterklik: geselecteerde eenheden laten bewegen in formatie.
-- Ctrl + rechterklik: aanval op de grond. Eenheden bewegen binnen bereik en blijven schieten; een gewone rechterklik stopt de aanval.
-- Gebruik het commandopaneel om gebouwen te plaatsen. Houd de linkermuisknop ingedrukt op de gewenste bouwplek, sleep om het gebouw te draaien en laat los om te bouwen. Een gewone klik plaatst direct. Esc of rechterklik annuleert bouwen.
-- Selecteer een barracks of tankfabriek en klik met rechts op de kaart om een verzamelvlag te zetten. Nieuw geproduceerde eenheden gaan automatisch naar die vlag. Elk productiegebouw heeft zijn eigen verzamelpunt; de vlag verschijnt wanneer je het gebouw selecteert.
-- Selecteer barracks om soldaten te trainen; selecteer een tankfabriek om tanks te maken. Onderin verschijnt een productiekaart met een eigen illustratie, resterende tijd, voortgang en vijf wachtrijslots.
+De simulatie is los van Three.js: `simulation/engine.js` beheert state en opdrachten, met aparte systemen voor `economy`, `combat`, `orders`, `ai`, `vision`, `world` (A*) en `spatial` (spatial hash en pooling). `render/` bevat de bestaande modelvormen en de 3D-weergave; `ui/` bevat besturing, menu's, command bar en audio. De oude zuivere `game.js`-helpers blijven behouden voor compatibiliteit met het eerste prototype.
 
-Je begint met 3.000 credits, een hoofdkwartier, barracks, tankfabriek, twee soldaten en één tank. Het hoofdkwartier levert 30 credits per seconde en 10 populatiepunten. Elke barracks kost 400 credits en geeft 20 extra populatiepunten. Een tankfabriek kost 700 credits. Soldaten kosten 100 credits en 1 populatiepunt; tanks kosten 300 credits en 3 populatiepunten. Een productiegebouw heeft vijf wachtrijplaatsen. Eenheden in productie reserveren al populatieruimte.
+## Controles
 
-Dit prototype richt zich op bouwen, produceren en bewegen. Grondaanvallen hebben projectielen en inslageffecten, maar nog geen schade. Vijanden, gebouwvernietiging, opslaan en volledige obstakelpadvinding zijn nog niet geïmplementeerd; bomen zijn decoratief. Gebouwen worden direct geplaatst en eenheden proberen er langs te bewegen.
+```sh
+npm test
+npm run build
+npx playwright install chromium
+npm run test:browser
+```
 
-## Windows-launcher opnieuw bouwen
+De browsercontrole start zelf een Vite-server op poort 5179. Voor systeem-Chromium kun je `CHROMIUM_PATH` instellen. De tests controleren echte economische/gevechtsketens en bediening; ze gebruiken geen debug-global in de productiebuild. Go-launchertests zitten in `launcher/`.
 
-Met Node.js en Go 1.24+ op Linux/macOS: `bash scripts/build-windows.sh`. De build gebruikt alleen de Go-standaardbibliotheek en embedt de Vite-productiebuild. De broncode staat in `launcher/`; de uitvoer staat in `releases/GeneralsNoLimits.exe`.
+## Windows-executable opnieuw bouwen
+
+Met Node.js en Go 1.24+ op Linux/macOS:
+
+```sh
+bash scripts/build-windows.sh
+sha256sum releases/GeneralsNoLimits.exe > releases/SHA256SUMS.txt
+```
+
+De launcher embedt de Vite-build en gebruikt alleen Go's standaardbibliotheek. Wijzigingen in JSON/config worden meegenomen bij opnieuw bouwen. De bestaande executable verandert pas wanneer je hem opnieuw bouwt.
