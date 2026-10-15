@@ -8,6 +8,7 @@
     "build": "vite build",
     "test": "node --test src/game.test.js src/simulation/*.test.js src/render/*.test.js",
     "test:browser": "node scripts/browser-smoke.mjs",
+    "assets:audio": "node scripts/generate-elevenlabs.mjs",
     "deploy:pages": "npm run build && node scripts/publish-pages.mjs"
   },
   "dependencies": {

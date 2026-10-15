@@ -361,11 +361,13 @@ export class Interface {
     this.refreshActions();
   }
   cameo(d, id) {
+    if (d.kind === 'infantry') return `${import.meta.env.BASE_URL}art/soldier.png`;
+    if (d.kind === 'tank') return `${import.meta.env.BASE_URL}art/tank.png`;
     if (id && this.view?.game)
       return this.view.portrait(id, buildings[id] ? "building" : "unit");
     return d.kind === "infantry"
-      ? `${import.meta.env.BASE_URL}art/soldier.svg`
-      : `${import.meta.env.BASE_URL}art/tank.svg`;
+      ? `${import.meta.env.BASE_URL}art/soldier.png`
+      : `${import.meta.env.BASE_URL}art/tank.png`;
   }
   button(label, meta, fn, options = {}) {
     const b = document.createElement("button");

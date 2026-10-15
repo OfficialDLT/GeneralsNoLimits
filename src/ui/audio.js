@@ -1,5 +1,6 @@
 import { factions, units } from "../config/index.js";
 import profiles from "../config/voice-profiles.json" with { type: "json" };
+import assets from '../config/audio-assets.json' with { type: 'json' };
 const base = import.meta.env.BASE_URL;
 export class Audio {
   constructor() {
@@ -93,6 +94,30 @@ export class Audio {
     o.start();
     o.stop(this.context.currentTime + duration);
   }
+  async effect(name, volume = 0.3) {
+    const path = assets.effects[name];
+    if (!path || !this.context || !this.enabled) return;
+    this.effectTimes ??= new Map();
+    this.activeEffects ??= 0;
+    const now = performance.now();
+    if (now - (this.effectTimes.get(name) ?? -10000) < 130 || this.activeEffects >= 12) return;
+    this.effectTimes.set(name, now);
+    this.activeEffects++;
+    try {
+      const key = `effect:${name}`;
+      if (!this.buffers.has(key)) this.buffers.set(key, fetch(`${base}${path}`)
+        .then(r => { if (!r.ok) throw Error('Effect unavailable'); return r.arrayBuffer(); })
+        .then(b => this.context.decodeAudioData(b)));
+      const buffer = await this.buffers.get(key);
+      if (!this.enabled) { this.activeEffects--; return; }
+      const source = this.context.createBufferSource(), gain = this.context.createGain();
+      source.buffer = buffer;
+      gain.gain.value = volume;
+      source.connect(gain); gain.connect(this.master);
+      source.onended = () => { source.disconnect(); gain.disconnect(); this.activeEffects--; };
+      source.start();
+    } catch { this.buffers.delete(`effect:${name}`); this.activeEffects--; }
+  }
   say(text, faction = "usa", type) {
     if (
       !this.enabled ||
@@ -113,7 +138,9 @@ export class Audio {
   }
   async voice(action, faction, type) {
     if (!this.enabled || !this.voiceEnabled) return;
-    const profile = profiles[type];
+    const profile = type === 'announcer' && assets.announcements[action]
+      ? { lines: { [action]: action.replaceAll('_', ' ') } }
+      : profiles[type];
     if (!profile || !this.context) {
       this.say(
         units[type]?.voice?.[action] ||
@@ -133,7 +160,8 @@ export class Audio {
     try {
       let promise = this.buffers.get(key);
       if (!promise) {
-        promise = fetch(`${base}${profile.assetBase}-${action}.mp3`)
+        const path = type === 'announcer' ? assets.announcements[action] : `${profile.assetBase}-${action}.mp3`;
+        promise = fetch(`${base}${path}`)
           .then((r) => {
             if (!r.ok) throw Error("Voice unavailable");
             return r.arrayBuffer();
@@ -144,7 +172,7 @@ export class Audio {
           this.buffers.delete(this.buffers.keys().next().value);
       }
       const buffer = await promise;
-      if (token !== this.voiceToken || !this.voiceEnabled) return;
+      if (token !== this.voiceToken || !this.voiceEnabled || !this.enabled) return;
       this.playingVoice?.stop();
       speechSynthesis?.cancel();
       const source = this.context.createBufferSource(),
@@ -190,13 +218,18 @@ export class Audio {
       (e.owner === 0 || e.type === "super_detected") &&
       !this.playingVoice
     )
-      this.say(eva[e.type], faction);
+      if (assets.announcements[e.type]) this.voice(e.type, faction, 'announcer');
+      else this.say(eva[e.type], faction);
     if (e.type === "shot") {
       this.combatUntil = performance.now() + 5000;
-      this.tone(e.damageType === "Laser" ? 700 : 180, 0.06, "sawtooth", 0.06);
+      const effect = { Laser: 'laser', Missile: 'missile', Bullet: 'gunfire' }[e.damageType] || 'cannon';
+      if (assets.effects[effect]) this.effect(effect);
+      else this.tone(e.damageType === "Laser" ? 700 : 180, 0.06, "sawtooth", 0.06);
     }
-    if (["impact", "destroyed", "superweapon"].includes(e.type))
-      this.tone(70, e.radius > 30 ? 0.5 : 0.18, "triangle", 0.18);
+    if (["impact", "destroyed", "superweapon"].includes(e.type)) {
+      if (assets.effects.explosion) this.effect('explosion', e.radius > 30 ? 0.65 : 0.35);
+      else this.tone(70, e.radius > 30 ? 0.5 : 0.18, "triangle", 0.18);
+    }
   }
   update(scene, moving) {
     this.setScene(scene);
@@ -207,7 +240,8 @@ export class Audio {
         performance.now() < this.combatUntil ? 1.035 : 1;
     if (moving && this.context && performance.now() > (this.nextEngine || 0)) {
       this.nextEngine = performance.now() + 900;
-      this.tone(45, 0.3, "triangle", 0.015);
+      if (assets.effects.engine) { this.nextEngine = performance.now() + 2900; this.effect('engine', 0.07); }
+      else this.tone(45, 0.3, "triangle", 0.015);
     }
   }
 }

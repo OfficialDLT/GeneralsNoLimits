@@ -1,4 +1,5 @@
 import * as THREE from "three";
+import { mergeGeometries } from 'three/addons/utils/BufferGeometryUtils.js';
 import {
   definition as def,
   factions,
@@ -14,6 +15,16 @@ export class View {
     this.renderer.setPixelRatio(Math.min(devicePixelRatio, 1.5));
     this.renderer.shadowMap.enabled = true;
     this.renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+    this.renderer.toneMapping = THREE.ACESFilmicToneMapping;
+    this.renderer.toneMappingExposure = 0.85;
+    this.terrainTexture = new THREE.TextureLoader().load(
+      `${import.meta.env.BASE_URL}art/terrain-earth.png`,
+    );
+    this.terrainTexture.colorSpace = THREE.SRGBColorSpace;
+    this.terrainTexture.wrapS = this.terrainTexture.wrapT = THREE.RepeatWrapping;
+    this.terrainTexture.anisotropy = Math.min(8, this.renderer.capabilities.getMaxAnisotropy());
+    this.foliageTexture = new THREE.TextureLoader().load(`${import.meta.env.BASE_URL}art/pine.png`);
+    this.foliageTexture.colorSpace = THREE.SRGBColorSpace;
     this.scene = new THREE.Scene();
     this.scene.background = new THREE.Color("#91a99a");
     this.camera = new THREE.PerspectiveCamera(48, 1, 1, 5000);
@@ -90,6 +101,7 @@ export class View {
     });
     this.effectMeshes = [];
     const map = game.map;
+    this.terrainTexture.repeat.set(map.size / 65, map.size / 65);
     this.scene.fog = new THREE.Fog("#91a99a", 700, map.size * 2);
     const geometry = new THREE.PlaneGeometry(map.size, map.size, 128, 128);
     geometry.rotateX(-Math.PI / 2);
@@ -106,7 +118,7 @@ export class View {
             ? 0x756f5a
             : map.weather === "snow"
               ? 0x9ca693
-              : 0x77875c,
+              : 0xb7af8c,
       );
       c.multiplyScalar(0.9 + 0.1 * Math.sin(x * 0.1) * Math.cos(z * 0.1));
       colors.push(c.r, c.g, c.b);
@@ -118,6 +130,9 @@ export class View {
     this.fogTexture.needsUpdate = true;
     const material = new THREE.MeshStandardMaterial({
       vertexColors: true,
+      map: this.terrainTexture,
+      bumpMap: this.terrainTexture,
+      bumpScale: 0.35,
       roughness: 1,
     });
     material.onBeforeCompile = (shader) => {
@@ -150,12 +165,22 @@ export class View {
       this.root.add(bridge);
     }
     const count = Math.min(900, Math.round(map.size * 0.5));
+    const foliagePlane = new THREE.PlaneGeometry(13, 18);
+    const foliageCross = foliagePlane.clone().rotateY(Math.PI / 2);
+    const foliageGeometry = mergeGeometries([foliagePlane, foliageCross]);
+    foliagePlane.dispose();
+    foliageCross.dispose();
     const forest = new THREE.InstancedMesh(
-      new THREE.ConeGeometry(5, 15, 6),
-      new THREE.MeshStandardMaterial({ color: 0x405e43 }),
+      foliageGeometry,
+      new THREE.MeshStandardMaterial({
+        map: this.foliageTexture, alphaTest: 0.45, side: THREE.DoubleSide,
+        roughness: 1, color: map.weather === 'snow' ? 0xc0c7b8 : 0xffffff,
+      }),
       count,
     );
     forest.userData.owned = true;
+    forest.castShadow = true;
+    forest.receiveShadow = true;
     const dummy = new THREE.Object3D();
     let seed = map.seed;
     const rand = () => {

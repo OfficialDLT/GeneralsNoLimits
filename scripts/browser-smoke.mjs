@@ -48,6 +48,13 @@ try {
     }),
     errors = [];
   page.on("pageerror", (e) => errors.push(e.message));
+  page.on('console', message => {
+    if (message.type() === 'error') errors.push(message.text());
+  });
+  page.on('response', response => {
+    if (response.status() >= 400 && /\/(art|audio)\//.test(response.url()))
+      errors.push(`Missing asset: ${response.status()} ${response.url()}`);
+  });
   // A development-only route adds probes to test actual UI commands without shipping debug globals.
   await page.route("**/src/main.js*", async (route) => {
     const response = await route.fetch();
@@ -58,11 +65,40 @@ try {
         "\nwindow.__probe={get game(){return game;},view,ui,controls,activate,Game};",
     });
   });
-  await page.goto(url);
+  await page.goto(url, { waitUntil: 'domcontentloaded', timeout: 60000 });
+  await page.waitForFunction(() => document.querySelector('.main-menu') && document.fonts.status === 'loaded');
+  await page.screenshot({ path: 'docs/menu-assets.png' });
   await page.getByRole("button", { name: "Sandbox" }).click();
   await page.locator("#map").selectOption("small");
   await page.getByRole("button", { name: "Start operatie" }).click();
   await page.waitForFunction(() => window.__probe?.game);
+  await page.waitForFunction(() => window.__probe.view.terrainTexture.image?.complete);
+  await page.waitForFunction(() => window.__probe.view.foliageTexture.image?.complete);
+  const audioCheck = await page.evaluate(async () => {
+    const audio = window.__probe.ui.audio;
+    audio.unlock();
+    const manifest = await (await fetch('audio/elevenlabs-manifest.json')).json();
+    let count = 0;
+    for (const path of Object.keys(manifest)) {
+      const response = await fetch(path);
+      if (!response.ok) throw Error(`Missing audio: ${path}`);
+      const buffer = await audio.context.decodeAudioData(await response.arrayBuffer());
+      if (buffer.duration <= 0 || buffer.numberOfChannels < 1) throw Error(`Invalid audio: ${path}`);
+      count++;
+    }
+    await audio.voice('select', 'usa', 'ranger');
+    if (!audio.playingVoice) throw Error('Unit voice failed to start');
+    await audio.voice('promotion', 'usa', 'announcer');
+    if (!audio.playingVoice || !audio.buffers.has('announcer-promotion')) throw Error('Announcer failed to start');
+    for (const name of ['gunfire', 'cannon', 'missile', 'explosion', 'engine', 'laser'])
+      await audio.effect(name);
+    for (const name of ['gunfire', 'cannon', 'missile', 'explosion', 'engine', 'laser'])
+      if (!audio.buffers.has(`effect:${name}`)) throw Error(`Effect failed: ${name}`);
+    return { count, activeEffects: audio.activeEffects };
+  });
+  assert.equal(audioCheck.count, 174);
+  assert.ok(audioCheck.activeEffects <= 12);
+  await page.screenshot({ path: 'docs/game-assets.png' });
   await page.mouse.move(700, 350);
   await page.mouse.down({ button: "middle" });
   await page.mouse.move(810, 350, { steps: 6 });

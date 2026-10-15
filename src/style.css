@@ -93,7 +93,7 @@ body [hidden] {
   pointer-events: none;
   z-index: 10;
 }
-/* A live ocean battle sits behind the military menu. */
+/* Original generated battlefield artwork, with a legible command panel. */
 #overlay {
   position: absolute;
   inset: 0;
@@ -116,7 +116,8 @@ body [hidden] {
       transparent 23%,
       transparent 78%,
       #07131b7a
-    );
+    ),
+    url("/art/operation-horizon.png") center / cover no-repeat;
   isolation: isolate;
 }
 .menu-topline,

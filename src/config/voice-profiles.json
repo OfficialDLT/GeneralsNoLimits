@@ -1,6 +1,6 @@
 {
   "usa_dozer": {
-    "voice": "kal16",
+    "voice": "CwhRBWXzGAHq8TQ4Fs17",
     "pitch": 0.8,
     "tempo": 0.92,
     "assetBase": "audio/units/usa_dozer",
@@ -8,10 +8,11 @@
       "select": "Construction crew is standing by.",
       "move": "Taking our tools over there.",
       "attack": "Clearing the construction site."
-    }
+    },
+    "provider": "ElevenLabs"
   },
   "china_dozer": {
-    "voice": "rms",
+    "voice": "IKne3meq5aSn9XLyUdCD",
     "pitch": 0.835,
     "tempo": 0.92,
     "assetBase": "audio/units/china_dozer",
@@ -19,10 +20,11 @@
       "select": "Engineering team is ready.",
       "move": "Heavy machinery moving.",
       "attack": "We will clear the way."
-    }
+    },
+    "provider": "ElevenLabs"
   },
   "worker": {
-    "voice": "rms",
+    "voice": "JBFqnCBsd6RMkjVDRZzb",
     "pitch": 0.87,
     "tempo": 0.92,
     "assetBase": "audio/units/worker",
@@ -30,10 +32,11 @@
       "select": "Tools are ready. What needs building?",
       "move": "I will take the back road.",
       "attack": "We will stand our ground."
-    }
+    },
+    "provider": "ElevenLabs"
   },
   "ranger": {
-    "voice": "kal16",
+    "voice": "N2lVS1w4EtoT3dr4eOWO",
     "pitch": 0.905,
     "tempo": 0.92,
     "assetBase": "audio/units/ranger",
@@ -41,10 +44,11 @@
       "select": "Ranger squad, reporting in.",
       "move": "Boots on the ground. Moving out.",
       "attack": "Squad, engage that target."
-    }
+    },
+    "provider": "ElevenLabs"
   },
   "missile_defender": {
-    "voice": "slt",
+    "voice": "SOYHLrjzK2X1ezoPC6cr",
     "pitch": 0.94,
     "tempo": 0.92,
     "assetBase": "audio/units/missile_defender",
@@ -52,10 +56,11 @@
       "select": "Missile Defender ready.",
       "move": "Moving out. Missile Defender.",
       "attack": "Engaging target. Missile Defender."
-    }
+    },
+    "provider": "ElevenLabs"
   },
   "pathfinder": {
-    "voice": "kal16",
+    "voice": "TX3LPaxmHKxFdv7VOQHJ",
     "pitch": 0.975,
     "tempo": 0.92,
     "assetBase": "audio/units/pathfinder",
@@ -63,10 +68,11 @@
       "select": "Pathfinder ready.",
       "move": "Moving out. Pathfinder.",
       "attack": "Engaging target. Pathfinder."
-    }
+    },
+    "provider": "ElevenLabs"
   },
   "burton": {
-    "voice": "rms",
+    "voice": "bIHbv24MWmeRgasZH58o",
     "pitch": 0.86,
     "tempo": 0.92,
     "assetBase": "audio/units/burton",
@@ -74,10 +80,11 @@
       "select": "Burton here. Give me the mission.",
       "move": "Quiet and steady. On my way.",
       "attack": "I have the target in sight."
-    }
+    },
+    "provider": "ElevenLabs"
   },
   "red_guard": {
-    "voice": "kal",
+    "voice": "cjVigY5qzO86Huf0OWal",
     "pitch": 1.045,
     "tempo": 0.92,
     "assetBase": "audio/units/red_guard",
@@ -85,10 +92,11 @@
       "select": "Red Guard ready.",
       "move": "Moving out. Red Guard.",
       "attack": "Engaging target. Red Guard."
-    }
+    },
+    "provider": "ElevenLabs"
   },
   "tank_hunter": {
-    "voice": "slt",
+    "voice": "iP95p4xoKVk53GoZ742B",
     "pitch": 1.08,
     "tempo": 0.92,
     "assetBase": "audio/units/tank_hunter",
@@ -96,10 +104,11 @@
       "select": "Tank Hunter ready.",
       "move": "Moving out. Tank Hunter.",
       "attack": "Engaging target. Tank Hunter."
-    }
+    },
+    "provider": "ElevenLabs"
   },
   "hacker": {
-    "voice": "awb",
+    "voice": "nPczCjzI2devNBz1zQrb",
     "pitch": 1.115,
     "tempo": 0.92,
     "assetBase": "audio/units/hacker",
@@ -107,10 +116,11 @@
       "select": "Hacker ready.",
       "move": "Moving out. Hacker.",
       "attack": "Engaging target. Hacker."
-    }
+    },
+    "provider": "ElevenLabs"
   },
   "lotus": {
-    "voice": "slt",
+    "voice": "EXAVITQu4vr4xnSDxMaL",
     "pitch": 1.15,
     "tempo": 0.92,
     "assetBase": "audio/units/lotus",
@@ -118,10 +128,11 @@
       "select": "Lotus online. Awaiting your signal.",
       "move": "Moving through their blind spot.",
       "attack": "Their systems belong to us."
-    }
+    },
+    "provider": "ElevenLabs"
   },
   "rebel": {
-    "voice": "kal",
+    "voice": "onwK4e9ZLuTAKqWW03F9",
     "pitch": 1.185,
     "tempo": 0.92,
     "assetBase": "audio/units/rebel",
@@ -129,10 +140,11 @@
       "select": "Rebel ready.",
       "move": "Moving out. Rebel.",
       "attack": "Engaging target. Rebel."
-    }
+    },
+    "provider": "ElevenLabs"
   },
   "rpg": {
-    "voice": "slt",
+    "voice": "pNInz6obpgDQGcFmaJgB",
     "pitch": 1.22,
     "tempo": 0.92,
     "assetBase": "audio/units/rpg",
@@ -140,10 +152,11 @@
       "select": "RPG Trooper ready.",
       "move": "Moving out. RPG Trooper.",
       "attack": "Engaging target. RPG Trooper."
-    }
+    },
+    "provider": "ElevenLabs"
   },
   "terrorist": {
-    "voice": "kal16",
+    "voice": "pqHfZKP75CvOlQylNhV4",
     "pitch": 0.8,
     "tempo": 0.955,
     "assetBase": "audio/units/terrorist",
@@ -151,10 +164,11 @@
       "select": "Terrorist ready.",
       "move": "Moving out. Terrorist.",
       "attack": "Engaging target. Terrorist."
-    }
+    },
+    "provider": "ElevenLabs"
   },
   "angry_mob": {
-    "voice": "awb",
+    "voice": "CwhRBWXzGAHq8TQ4Fs17",
     "pitch": 0.835,
     "tempo": 0.955,
     "assetBase": "audio/units/angry_mob",
@@ -162,10 +176,11 @@
       "select": "Angry Mob ready.",
       "move": "Moving out. Angry Mob.",
       "attack": "Engaging target. Angry Mob."
-    }
+    },
+    "provider": "ElevenLabs"
   },
   "jarmen": {
-    "voice": "kal16",
+    "voice": "IKne3meq5aSn9XLyUdCD",
     "pitch": 0.87,
     "tempo": 0.955,
     "assetBase": "audio/units/jarmen",
@@ -173,10 +188,11 @@
       "select": "The marksman is in position.",
       "move": "A quiet path. Nobody will see me.",
       "attack": "One shot is all I need."
-    }
+    },
+    "provider": "ElevenLabs"
   },
   "hijacker": {
-    "voice": "awb",
+    "voice": "JBFqnCBsd6RMkjVDRZzb",
     "pitch": 0.905,
     "tempo": 0.955,
     "assetBase": "audio/units/hijacker",
@@ -184,10 +200,11 @@
       "select": "Hijacker ready.",
       "move": "Moving out. Hijacker.",
       "attack": "Engaging target. Hijacker."
-    }
+    },
+    "provider": "ElevenLabs"
   },
   "crusader": {
-    "voice": "kal16",
+    "voice": "N2lVS1w4EtoT3dr4eOWO",
     "pitch": 0.94,
     "tempo": 0.955,
     "assetBase": "audio/units/crusader",
@@ -195,10 +212,11 @@
       "select": "Crusader armor is ready.",
       "move": "Tracks rolling, commander.",
       "attack": "Main gun, fire at will."
-    }
+    },
+    "provider": "ElevenLabs"
   },
   "paladin": {
-    "voice": "rms",
+    "voice": "SOYHLrjzK2X1ezoPC6cr",
     "pitch": 0.975,
     "tempo": 0.955,
     "assetBase": "audio/units/paladin",
@@ -206,10 +224,11 @@
       "select": "Paladin ready.",
       "move": "Moving out. Paladin.",
       "attack": "Engaging target. Paladin."
-    }
+    },
+    "provider": "ElevenLabs"
   },
   "tomahawk": {
-    "voice": "kal16",
+    "voice": "TX3LPaxmHKxFdv7VOQHJ",
     "pitch": 1.01,
     "tempo": 0.955,
     "assetBase": "audio/units/tomahawk",
@@ -217,10 +236,11 @@
       "select": "Tomahawk ready.",
       "move": "Moving out. Tomahawk.",
       "attack": "Engaging target. Tomahawk."
-    }
+    },
+    "provider": "ElevenLabs"
   },
   "humvee": {
-    "voice": "slt",
+    "voice": "bIHbv24MWmeRgasZH58o",
     "pitch": 1.045,
     "tempo": 0.955,
     "assetBase": "audio/units/humvee",
@@ -228,10 +248,11 @@
       "select": "Humvee ready.",
       "move": "Moving out. Humvee.",
       "attack": "Engaging target. Humvee."
-    }
+    },
+    "provider": "ElevenLabs"
   },
   "ambulance": {
-    "voice": "kal16",
+    "voice": "cjVigY5qzO86Huf0OWal",
     "pitch": 1.08,
     "tempo": 0.955,
     "assetBase": "audio/units/ambulance",
@@ -239,10 +260,11 @@
       "select": "Ambulance ready.",
       "move": "Moving out. Ambulance.",
       "attack": "Engaging target. Ambulance."
-    }
+    },
+    "provider": "ElevenLabs"
   },
   "battlemaster": {
-    "voice": "awb",
+    "voice": "iP95p4xoKVk53GoZ742B",
     "pitch": 1.115,
     "tempo": 0.955,
     "assetBase": "audio/units/battlemaster",
@@ -250,10 +272,11 @@
       "select": "Armor battalion awaiting orders.",
       "move": "Engines forward. Keep formation.",
       "attack": "Full barrage. Break their line."
-    }
+    },
+    "provider": "ElevenLabs"
   },
   "overlord": {
-    "voice": "rms",
+    "voice": "nPczCjzI2devNBz1zQrb",
     "pitch": 0.72,
     "tempo": 0.955,
     "assetBase": "audio/units/overlord",
@@ -261,10 +284,11 @@
       "select": "Overlord ready.",
       "move": "Moving out. Overlord.",
       "attack": "Engaging target. Overlord."
-    }
+    },
+    "provider": "ElevenLabs"
   },
   "dragon_tank": {
-    "voice": "awb",
+    "voice": "onwK4e9ZLuTAKqWW03F9",
     "pitch": 1.185,
     "tempo": 0.955,
     "assetBase": "audio/units/dragon_tank",
@@ -272,10 +296,11 @@
       "select": "Dragon Tank ready.",
       "move": "Moving out. Dragon Tank.",
       "attack": "Engaging target. Dragon Tank."
-    }
+    },
+    "provider": "ElevenLabs"
   },
   "gatling_tank": {
-    "voice": "slt",
+    "voice": "pNInz6obpgDQGcFmaJgB",
     "pitch": 1.22,
     "tempo": 0.955,
     "assetBase": "audio/units/gatling_tank",
@@ -283,10 +308,11 @@
       "select": "Gattling Tank ready.",
       "move": "Moving out. Gattling Tank.",
       "attack": "Engaging target. Gattling Tank."
-    }
+    },
+    "provider": "ElevenLabs"
   },
   "troop_crawler": {
-    "voice": "slt",
+    "voice": "pqHfZKP75CvOlQylNhV4",
     "pitch": 0.8,
     "tempo": 0.99,
     "assetBase": "audio/units/troop_crawler",
@@ -294,10 +320,11 @@
       "select": "Troop Crawler ready.",
       "move": "Moving out. Troop Crawler.",
       "attack": "Engaging target. Troop Crawler."
-    }
+    },
+    "provider": "ElevenLabs"
   },
   "supply_truck": {
-    "voice": "slt",
+    "voice": "CwhRBWXzGAHq8TQ4Fs17",
     "pitch": 0.835,
     "tempo": 0.99,
     "assetBase": "audio/units/supply_truck",
@@ -305,10 +332,11 @@
       "select": "Supply Truck ready.",
       "move": "Moving out. Supply Truck.",
       "attack": "Engaging target. Supply Truck."
-    }
+    },
+    "provider": "ElevenLabs"
   },
   "scorpion": {
-    "voice": "kal16",
+    "voice": "IKne3meq5aSn9XLyUdCD",
     "pitch": 0.87,
     "tempo": 0.99,
     "assetBase": "audio/units/scorpion",
@@ -316,10 +344,11 @@
       "select": "Scorpion crew, ready to strike.",
       "move": "Taking the back roads.",
       "attack": "Hit them where it hurts."
-    }
+    },
+    "provider": "ElevenLabs"
   },
   "marauder": {
-    "voice": "slt",
+    "voice": "JBFqnCBsd6RMkjVDRZzb",
     "pitch": 0.905,
     "tempo": 0.99,
     "assetBase": "audio/units/marauder",
@@ -327,10 +356,11 @@
       "select": "Marauder ready.",
       "move": "Moving out. Marauder.",
       "attack": "Engaging target. Marauder."
-    }
+    },
+    "provider": "ElevenLabs"
   },
   "technical": {
-    "voice": "awb",
+    "voice": "N2lVS1w4EtoT3dr4eOWO",
     "pitch": 0.94,
     "tempo": 0.99,
     "assetBase": "audio/units/technical",
@@ -338,10 +368,11 @@
       "select": "Technical ready.",
       "move": "Moving out. Technical.",
       "attack": "Engaging target. Technical."
-    }
+    },
+    "provider": "ElevenLabs"
   },
   "quad": {
-    "voice": "kal",
+    "voice": "SOYHLrjzK2X1ezoPC6cr",
     "pitch": 0.975,
     "tempo": 0.99,
     "assetBase": "audio/units/quad",
@@ -349,10 +380,11 @@
       "select": "Quad Cannon ready.",
       "move": "Moving out. Quad Cannon.",
       "attack": "Engaging target. Quad Cannon."
-    }
+    },
+    "provider": "ElevenLabs"
   },
   "scud_launcher": {
-    "voice": "awb",
+    "voice": "TX3LPaxmHKxFdv7VOQHJ",
     "pitch": 1.01,
     "tempo": 0.99,
     "assetBase": "audio/units/scud_launcher",
@@ -360,10 +392,11 @@
       "select": "Scud Launcher ready.",
       "move": "Moving out. Scud Launcher.",
       "attack": "Engaging target. Scud Launcher."
-    }
+    },
+    "provider": "ElevenLabs"
   },
   "bomb_truck": {
-    "voice": "slt",
+    "voice": "bIHbv24MWmeRgasZH58o",
     "pitch": 1.045,
     "tempo": 0.99,
     "assetBase": "audio/units/bomb_truck",
@@ -371,10 +404,11 @@
       "select": "Bomb Truck ready.",
       "move": "Moving out. Bomb Truck.",
       "attack": "Engaging target. Bomb Truck."
-    }
+    },
+    "provider": "ElevenLabs"
   },
   "radar_van": {
-    "voice": "rms",
+    "voice": "cjVigY5qzO86Huf0OWal",
     "pitch": 1.08,
     "tempo": 0.99,
     "assetBase": "audio/units/radar_van",
@@ -382,10 +416,11 @@
       "select": "Radar Van ready.",
       "move": "Moving out. Radar Van.",
       "attack": "Engaging target. Radar Van."
-    }
+    },
+    "provider": "ElevenLabs"
   },
   "comanche": {
-    "voice": "slt",
+    "voice": "iP95p4xoKVk53GoZ742B",
     "pitch": 1.115,
     "tempo": 0.99,
     "assetBase": "audio/units/comanche",
@@ -393,10 +428,11 @@
       "select": "Comanche ready.",
       "move": "Moving out. Comanche.",
       "attack": "Engaging target. Comanche."
-    }
+    },
+    "provider": "ElevenLabs"
   },
   "chinook": {
-    "voice": "rms",
+    "voice": "nPczCjzI2devNBz1zQrb",
     "pitch": 1.15,
     "tempo": 0.99,
     "assetBase": "audio/units/chinook",
@@ -404,10 +440,11 @@
       "select": "Chinook ready.",
       "move": "Moving out. Chinook.",
       "attack": "Engaging target. Chinook."
-    }
+    },
+    "provider": "ElevenLabs"
   },
   "raptor": {
-    "voice": "kal16",
+    "voice": "onwK4e9ZLuTAKqWW03F9",
     "pitch": 1.185,
     "tempo": 0.99,
     "assetBase": "audio/units/raptor",
@@ -415,10 +452,11 @@
       "select": "Raptor ready.",
       "move": "Moving out. Raptor.",
       "attack": "Engaging target. Raptor."
-    }
+    },
+    "provider": "ElevenLabs"
   },
   "stealth_fighter": {
-    "voice": "kal",
+    "voice": "pNInz6obpgDQGcFmaJgB",
     "pitch": 1.22,
     "tempo": 0.99,
     "assetBase": "audio/units/stealth_fighter",
@@ -426,10 +464,11 @@
       "select": "Stealth Fighter ready.",
       "move": "Moving out. Stealth Fighter.",
       "attack": "Engaging target. Stealth Fighter."
-    }
+    },
+    "provider": "ElevenLabs"
   },
   "aurora": {
-    "voice": "rms",
+    "voice": "pqHfZKP75CvOlQylNhV4",
     "pitch": 0.8,
     "tempo": 1.025,
     "assetBase": "audio/units/aurora",
@@ -437,10 +476,11 @@
       "select": "Aurora Bomber ready.",
       "move": "Moving out. Aurora Bomber.",
       "attack": "Engaging target. Aurora Bomber."
-    }
+    },
+    "provider": "ElevenLabs"
   },
   "mig": {
-    "voice": "slt",
+    "voice": "CwhRBWXzGAHq8TQ4Fs17",
     "pitch": 0.835,
     "tempo": 1.025,
     "assetBase": "audio/units/mig",
@@ -448,10 +488,11 @@
       "select": "MiG ready.",
       "move": "Moving out. MiG.",
       "attack": "Engaging target. MiG."
-    }
+    },
+    "provider": "ElevenLabs"
   },
   "helix": {
-    "voice": "kal16",
+    "voice": "IKne3meq5aSn9XLyUdCD",
     "pitch": 0.87,
     "tempo": 1.025,
     "assetBase": "audio/units/helix",
@@ -459,10 +500,11 @@
       "select": "Helix ready.",
       "move": "Moving out. Helix.",
       "attack": "Engaging target. Helix."
-    }
+    },
+    "provider": "ElevenLabs"
   },
   "b52": {
-    "voice": "rms",
+    "voice": "JBFqnCBsd6RMkjVDRZzb",
     "pitch": 0.905,
     "tempo": 1.025,
     "assetBase": "audio/units/b52",
@@ -470,10 +512,11 @@
       "select": "B-52 ready.",
       "move": "Moving out. B-52.",
       "attack": "Engaging target. B-52."
-    }
+    },
+    "provider": "ElevenLabs"
   },
   "gunboat": {
-    "voice": "slt",
+    "voice": "N2lVS1w4EtoT3dr4eOWO",
     "pitch": 0.94,
     "tempo": 1.025,
     "assetBase": "audio/units/gunboat",
@@ -481,10 +524,11 @@
       "select": "Patrol Boat ready.",
       "move": "Moving out. Patrol Boat.",
       "attack": "Engaging target. Patrol Boat."
-    }
+    },
+    "provider": "ElevenLabs"
   },
   "amphibious": {
-    "voice": "awb",
+    "voice": "SOYHLrjzK2X1ezoPC6cr",
     "pitch": 0.975,
     "tempo": 1.025,
     "assetBase": "audio/units/amphibious",
@@ -492,10 +536,11 @@
       "select": "Amphibious Transport ready.",
       "move": "Moving out. Amphibious Transport.",
       "attack": "Engaging target. Amphibious Transport."
-    }
+    },
+    "provider": "ElevenLabs"
   },
   "king_raptor": {
-    "voice": "kal16",
+    "voice": "TX3LPaxmHKxFdv7VOQHJ",
     "pitch": 1.01,
     "tempo": 1.025,
     "assetBase": "audio/units/king_raptor",
@@ -503,10 +548,11 @@
       "select": "King Raptor ready.",
       "move": "Moving out. King Raptor.",
       "attack": "Engaging target. King Raptor."
-    }
+    },
+    "provider": "ElevenLabs"
   },
   "laser_crusader": {
-    "voice": "kal16",
+    "voice": "bIHbv24MWmeRgasZH58o",
     "pitch": 1.045,
     "tempo": 1.025,
     "assetBase": "audio/units/laser_crusader",
@@ -514,10 +560,11 @@
       "select": "Laser Crusader ready.",
       "move": "Moving out. Laser Crusader.",
       "attack": "Engaging target. Laser Crusader."
-    }
+    },
+    "provider": "ElevenLabs"
   },
   "alpha_aurora": {
-    "voice": "kal",
+    "voice": "cjVigY5qzO86Huf0OWal",
     "pitch": 1.08,
     "tempo": 1.025,
     "assetBase": "audio/units/alpha_aurora",
@@ -525,10 +572,11 @@
       "select": "Alpha Aurora ready.",
       "move": "Moving out. Alpha Aurora.",
       "attack": "Engaging target. Alpha Aurora."
-    }
+    },
+    "provider": "ElevenLabs"
   },
   "emperor": {
-    "voice": "rms",
+    "voice": "iP95p4xoKVk53GoZ742B",
     "pitch": 0.76,
     "tempo": 1.025,
     "assetBase": "audio/units/emperor",
@@ -536,10 +584,11 @@
       "select": "Emperor ready.",
       "move": "Moving out. Emperor.",
       "attack": "Engaging target. Emperor."
-    }
+    },
+    "provider": "ElevenLabs"
   },
   "mini_gunner": {
-    "voice": "kal16",
+    "voice": "nPczCjzI2devNBz1zQrb",
     "pitch": 1.15,
     "tempo": 1.025,
     "assetBase": "audio/units/mini_gunner",
@@ -547,10 +596,11 @@
       "select": "Mini Gunner ready.",
       "move": "Moving out. Mini Gunner.",
       "attack": "Engaging target. Mini Gunner."
-    }
+    },
+    "provider": "ElevenLabs"
   },
   "nuke_battlemaster": {
-    "voice": "rms",
+    "voice": "onwK4e9ZLuTAKqWW03F9",
     "pitch": 1.185,
     "tempo": 1.025,
     "assetBase": "audio/units/nuke_battlemaster",
@@ -558,10 +608,11 @@
       "select": "Nuke Battlemaster ready.",
       "move": "Moving out. Nuke Battlemaster.",
       "attack": "Engaging target. Nuke Battlemaster."
-    }
+    },
+    "provider": "ElevenLabs"
   },
   "toxin_rebel": {
-    "voice": "kal",
+    "voice": "pNInz6obpgDQGcFmaJgB",
     "pitch": 1.22,
     "tempo": 1.025,
     "assetBase": "audio/units/toxin_rebel",
@@ -569,10 +620,11 @@
       "select": "Toxin Rebel ready.",
       "move": "Moving out. Toxin Rebel.",
       "attack": "Engaging target. Toxin Rebel."
-    }
+    },
+    "provider": "ElevenLabs"
   },
   "stealth_hijacker": {
-    "voice": "slt",
+    "voice": "pqHfZKP75CvOlQylNhV4",
     "pitch": 0.8,
     "tempo": 1.06,
     "assetBase": "audio/units/stealth_hijacker",
@@ -580,10 +632,11 @@
       "select": "Stealth Hijacker ready.",
       "move": "Moving out. Stealth Hijacker.",
       "attack": "Engaging target. Stealth Hijacker."
-    }
+    },
+    "provider": "ElevenLabs"
   },
   "demo_bike": {
-    "voice": "rms",
+    "voice": "CwhRBWXzGAHq8TQ4Fs17",
     "pitch": 0.835,
     "tempo": 1.06,
     "assetBase": "audio/units/demo_bike",
@@ -591,6 +644,7 @@
       "select": "Demo Bike ready.",
       "move": "Moving out. Demo Bike.",
       "attack": "Engaging target. Demo Bike."
-    }
+    },
+    "provider": "ElevenLabs"
   }
 }

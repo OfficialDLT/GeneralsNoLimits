@@ -1,10 +1,18 @@
 import * as THREE from "three";
 import { mergeGeometries } from "three/addons/utils/BufferGeometryUtils.js";
+import { applyWeathering } from './materials.js';
 const neutralMaterial = new THREE.MeshStandardMaterial({
   vertexColors: true,
   roughness: 0.78,
   metalness: 0.16,
 });
+// Node-based catalog validation can import models without a browser or GPU.
+if (typeof document !== 'undefined') {
+  const surface = new THREE.TextureLoader().load(`${import.meta.env.BASE_URL}art/weathered-steel.png`);
+  surface.wrapS = surface.wrapT = THREE.RepeatWrapping;
+  surface.colorSpace = THREE.SRGBColorSpace;
+  applyWeathering(neutralMaterial, surface);
+}
 export function box(g, w, h, d, color, x = 0, y = h / 2, z = 0) {
   return part(g, new THREE.BoxGeometry(w, h, d), color, x, y, z);
 }
@@ -488,6 +496,20 @@ function building(type, d, p) {
   box(g, w, 7, depth, wall, 0, 4);
   box(g, w + 1, 0.8, depth + 1, p.dark, 0, 7.9);
   box(g, w, 0.4, depth, p.light, 0, 8.6);
+  // Roof access, ventilation and masonry joints keep silhouettes readable at RTS scale.
+  for (const x of [-w / 2 + 3, w / 2 - 3]) {
+    box(g, 4, 1.6, 3, 0x73796e, x, 9.4, 2);
+    for (let n = -1; n <= 1; n++) box(g, 0.25, 0.08, 2.5, p.dark, x + n, 10.25, 2);
+    cylinder(g, 0.4, 2.2, 0x727569, x, 9.8, depth / 2 - 2, 0.4, 8);
+  }
+  for (let x = -w / 2 + 4; x < w / 2; x += 5) {
+    box(g, 0.16, 6.4, 0.14, 0x8c8a79, x, 4.2, -depth / 2 - 0.12);
+    box(g, 0.16, 6.4, 0.14, 0x8c8a79, x, 4.2, depth / 2 + 0.12);
+  }
+  box(g, 2.5, 4.8, 0.18, p.dark, -w / 2 + 4, 3.4, depth / 2 + 0.2);
+  box(g, 2.1, 0.35, 0.25, 0xc8b98c, -w / 2 + 4, 6, depth / 2 + 0.3);
+  for (let y = 2; y < 8; y += 1) box(g, 1.6, 0.12, 0.2, p.dark, w / 2 + 0.15, y, 1);
+  for (const z of [0.3, 1.7]) box(g, 0.18, 7, 0.18, p.dark, w / 2 + 0.15, 4.5, z);
   windows(g, p, w, depth);
   for (const x of [-w / 2 + 1, w / 2 - 1])
     box(g, 1, 7, 1, p.light, x, 4, -depth / 2 - 0.1);

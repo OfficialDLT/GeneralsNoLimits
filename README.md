@@ -1,6 +1,6 @@
 # Generals No Limits
 
-Een modulaire, speelbare 3D RTS geïnspireerd op Generals en Zero Hour. Drie facties, negen generaalsvarianten, economie, basisbouw, gevechten, AI, campaign en superwapens. De modellen en audio zijn eigen placeholders; dit is geen exacte reconstructie van het originele spel.
+Een modulaire, speelbare 3D RTS geïnspireerd op Generals en Zero Hour. Drie facties, negen generaalsvarianten, economie, basisbouw, gevechten, AI, campaign en superwapens. Eigen quasi-realistische menu-art, portretten, terrein-, metaal- en boomassets, procedurele 3D-modellen en 174 door ElevenLabs gemaakte stemmen, meldingen en effecten. De bestaande synthetische muziek is voorlopig behouden. Zie [assetproductie](docs/asset-production.md) voor herkomst en reproductie.
 
 ## Direct in de browser spelen
 
@@ -50,7 +50,7 @@ Bouw- en trainhotkeys staan in de JSON-configs en op de knoppen; ze werken in de
 
 Het volledige overzicht van **alle 67 gevraagde punten**, met status, vereenvoudigingen en teststappen, staat in [docs/FEATURES.md](docs/FEATURES.md). Lees dat overzicht voor de verschillen met Generals/Zero Hour.
 
-Belangrijke grenzen: alle extra spelers zijn lokale AI; online multiplayer ontbreekt. Units en gebouwen hebben eigen low-poly modeldetails en automatisch gerenderde cameos. Alle 54 unittypes hebben eigen gegenereerde radioclips; EVA gebruikt browserspraak. Vier originele synthesizertracks verzorgen de menu- en factiemuziek. Powers delen enkele effecttypen. Water, kliffen, bruggen, vliegen/landen en damage states zijn vereenvoudigd. Er is geen originele assetbibliotheek, realistische sloopfysica of uitgebreide verhalende campaign.
+Belangrijke grenzen: alle extra spelers zijn lokale AI; online multiplayer ontbreekt. Units en gebouwen gebruiken procedurele geometrie met gegenereerde materiaaltexturen; infantry en tanks hebben quasi-realistische klasseportretten, overige objecten 3D-cameos. Alle 54 unittypes hebben drie ElevenLabs-radioclips; EVA heeft zes ingesproken meldingen. Vier originele synthesizertracks verzorgen voorlopig de menu- en factiemuziek. Powers delen enkele effecttypen. Water, kliffen, bruggen, vliegen/landen en damage states zijn vereenvoudigd. Er is geen realistische sloopfysica of uitgebreide verhalende campaign.
 
 ## Ontwikkelen en stats aanpassen
 
@@ -95,8 +95,8 @@ De launcher embedt de Vite-build en gebruikt alleen Go's standaardbibliotheek. W
 
 ## Presentatie-update 0.3
 
-Het hoofdmenu heeft een bewegende 3D-zeeslag, metallic titel en een eigen soundtrack. Muziek begint na de eerste klik, zoals browsers vereisen; zet hem aan/uit via de muziekknop of Options. Mastervolume, muziekvolume en stemmen zijn afzonderlijk instelbaar.
+Het hoofdmenu heeft gegenereerde militaire woestijnart, een metallic titel en een eigen soundtrack. Muziek begint na de eerste klik, zoals browsers vereisen; zet hem aan/uit via de muziekknop of Options. Mastervolume, muziekvolume en stemmen zijn afzonderlijk instelbaar.
 
 De commandobalk staat onderin. Gebruik **COMMANDOBALK INKLAPPEN/UITKLAPPEN** voor meer kaartzicht, en de tabs **BEVELEN / GENERALS** om te wisselen. Cameos tonen de echte eigen 3D-modellen. Tanks, aircraft en factiegebouwen hebben nieuwe silhouetten en details, zonder originele game-assets over te nemen.
 
-Verkende vijandelijke en neutrale gebouwen verdwijnen nu ook in grijze fog of war. Elk unittype heeft drie eigen radioclips (selectie, bewegen, aanvallen) en een eigen stemprofiel in `src/config/voice-profiles.json`. Audio staat in `public/audio/`. Reproduceren kan met `python scripts/generate-audio.py` (NumPy en ffmpeg met Flite nodig); spelen en normale builds hebben deze tools niet nodig.
+Verkende vijandelijke en neutrale gebouwen verdwijnen nu ook in grijze fog of war. Elk unittype heeft drie eigen radioclips (selectie, bewegen, aanvallen) en een eigen stemprofiel in `src/config/voice-profiles.json`. Audio staat in `public/audio/`. Reproduceren kan met `npm run assets:audio -- --keep-music` en een lokale ElevenLabs-sleutel; spelen en normale builds hebben geen sleutel nodig. Het oude `generate-audio.py` is uitsluitend voor de eerdere synthetische assets.

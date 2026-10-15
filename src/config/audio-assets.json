@@ -1,0 +1,18 @@
+{
+  "effects": {
+    "gunfire": "audio/effects/gunfire.mp3",
+    "cannon": "audio/effects/cannon.mp3",
+    "missile": "audio/effects/missile.mp3",
+    "explosion": "audio/effects/explosion.mp3",
+    "engine": "audio/effects/engine.mp3",
+    "laser": "audio/effects/laser.mp3"
+  },
+  "announcements": {
+    "building_complete": "audio/announcer/building_complete.mp3",
+    "low_power": "audio/announcer/low_power.mp3",
+    "destroyed": "audio/announcer/destroyed.mp3",
+    "under_attack": "audio/announcer/under_attack.mp3",
+    "super_detected": "audio/announcer/super_detected.mp3",
+    "promotion": "audio/announcer/promotion.mp3"
+  }
+}
