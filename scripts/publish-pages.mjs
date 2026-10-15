@@ -35,7 +35,8 @@ try {
     !files.includes("index.html") ||
     !files.includes("assets") ||
     files.some(
-      (name) => ![".nojekyll", "index.html", "assets", "art"].includes(name),
+      (name) =>
+        ![".nojekyll", "index.html", "assets", "art", "audio"].includes(name),
     )
   )
     throw Error("Unexpected files in website build; refusing publication.");

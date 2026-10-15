@@ -28,6 +28,8 @@ export class Interface {
       volume: 0.35,
       graphics: "medium",
       voices: true,
+      music: true,
+      musicVolume: 0.42,
       hotkeys: { ...defaultHotkeys },
     };
     try {
@@ -37,9 +39,32 @@ export class Interface {
       );
     } catch {}
     this.audio.volume = this.options.volume;
-    this.audio.enabled = this.options.voices;
+    this.audio.voiceEnabled = this.options.voices;
+    this.audio.musicEnabled = this.options.music;
+    this.audio.musicVolume = this.options.musicVolume;
     $("#pause-button").onclick = () => this.pause();
+    this.audio.onStateChange = () => this.syncMusicButton();
+    this.collapsed = false;
+    $("#deck-toggle").onclick = () => {
+      this.collapsed = !this.collapsed;
+      $("#command-deck").dataset.collapsed = String(this.collapsed);
+      $("#deck-toggle").setAttribute("aria-expanded", String(!this.collapsed));
+      $("#deck-toggle").textContent = this.collapsed
+        ? "COMMANDOBALK UITKLAPPEN ▴"
+        : "COMMANDOBALK INKLAPPEN ▾";
+    };
+    for (const tab of ["orders", "powers"])
+      $("#" + tab + "-tab").onclick = () => {
+        $("#command-deck").dataset.tab = tab;
+        for (const id of ["orders", "powers"])
+          $("#" + id + "-tab").classList.toggle("active", id === tab);
+      };
     this.menu();
+  }
+  syncMusicButton() {
+    const b = $("#music-toggle");
+    if (b)
+      b.innerHTML = `<span class="equalizer"><i></i><i></i><i></i><i></i></span> ${!this.audio.unlocked ? "MUZIEK STARTEN" : this.audio.musicEnabled ? "MUZIEK AAN" : "MUZIEK UIT"}`;
   }
   connect(controls, view, start, load) {
     this.controls = controls;
@@ -66,8 +91,17 @@ export class Interface {
   }
   showGame(game) {
     this.game = game;
+    this.lastPortrait = null;
+    this.screen = "game";
+    this.audio.setScene(game.player.faction);
     this.overlay.hidden = true;
-    for (const id of ["hud", "command", "powers-panel", "mapbox"])
+    for (const id of [
+      "hud",
+      "command-deck",
+      "command",
+      "powers-panel",
+      "mapbox",
+    ])
       $("#" + id).hidden = false;
     document.documentElement.style.setProperty(
       "--accent",
@@ -77,9 +111,25 @@ export class Interface {
     this.update();
   }
   menu() {
+    this.screen = "menu";
+    this.audio.setScene("menu");
+    this.overlay.className = "main-menu";
     if (this.game) this.game.paused = true;
     this.overlay.hidden = false;
-    this.overlay.innerHTML = `<div class="menu-shell"><small>3D RTS · GENERALS INSPIRED</small><h1>GENERALS<br><span>NO LIMITS</span></h1><p>Drie facties. Eén slagveld. Bouw, verken en verover.</p><div class="menu-buttons"><button id="skirmish">Skirmish <span>1–8 spelers · lokale AI</span></button><button id="campaign">Campaign <span>3 missies</span></button><button id="sandbox">Sandbox <span>Vrij bouwen</span></button><button id="load-save">Spel laden</button><button id="load-replay">Replay laden</button><button id="options">Options</button><button id="instructions">Instructions</button>${this.game ? '<button id="resume">Terug naar spel</button>' : ""}</div><small class="version">EXPANSION SANDBOX · placeholder graphics & procedural audio</small></div>`;
+    this.overlay.innerHTML = `<div class="menu-horizon"></div><div class="menu-topline"><span><i></i> GLOBAL COMMAND NETWORK</span><span>GNL / STRATEGIC OPERATIONS</span></div><main class="menu-shell"><div class="brand-kicker"><span></span> REAL-TIME STRATEGY <span></span></div><h1 class="metal-title">GENERALS</h1><div class="brand-subtitle"><span></span> NO LIMITS <span></span></div><p class="menu-tagline">THE WORLD IS YOUR BATTLEFIELD.</p><div class="menu-buttons"><button id="skirmish" class="menu-primary"><em>01</em><div>SKIRMISH<small>Bouw je leger. Bepaal je strategie. Win de oorlog.</small></div><b>↗</b></button><button id="campaign"><em>02</em><div>CAMPAIGN<small>Drie facties. Drie fronten.</small></div><b>›</b></button><button id="sandbox"><em>03</em><div>SANDBOX<small>Een open slagveld. Jouw regels.</small></div><b>›</b></button></div><div class="menu-secondary"><button id="load-save">SPEL LADEN</button><button id="load-replay">REPLAY</button><button id="options">OPTIES</button><button id="instructions">HANDLEIDING</button>${this.game ? '<button id="resume">VERDER SPELEN</button>' : ""}</div></main><div class="menu-brief"><small>OPERATION // IRON HORIZON</small><div class="brief-rule"></div><h2>COMMAND.<br>CONQUER.<br>REPEAT.</h2><p>USA · CHINA · GLA</p><div class="brief-coordinates">24° 37′ N &nbsp; 067° 12′ E<br><span>THEATER OF OPERATIONS — ACTIVE</span></div></div><div class="menu-bottomline"><button id="music-toggle"></button><span>ORIGINAL SCORE · IRON HORIZON</span><small>GENERALS NO LIMITS / FIELD EDITION</small></div>`;
+    $("#music-toggle").onclick = () => {
+      const first = !this.audio.unlocked;
+      this.audio.unlock();
+      if (!first) this.audio.toggleMusic();
+      else {
+        this.audio.musicEnabled = true;
+        this.audio.playMusic();
+      }
+      this.options.music = this.audio.musicEnabled;
+      localStorage.setItem("gnl-options", JSON.stringify(this.options));
+      this.syncMusicButton();
+    };
+    this.syncMusicButton();
     $("#skirmish").onclick = () => this.setup();
     $("#campaign").onclick = () => this.campaign();
     $("#sandbox").onclick = () => this.setup("sandbox");
@@ -90,6 +140,7 @@ export class Interface {
     if ($("#resume")) $("#resume").onclick = () => this.resume();
   }
   setup(mode = "skirmish") {
+    this.overlay.className = "dialog-overlay";
     this.overlay.innerHTML = `<div class="dialog"><small>MATCH CONFIGURATION</small><h2>${mode === "sandbox" ? "Sandbox" : "Skirmish"}</h2><div class="form-grid"><label>Factie<select id="faction">${Object.entries(
       factions,
     )
@@ -141,6 +192,7 @@ export class Interface {
     $("#back").onclick = () => this.menu();
   }
   campaign() {
+    this.overlay.className = "dialog-overlay";
     this.overlay.innerHTML = `<div class="dialog"><small>CAMPAIGN</small><h2>Drie fronten</h2>${Object.entries(
       missions,
     )
@@ -169,6 +221,8 @@ export class Interface {
   resume() {
     if (!this.game) return;
     this.game.paused = false;
+    this.screen = "game";
+    this.audio.setScene(this.game.player.faction);
     this.overlay.hidden = true;
     this.controls.keys.clear();
   }
@@ -182,6 +236,7 @@ export class Interface {
       return;
     }
     this.game.paused = true;
+    this.overlay.className = "dialog-overlay";
     this.controls.cancel();
     this.overlay.hidden = false;
     this.overlay.innerHTML = `<div class="dialog"><small>OPERATIE GEPAUZEERD</small><h2>Pauze</h2><button id="resume">Verder spelen</button><label>Spelsnelheid<select id="speed"><option value="0.5">0.5×</option><option value="1">1×</option><option value="2">2×</option><option value="4">4×</option></select></label><label>Weer<select id="weather"><option value="clear">Clear</option><option value="rain">Rain</option><option value="snow">Snow</option></select></label><button id="save">Save downloaden</button><button id="load-save">Save laden</button><button id="replay">Replay exporteren</button><button id="options">Options</button><button id="main-menu">Hoofdmenu</button></div>`;
@@ -206,8 +261,9 @@ export class Interface {
     $("#main-menu").onclick = () => this.menu();
   }
   settings() {
+    this.overlay.className = "dialog-overlay";
     this.overlay.hidden = false;
-    this.overlay.innerHTML = `<div class="dialog"><small>OPTIONS</small><h2>Geluid & bediening</h2><label>Volume<input id="volume" type="range" min="0" max="1" step="0.05" value="${this.options.volume}"></label><label>Audio<select id="voices"><option value="true">Aan</option><option value="false">Uit</option></select></label><label>Grafisch<select id="graphics"><option value="low">Low</option><option value="medium">Medium</option><option value="high">High</option></select></label><div class="form-grid">${Object.entries(
+    this.overlay.innerHTML = `<div class="dialog"><small>OPTIONS</small><h2>Geluid & bediening</h2><label>Volume<input id="volume" type="range" min="0" max="1" step="0.05" value="${this.options.volume}"></label><label>Stemmen en EVA<select id="voices"><option value="true">Aan</option><option value="false">Uit</option></select></label><label>Muziek<select id="music"><option value="true">Aan</option><option value="false">Uit</option></select></label><label>Muziekvolume<input id="music-volume" type="range" min="0" max="1" step="0.05" value="${this.options.musicVolume}"></label><label>Grafisch<select id="graphics"><option value="low">Low</option><option value="medium">Medium</option><option value="high">High</option></select></label><div class="form-grid">${Object.entries(
       this.options.hotkeys,
     )
       .map(
@@ -216,12 +272,15 @@ export class Interface {
       )
       .join(
         "",
-      )}</div><p>WASD/pijlen blijven camera bedienen. Gebruik voor acties andere toetsen. Spraak gebruikt beschikbare browserstemmen.</p><button id="apply">Opslaan</button><button id="back">Terug</button></div>`;
+      )}</div><p>WASD/pijlen blijven camera bedienen. Gebruik voor acties andere toetsen. Alle unittypes hebben een eigen radiostem. EVA gebruikt een beschikbare browserstem.</p><button id="apply">Opslaan</button><button id="back">Terug</button></div>`;
     $("#voices").value = String(this.options.voices);
+    $("#music").value = String(this.options.music);
     $("#graphics").value = this.options.graphics;
     $("#apply").onclick = () => {
       this.options.volume = Number($("#volume").value);
       this.options.voices = $("#voices").value === "true";
+      this.options.music = $("#music").value === "true";
+      this.options.musicVolume = Number($("#music-volume").value);
       this.options.graphics = $("#graphics").value;
       this.overlay
         .querySelectorAll("[data-key]")
@@ -229,7 +288,11 @@ export class Interface {
           (e) => (this.options.hotkeys[e.dataset.key] = e.value.toLowerCase()),
         );
       this.audio.volume = this.options.volume;
-      this.audio.enabled = this.options.voices;
+      this.audio.voiceEnabled = this.options.voices;
+      this.audio.musicEnabled = this.options.music;
+      this.audio.musicVolume = this.options.musicVolume;
+      this.audio.syncMix();
+      this.audio.playMusic();
       this.controls.hotkeys = { ...defaultHotkeys, ...this.options.hotkeys };
       this.view.renderer.shadowMap.enabled = this.options.graphics !== "low";
       this.view.renderer.setPixelRatio(
@@ -243,9 +306,11 @@ export class Interface {
       localStorage.setItem("gnl-options", JSON.stringify(this.options));
       this.toast("Opties opgeslagen");
     };
-    $("#back").onclick = () => (this.game ? this.resume() : this.menu());
+    $("#back").onclick = () =>
+      this.game && this.screen === "game" ? this.resume() : this.menu();
   }
   instructions() {
+    this.overlay.className = "dialog-overlay";
     this.overlay.innerHTML = `<div class="dialog"><small>FIELD MANUAL</small><h2>Bediening</h2><p>WASD/pijlen/randen: camera · scroll: zoom · scrollknop slepen: draaien.<br>Links slepen: groep · dubbelklik: zelfde type in beeld · Shift: toevoegen.<br>Rechts: bewegen, aanvallen, laden/garrison, harvest; bij gebouw: verzamelvlag.<br>Ctrl + rechts: Force Fire · Shift + rechts: waypoints.<br>Ctrl + 1–9: groep opslaan; 1–9: selecteren, dubbel indrukken: centreren.<br>X: Attack-Move · G: Guard · K: Stop · F: Scatter · P: Patrol · Q: Waypoint.<br>Home: basis · Space: laatste aanval · E: alle eenheden · Esc: pauze.<br>Bouwen: houd links vast op de plek, sleep om te draaien en laat los.<br>Selecteer een bouwer of Command Center voor de bouwlijst. Barracks geven +20 populatieruimte. Supply units verzamelen geld. Capture-upgrade is nodig om gebouwen over te nemen. Hero's kunnen altijd capturen.</p><button id="back">Terug</button></div>`;
     $("#back").onclick = () => this.menu();
   }
@@ -295,7 +360,9 @@ export class Interface {
     this.lastActions = "";
     this.refreshActions();
   }
-  cameo(d) {
+  cameo(d, id) {
+    if (id && this.view?.game)
+      return this.view.portrait(id, buildings[id] ? "building" : "unit");
     return d.kind === "infantry"
       ? `${import.meta.env.BASE_URL}art/soldier.svg`
       : `${import.meta.env.BASE_URL}art/tank.svg`;
@@ -344,7 +411,7 @@ export class Interface {
             `${g.cost(0, u)} cr · ${u.population} pop · ${u.hotkey.toUpperCase()}`,
             () => this.controls.dispatch({ type: "train", id: e.id, unit: id }),
             {
-              icon: this.cameo(u),
+              icon: this.cameo(u, id),
               tooltip: `${u.description}\nVereist: ${missing.join(", ") || "gereed"}`,
               disabled: missing.length > 0,
             },
@@ -466,7 +533,7 @@ export class Interface {
               `${g.cost(0, b)} cr${b.population ? " · +" + b.population + " pop" : ""} · ${b.hotkey.toUpperCase()}`,
               () => this.controls.build(id),
               {
-                icon: `${import.meta.env.BASE_URL}art/tank.svg`,
+                icon: this.view.portrait(id, "building"),
                 tooltip: `${b.description || b.name}\nVereist: ${missing.join(", ") || "gereed"} · power ${b.powerUse}`,
                 disabled: missing.length > 0,
               },
@@ -513,8 +580,24 @@ export class Interface {
           ? units[q.type]
           : upgrades[q.type]
         : preview;
-      prod.innerHTML = `<div class="production-art"><img src="${this.cameo(d)}" alt="${escape(d.name)}"><span>${q ? (e.queuePaused ? "PAUSED" : "IN PRODUCTION") : "STANDBY"}</span></div><div><small>PRODUCTIE</small><h3>${escape(d.name)}</h3><p>${q ? Math.ceil(q.remaining) + "s · " + e.queue.length + " in wachtrij" : "Gereed voor productie"}</p><div class="progress-track"><div style="width:${q ? 100 * (1 - q.remaining / q.total) : 0}%"></div></div></div>`;
+      prod.innerHTML = `<span class="production-label">${q ? (e.queuePaused ? "GEPAUZEERD" : "IN PRODUCTIE") : "STANDBY"}</span><h3>${escape(d.name)}</h3><div class="progress-track"><div style="width:${q ? 100 * (1 - q.remaining / q.total) : 0}%"></div></div><p>${q ? Math.ceil(q.remaining) + "s · " + e.queue.length + " in wachtrij" : "Klaar voor productie"}</p>`;
     }
+    const portraitType = q?.kind === "unit" ? q.type : e?.type;
+    if (portraitType && portraitType !== this.lastPortrait) {
+      this.lastPortrait = portraitType;
+      $("#selected-portrait").src = this.view.portrait(
+        portraitType,
+        buildings[portraitType] ? "building" : "unit",
+        e?.owner ?? 0,
+      );
+      $("#selected-portrait").alt =
+        (units[portraitType] || buildings[portraitType])?.name || "Civilian";
+    }
+    $("#selected-portrait").hidden = !portraitType;
+    $("#portrait-caption").textContent = portraitType
+      ? (units[portraitType] || buildings[portraitType])?.name || "FIELD UNIT"
+      : "NO SELECTION";
+    $("#general-points").textContent = p.points;
     const signature = JSON.stringify([
       this.ids,
       e?.owner,

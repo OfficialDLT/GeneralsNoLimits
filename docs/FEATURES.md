@@ -85,15 +85,15 @@ Begin voor losse controles met **Sandbox**, 100.000 startgeld, de benodigde fact
 
 ## UI
 
-| #   | Status en inhoud                                                                                                                            | Testen                                                                      |
-| --- | ------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------- |
-| 45  | Werkend basis: command bar linksonder, build/actions, twee generieke cameos, hotkey-hints/tooltips. Geen unieke cameo per type; build/train-hotkeys zijn configureerbaar in JSON.             | Selecteer bouwer, factory en hero; bekijk actieknoppen.                     |
-| 46  | Werkend: radar vereist CC of Radar Van en voldoende stroom; navigeren/commando op minimap en aanvalsping. Ping blijft laatste aanval tonen. | Verkoop CC/power, herstel met radar of stroom; klik radar.                  |
-| 47  | Werkend: drag, double-click, Shift, Ctrl+1–9, alle units.                                                                                   | Vorm/selecteer groep, sla op, selecteer opnieuw en dubbel druk groepstoets. |
-| 48  | Werkend: rally flags, camera-orbit, zoom, edge/WASD-pan, Home-basis en Space-laatste aanval.                                                | Gebruik de bestaande bediening en een productie-rally.                      |
-| 49  | Werkend basis: HP-bars bij selectie/schade, chevrons, foundation-progress, kosten/requirements-tooltips.                                    | Beschadig/selecteer units; hover locked train/buildknop.                    |
-| 50  | Werkend: geld/income, power, bevolking, rank en globale supertimers.                                                                        | Vergelijk values bij bouwen, supply-deposit en supercharge.                 |
-| 51  | Werkend: pauze, volume/audio, Low/Medium/High (pixel ratio/shadows), actie-hotkeys. Camera-WASD blijft vast.                                | Open Esc/Options; wijzig en herstart om lokale opslag te controleren.       |
+| #   | Status en inhoud                                                                                                                                                                                | Testen                                                                      |
+| --- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------- |
+| 45  | Werkend basis: command bar linksonder, build/actions, gerenderde 3D-cameos per type, hotkey-hints/tooltips. Eigen gerenderde cameo per model; build/train-hotkeys zijn configureerbaar in JSON. | Selecteer bouwer, factory en hero; bekijk actieknoppen.                     |
+| 46  | Werkend: radar vereist CC of Radar Van en voldoende stroom; navigeren/commando op minimap en aanvalsping. Ping blijft laatste aanval tonen.                                                     | Verkoop CC/power, herstel met radar of stroom; klik radar.                  |
+| 47  | Werkend: drag, double-click, Shift, Ctrl+1–9, alle units.                                                                                                                                       | Vorm/selecteer groep, sla op, selecteer opnieuw en dubbel druk groepstoets. |
+| 48  | Werkend: rally flags, camera-orbit, zoom, edge/WASD-pan, Home-basis en Space-laatste aanval.                                                                                                    | Gebruik de bestaande bediening en een productie-rally.                      |
+| 49  | Werkend basis: HP-bars bij selectie/schade, chevrons, foundation-progress, kosten/requirements-tooltips.                                                                                        | Beschadig/selecteer units; hover locked train/buildknop.                    |
+| 50  | Werkend: geld/income, power, bevolking, rank en globale supertimers.                                                                                                                            | Vergelijk values bij bouwen, supply-deposit en supercharge.                 |
+| 51  | Werkend: pauze, volume/audio, Low/Medium/High (pixel ratio/shadows), actie-hotkeys. Camera-WASD blijft vast.                                                                                    | Open Esc/Options; wijzig en herstart om lokale opslag te controleren.       |
 
 ## Audio en effecten
 
@@ -135,3 +135,9 @@ Geen categorie uit de lijst is stilzwijgend weggelaten, maar bovenstaande vereen
 `npm test` controleert de oude helperregels en de nieuwe configuraties, economische ketens, bouwers, refunds, rally, low power, research/capture, armor/XP, transport/tunnels, stealth, powers, superwapens, ammo, A*, fog, save/replay, factiemechanieken, AI en wincondities. `npm run test:browser` controleert de echte menu's en muis/keyboard/UI, drie facties en acht-player startup. `npm run build` bouwt de webversie; `scripts/build-windows.sh` voert daarnaast de Go-tests uit en maakt de embedded Windows-launcher.
 
 De simulatie gebruikt vaste ticks, ID-index, cached upgrade-effects, spatial hash voor nearby queries, A*-routes die worden hergebruikt, en projectile-object pooling. De weergave gebruikt instanced bomen, gedeelde modeltemplates/geometrie, een begrensde effectpool en health labels voor maximaal circa 140 relevante entities. Dat maakt honderden units haalbaar, maar is geen garantie voor een specifieke framerate op elke computer. De headless proef met 571 units simuleerde 10 seconden in ongeveer 0,7 seconde; die meting omvat geen WebGL-rendering en is geen multiplayer-loadtest.
+
+## Bijgewerkt in 0.3
+
+De presentatie gebruikt nu een live 3D-menuscène, metallic/hazardstrip-stijl en een inklapbare onderbalk met tabs voor bevelen en powers. Alle unit-/gebouwcameos worden uit de nieuwe modellen gerenderd. Alle 54 unittypes hebben eigen synthetische radioprofielen en drie verpakte clips; dit zijn geen originele ingesproken Generals-stemmen. Vier eigen muziekloops vervangen de eerdere losse muziektonen en beginnen na gebruikersinteractie.
+
+Gebouwen blijven niet meer staan in eerder verkende fog: alleen actuele zichtbaarheid toont vijandelijke/neutrale modellen, inclusief het verwijderen van hun selectie-/HP-weergave op de wereld. Het terrein blijft verkend. De onderstaande tests zijn uitgebreid met modelgeometrie/audio-assets en een browserregressie voor fog en de inklapbare commandobalk.

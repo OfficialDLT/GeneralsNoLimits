@@ -345,6 +345,13 @@ export class Controls {
     this.ui.audio.voice(
       ["attack", "forceFire", "attackMove"].includes(order) ? "attack" : "move",
       this.game.player.faction,
+      this.game.get(
+        this.selected.find(
+          (id) =>
+            this.game.get(id)?.owner === 0 &&
+            this.game.get(id)?.kind === "unit",
+        ),
+      )?.type,
     );
   }
   keyDown(e) {

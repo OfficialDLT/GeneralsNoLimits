@@ -1,0 +1,596 @@
+{
+  "usa_dozer": {
+    "voice": "kal16",
+    "pitch": 0.8,
+    "tempo": 0.92,
+    "assetBase": "audio/units/usa_dozer",
+    "lines": {
+      "select": "Construction crew is standing by.",
+      "move": "Taking our tools over there.",
+      "attack": "Clearing the construction site."
+    }
+  },
+  "china_dozer": {
+    "voice": "rms",
+    "pitch": 0.835,
+    "tempo": 0.92,
+    "assetBase": "audio/units/china_dozer",
+    "lines": {
+      "select": "Engineering team is ready.",
+      "move": "Heavy machinery moving.",
+      "attack": "We will clear the way."
+    }
+  },
+  "worker": {
+    "voice": "rms",
+    "pitch": 0.87,
+    "tempo": 0.92,
+    "assetBase": "audio/units/worker",
+    "lines": {
+      "select": "Tools are ready. What needs building?",
+      "move": "I will take the back road.",
+      "attack": "We will stand our ground."
+    }
+  },
+  "ranger": {
+    "voice": "kal16",
+    "pitch": 0.905,
+    "tempo": 0.92,
+    "assetBase": "audio/units/ranger",
+    "lines": {
+      "select": "Ranger squad, reporting in.",
+      "move": "Boots on the ground. Moving out.",
+      "attack": "Squad, engage that target."
+    }
+  },
+  "missile_defender": {
+    "voice": "slt",
+    "pitch": 0.94,
+    "tempo": 0.92,
+    "assetBase": "audio/units/missile_defender",
+    "lines": {
+      "select": "Missile Defender ready.",
+      "move": "Moving out. Missile Defender.",
+      "attack": "Engaging target. Missile Defender."
+    }
+  },
+  "pathfinder": {
+    "voice": "kal16",
+    "pitch": 0.975,
+    "tempo": 0.92,
+    "assetBase": "audio/units/pathfinder",
+    "lines": {
+      "select": "Pathfinder ready.",
+      "move": "Moving out. Pathfinder.",
+      "attack": "Engaging target. Pathfinder."
+    }
+  },
+  "burton": {
+    "voice": "rms",
+    "pitch": 0.86,
+    "tempo": 0.92,
+    "assetBase": "audio/units/burton",
+    "lines": {
+      "select": "Burton here. Give me the mission.",
+      "move": "Quiet and steady. On my way.",
+      "attack": "I have the target in sight."
+    }
+  },
+  "red_guard": {
+    "voice": "kal",
+    "pitch": 1.045,
+    "tempo": 0.92,
+    "assetBase": "audio/units/red_guard",
+    "lines": {
+      "select": "Red Guard ready.",
+      "move": "Moving out. Red Guard.",
+      "attack": "Engaging target. Red Guard."
+    }
+  },
+  "tank_hunter": {
+    "voice": "slt",
+    "pitch": 1.08,
+    "tempo": 0.92,
+    "assetBase": "audio/units/tank_hunter",
+    "lines": {
+      "select": "Tank Hunter ready.",
+      "move": "Moving out. Tank Hunter.",
+      "attack": "Engaging target. Tank Hunter."
+    }
+  },
+  "hacker": {
+    "voice": "awb",
+    "pitch": 1.115,
+    "tempo": 0.92,
+    "assetBase": "audio/units/hacker",
+    "lines": {
+      "select": "Hacker ready.",
+      "move": "Moving out. Hacker.",
+      "attack": "Engaging target. Hacker."
+    }
+  },
+  "lotus": {
+    "voice": "slt",
+    "pitch": 1.15,
+    "tempo": 0.92,
+    "assetBase": "audio/units/lotus",
+    "lines": {
+      "select": "Lotus online. Awaiting your signal.",
+      "move": "Moving through their blind spot.",
+      "attack": "Their systems belong to us."
+    }
+  },
+  "rebel": {
+    "voice": "kal",
+    "pitch": 1.185,
+    "tempo": 0.92,
+    "assetBase": "audio/units/rebel",
+    "lines": {
+      "select": "Rebel ready.",
+      "move": "Moving out. Rebel.",
+      "attack": "Engaging target. Rebel."
+    }
+  },
+  "rpg": {
+    "voice": "slt",
+    "pitch": 1.22,
+    "tempo": 0.92,
+    "assetBase": "audio/units/rpg",
+    "lines": {
+      "select": "RPG Trooper ready.",
+      "move": "Moving out. RPG Trooper.",
+      "attack": "Engaging target. RPG Trooper."
+    }
+  },
+  "terrorist": {
+    "voice": "kal16",
+    "pitch": 0.8,
+    "tempo": 0.955,
+    "assetBase": "audio/units/terrorist",
+    "lines": {
+      "select": "Terrorist ready.",
+      "move": "Moving out. Terrorist.",
+      "attack": "Engaging target. Terrorist."
+    }
+  },
+  "angry_mob": {
+    "voice": "awb",
+    "pitch": 0.835,
+    "tempo": 0.955,
+    "assetBase": "audio/units/angry_mob",
+    "lines": {
+      "select": "Angry Mob ready.",
+      "move": "Moving out. Angry Mob.",
+      "attack": "Engaging target. Angry Mob."
+    }
+  },
+  "jarmen": {
+    "voice": "kal16",
+    "pitch": 0.87,
+    "tempo": 0.955,
+    "assetBase": "audio/units/jarmen",
+    "lines": {
+      "select": "The marksman is in position.",
+      "move": "A quiet path. Nobody will see me.",
+      "attack": "One shot is all I need."
+    }
+  },
+  "hijacker": {
+    "voice": "awb",
+    "pitch": 0.905,
+    "tempo": 0.955,
+    "assetBase": "audio/units/hijacker",
+    "lines": {
+      "select": "Hijacker ready.",
+      "move": "Moving out. Hijacker.",
+      "attack": "Engaging target. Hijacker."
+    }
+  },
+  "crusader": {
+    "voice": "kal16",
+    "pitch": 0.94,
+    "tempo": 0.955,
+    "assetBase": "audio/units/crusader",
+    "lines": {
+      "select": "Crusader armor is ready.",
+      "move": "Tracks rolling, commander.",
+      "attack": "Main gun, fire at will."
+    }
+  },
+  "paladin": {
+    "voice": "rms",
+    "pitch": 0.975,
+    "tempo": 0.955,
+    "assetBase": "audio/units/paladin",
+    "lines": {
+      "select": "Paladin ready.",
+      "move": "Moving out. Paladin.",
+      "attack": "Engaging target. Paladin."
+    }
+  },
+  "tomahawk": {
+    "voice": "kal16",
+    "pitch": 1.01,
+    "tempo": 0.955,
+    "assetBase": "audio/units/tomahawk",
+    "lines": {
+      "select": "Tomahawk ready.",
+      "move": "Moving out. Tomahawk.",
+      "attack": "Engaging target. Tomahawk."
+    }
+  },
+  "humvee": {
+    "voice": "slt",
+    "pitch": 1.045,
+    "tempo": 0.955,
+    "assetBase": "audio/units/humvee",
+    "lines": {
+      "select": "Humvee ready.",
+      "move": "Moving out. Humvee.",
+      "attack": "Engaging target. Humvee."
+    }
+  },
+  "ambulance": {
+    "voice": "kal16",
+    "pitch": 1.08,
+    "tempo": 0.955,
+    "assetBase": "audio/units/ambulance",
+    "lines": {
+      "select": "Ambulance ready.",
+      "move": "Moving out. Ambulance.",
+      "attack": "Engaging target. Ambulance."
+    }
+  },
+  "battlemaster": {
+    "voice": "awb",
+    "pitch": 1.115,
+    "tempo": 0.955,
+    "assetBase": "audio/units/battlemaster",
+    "lines": {
+      "select": "Armor battalion awaiting orders.",
+      "move": "Engines forward. Keep formation.",
+      "attack": "Full barrage. Break their line."
+    }
+  },
+  "overlord": {
+    "voice": "rms",
+    "pitch": 0.72,
+    "tempo": 0.955,
+    "assetBase": "audio/units/overlord",
+    "lines": {
+      "select": "Overlord ready.",
+      "move": "Moving out. Overlord.",
+      "attack": "Engaging target. Overlord."
+    }
+  },
+  "dragon_tank": {
+    "voice": "awb",
+    "pitch": 1.185,
+    "tempo": 0.955,
+    "assetBase": "audio/units/dragon_tank",
+    "lines": {
+      "select": "Dragon Tank ready.",
+      "move": "Moving out. Dragon Tank.",
+      "attack": "Engaging target. Dragon Tank."
+    }
+  },
+  "gatling_tank": {
+    "voice": "slt",
+    "pitch": 1.22,
+    "tempo": 0.955,
+    "assetBase": "audio/units/gatling_tank",
+    "lines": {
+      "select": "Gattling Tank ready.",
+      "move": "Moving out. Gattling Tank.",
+      "attack": "Engaging target. Gattling Tank."
+    }
+  },
+  "troop_crawler": {
+    "voice": "slt",
+    "pitch": 0.8,
+    "tempo": 0.99,
+    "assetBase": "audio/units/troop_crawler",
+    "lines": {
+      "select": "Troop Crawler ready.",
+      "move": "Moving out. Troop Crawler.",
+      "attack": "Engaging target. Troop Crawler."
+    }
+  },
+  "supply_truck": {
+    "voice": "slt",
+    "pitch": 0.835,
+    "tempo": 0.99,
+    "assetBase": "audio/units/supply_truck",
+    "lines": {
+      "select": "Supply Truck ready.",
+      "move": "Moving out. Supply Truck.",
+      "attack": "Engaging target. Supply Truck."
+    }
+  },
+  "scorpion": {
+    "voice": "kal16",
+    "pitch": 0.87,
+    "tempo": 0.99,
+    "assetBase": "audio/units/scorpion",
+    "lines": {
+      "select": "Scorpion crew, ready to strike.",
+      "move": "Taking the back roads.",
+      "attack": "Hit them where it hurts."
+    }
+  },
+  "marauder": {
+    "voice": "slt",
+    "pitch": 0.905,
+    "tempo": 0.99,
+    "assetBase": "audio/units/marauder",
+    "lines": {
+      "select": "Marauder ready.",
+      "move": "Moving out. Marauder.",
+      "attack": "Engaging target. Marauder."
+    }
+  },
+  "technical": {
+    "voice": "awb",
+    "pitch": 0.94,
+    "tempo": 0.99,
+    "assetBase": "audio/units/technical",
+    "lines": {
+      "select": "Technical ready.",
+      "move": "Moving out. Technical.",
+      "attack": "Engaging target. Technical."
+    }
+  },
+  "quad": {
+    "voice": "kal",
+    "pitch": 0.975,
+    "tempo": 0.99,
+    "assetBase": "audio/units/quad",
+    "lines": {
+      "select": "Quad Cannon ready.",
+      "move": "Moving out. Quad Cannon.",
+      "attack": "Engaging target. Quad Cannon."
+    }
+  },
+  "scud_launcher": {
+    "voice": "awb",
+    "pitch": 1.01,
+    "tempo": 0.99,
+    "assetBase": "audio/units/scud_launcher",
+    "lines": {
+      "select": "Scud Launcher ready.",
+      "move": "Moving out. Scud Launcher.",
+      "attack": "Engaging target. Scud Launcher."
+    }
+  },
+  "bomb_truck": {
+    "voice": "slt",
+    "pitch": 1.045,
+    "tempo": 0.99,
+    "assetBase": "audio/units/bomb_truck",
+    "lines": {
+      "select": "Bomb Truck ready.",
+      "move": "Moving out. Bomb Truck.",
+      "attack": "Engaging target. Bomb Truck."
+    }
+  },
+  "radar_van": {
+    "voice": "rms",
+    "pitch": 1.08,
+    "tempo": 0.99,
+    "assetBase": "audio/units/radar_van",
+    "lines": {
+      "select": "Radar Van ready.",
+      "move": "Moving out. Radar Van.",
+      "attack": "Engaging target. Radar Van."
+    }
+  },
+  "comanche": {
+    "voice": "slt",
+    "pitch": 1.115,
+    "tempo": 0.99,
+    "assetBase": "audio/units/comanche",
+    "lines": {
+      "select": "Comanche ready.",
+      "move": "Moving out. Comanche.",
+      "attack": "Engaging target. Comanche."
+    }
+  },
+  "chinook": {
+    "voice": "rms",
+    "pitch": 1.15,
+    "tempo": 0.99,
+    "assetBase": "audio/units/chinook",
+    "lines": {
+      "select": "Chinook ready.",
+      "move": "Moving out. Chinook.",
+      "attack": "Engaging target. Chinook."
+    }
+  },
+  "raptor": {
+    "voice": "kal16",
+    "pitch": 1.185,
+    "tempo": 0.99,
+    "assetBase": "audio/units/raptor",
+    "lines": {
+      "select": "Raptor ready.",
+      "move": "Moving out. Raptor.",
+      "attack": "Engaging target. Raptor."
+    }
+  },
+  "stealth_fighter": {
+    "voice": "kal",
+    "pitch": 1.22,
+    "tempo": 0.99,
+    "assetBase": "audio/units/stealth_fighter",
+    "lines": {
+      "select": "Stealth Fighter ready.",
+      "move": "Moving out. Stealth Fighter.",
+      "attack": "Engaging target. Stealth Fighter."
+    }
+  },
+  "aurora": {
+    "voice": "rms",
+    "pitch": 0.8,
+    "tempo": 1.025,
+    "assetBase": "audio/units/aurora",
+    "lines": {
+      "select": "Aurora Bomber ready.",
+      "move": "Moving out. Aurora Bomber.",
+      "attack": "Engaging target. Aurora Bomber."
+    }
+  },
+  "mig": {
+    "voice": "slt",
+    "pitch": 0.835,
+    "tempo": 1.025,
+    "assetBase": "audio/units/mig",
+    "lines": {
+      "select": "MiG ready.",
+      "move": "Moving out. MiG.",
+      "attack": "Engaging target. MiG."
+    }
+  },
+  "helix": {
+    "voice": "kal16",
+    "pitch": 0.87,
+    "tempo": 1.025,
+    "assetBase": "audio/units/helix",
+    "lines": {
+      "select": "Helix ready.",
+      "move": "Moving out. Helix.",
+      "attack": "Engaging target. Helix."
+    }
+  },
+  "b52": {
+    "voice": "rms",
+    "pitch": 0.905,
+    "tempo": 1.025,
+    "assetBase": "audio/units/b52",
+    "lines": {
+      "select": "B-52 ready.",
+      "move": "Moving out. B-52.",
+      "attack": "Engaging target. B-52."
+    }
+  },
+  "gunboat": {
+    "voice": "slt",
+    "pitch": 0.94,
+    "tempo": 1.025,
+    "assetBase": "audio/units/gunboat",
+    "lines": {
+      "select": "Patrol Boat ready.",
+      "move": "Moving out. Patrol Boat.",
+      "attack": "Engaging target. Patrol Boat."
+    }
+  },
+  "amphibious": {
+    "voice": "awb",
+    "pitch": 0.975,
+    "tempo": 1.025,
+    "assetBase": "audio/units/amphibious",
+    "lines": {
+      "select": "Amphibious Transport ready.",
+      "move": "Moving out. Amphibious Transport.",
+      "attack": "Engaging target. Amphibious Transport."
+    }
+  },
+  "king_raptor": {
+    "voice": "kal16",
+    "pitch": 1.01,
+    "tempo": 1.025,
+    "assetBase": "audio/units/king_raptor",
+    "lines": {
+      "select": "King Raptor ready.",
+      "move": "Moving out. King Raptor.",
+      "attack": "Engaging target. King Raptor."
+    }
+  },
+  "laser_crusader": {
+    "voice": "kal16",
+    "pitch": 1.045,
+    "tempo": 1.025,
+    "assetBase": "audio/units/laser_crusader",
+    "lines": {
+      "select": "Laser Crusader ready.",
+      "move": "Moving out. Laser Crusader.",
+      "attack": "Engaging target. Laser Crusader."
+    }
+  },
+  "alpha_aurora": {
+    "voice": "kal",
+    "pitch": 1.08,
+    "tempo": 1.025,
+    "assetBase": "audio/units/alpha_aurora",
+    "lines": {
+      "select": "Alpha Aurora ready.",
+      "move": "Moving out. Alpha Aurora.",
+      "attack": "Engaging target. Alpha Aurora."
+    }
+  },
+  "emperor": {
+    "voice": "rms",
+    "pitch": 0.76,
+    "tempo": 1.025,
+    "assetBase": "audio/units/emperor",
+    "lines": {
+      "select": "Emperor ready.",
+      "move": "Moving out. Emperor.",
+      "attack": "Engaging target. Emperor."
+    }
+  },
+  "mini_gunner": {
+    "voice": "kal16",
+    "pitch": 1.15,
+    "tempo": 1.025,
+    "assetBase": "audio/units/mini_gunner",
+    "lines": {
+      "select": "Mini Gunner ready.",
+      "move": "Moving out. Mini Gunner.",
+      "attack": "Engaging target. Mini Gunner."
+    }
+  },
+  "nuke_battlemaster": {
+    "voice": "rms",
+    "pitch": 1.185,
+    "tempo": 1.025,
+    "assetBase": "audio/units/nuke_battlemaster",
+    "lines": {
+      "select": "Nuke Battlemaster ready.",
+      "move": "Moving out. Nuke Battlemaster.",
+      "attack": "Engaging target. Nuke Battlemaster."
+    }
+  },
+  "toxin_rebel": {
+    "voice": "kal",
+    "pitch": 1.22,
+    "tempo": 1.025,
+    "assetBase": "audio/units/toxin_rebel",
+    "lines": {
+      "select": "Toxin Rebel ready.",
+      "move": "Moving out. Toxin Rebel.",
+      "attack": "Engaging target. Toxin Rebel."
+    }
+  },
+  "stealth_hijacker": {
+    "voice": "slt",
+    "pitch": 0.8,
+    "tempo": 1.06,
+    "assetBase": "audio/units/stealth_hijacker",
+    "lines": {
+      "select": "Stealth Hijacker ready.",
+      "move": "Moving out. Stealth Hijacker.",
+      "attack": "Engaging target. Stealth Hijacker."
+    }
+  },
+  "demo_bike": {
+    "voice": "rms",
+    "pitch": 0.835,
+    "tempo": 1.06,
+    "assetBase": "audio/units/demo_bike",
+    "lines": {
+      "select": "Demo Bike ready.",
+      "move": "Moving out. Demo Bike.",
+      "attack": "Engaging target. Demo Bike."
+    }
+  }
+}

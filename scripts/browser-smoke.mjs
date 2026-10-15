@@ -256,6 +256,59 @@ try {
     await page.evaluate(() => window.__probe.game.players.length),
     8,
   );
+  await page.getByRole("button", { name: "COMMANDOBALK INKLAPPEN" }).click();
+  assert.equal(
+    await page.locator("#deck-toggle").getAttribute("aria-expanded"),
+    "false",
+  );
+  assert.equal(await page.locator("#deck-content").isVisible(), false);
+  await page.getByRole("button", { name: "COMMANDOBALK UITKLAPPEN" }).click();
+  await page.locator("#powers-tab").click();
+  assert.equal(await page.locator("#powers-panel").isVisible(), true);
+  assert.equal(await page.locator("#command").isVisible(), false);
+  await page.locator("#orders-tab").click();
+  await page.evaluate(() => {
+    const p = window.__probe;
+    p.activate(
+      new p.Game({ mode: "sandbox", faction: "usa", players: 1, map: "small" }),
+    );
+    const target = p.game.buildings.find((e) => e.type === "oil");
+    for (const e of p.game.entities)
+      if (e.owner === 0) {
+        e.x = target.x + 20;
+        e.z = target.z + 20;
+      }
+    p.game.updateFog();
+    p.view.sync();
+  });
+  assert.ok(
+    await page.evaluate(() => {
+      const p = window.__probe,
+        b = p.game.buildings.find((e) => e.type === "oil");
+      return p.view.meshes.get(b.id).mesh.visible;
+    }),
+  );
+  await page.evaluate(() => {
+    const p = window.__probe;
+    for (const e of p.game.entities)
+      if (e.owner === 0) {
+        e.x = 250;
+        e.z = 250;
+      }
+    p.game.updateFog();
+    p.view.sync();
+  });
+  assert.ok(
+    await page.evaluate(() => {
+      const p = window.__probe,
+        b = p.game.buildings.find((e) => e.type === "oil");
+      return (
+        p.game.explored[p.view.fogIndex(b.x, b.z)] &&
+        !p.game.isVisible(b) &&
+        !p.view.meshes.get(b.id).mesh.visible
+      );
+    }),
+  );
   assert.deepEqual(errors, []);
   console.log(
     "PASS browser: menus, 3 factions, 8-player start, camera/edge movement, group/double-click/control groups, Force Fire, queues/pause, rally, rotated placement, save-load and UI",

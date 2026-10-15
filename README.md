@@ -50,7 +50,7 @@ Bouw- en trainhotkeys staan in de JSON-configs en op de knoppen; ze werken in de
 
 Het volledige overzicht van **alle 67 gevraagde punten**, met status, vereenvoudigingen en teststappen, staat in [docs/FEATURES.md](docs/FEATURES.md). Lees dat overzicht voor de verschillen met Generals/Zero Hour.
 
-Belangrijke grenzen: alle extra spelers zijn lokale AI; online multiplayer ontbreekt. Units delen geometrische modelarchetypen en twee generieke cameo's. Spraak is browsersynthese; muziek en geluid zijn procedurele tonen. Powers delen enkele effecttypen. Water, kliffen, bruggen, vliegen/landen en damage states zijn vereenvoudigd. Er is geen originele assetbibliotheek, realistische sloopfysica of uitgebreide verhalende campaign.
+Belangrijke grenzen: alle extra spelers zijn lokale AI; online multiplayer ontbreekt. Units en gebouwen hebben eigen low-poly modeldetails en automatisch gerenderde cameos. Alle 54 unittypes hebben eigen gegenereerde radioclips; EVA gebruikt browserspraak. Vier originele synthesizertracks verzorgen de menu- en factiemuziek. Powers delen enkele effecttypen. Water, kliffen, bruggen, vliegen/landen en damage states zijn vereenvoudigd. Er is geen originele assetbibliotheek, realistische sloopfysica of uitgebreide verhalende campaign.
 
 ## Ontwikkelen en stats aanpassen
 
@@ -92,3 +92,11 @@ sha256sum releases/GeneralsNoLimits.exe > releases/SHA256SUMS.txt
 ```
 
 De launcher embedt de Vite-build en gebruikt alleen Go's standaardbibliotheek. Wijzigingen in JSON/config worden meegenomen bij opnieuw bouwen. De bestaande executable verandert pas wanneer je hem opnieuw bouwt.
+
+## Presentatie-update 0.3
+
+Het hoofdmenu heeft een bewegende 3D-zeeslag, metallic titel en een eigen soundtrack. Muziek begint na de eerste klik, zoals browsers vereisen; zet hem aan/uit via de muziekknop of Options. Mastervolume, muziekvolume en stemmen zijn afzonderlijk instelbaar.
+
+De commandobalk staat onderin. Gebruik **COMMANDOBALK INKLAPPEN/UITKLAPPEN** voor meer kaartzicht, en de tabs **BEVELEN / GENERALS** om te wisselen. Cameos tonen de echte eigen 3D-modellen. Tanks, aircraft en factiegebouwen hebben nieuwe silhouetten en details, zonder originele game-assets over te nemen.
+
+Verkende vijandelijke en neutrale gebouwen verdwijnen nu ook in grijze fog of war. Elk unittype heeft drie eigen radioclips (selectie, bewegen, aanvallen) en een eigen stemprofiel in `src/config/voice-profiles.json`. Audio staat in `public/audio/`. Reproduceren kan met `python scripts/generate-audio.py` (NumPy en ffmpeg met Flite nodig); spelen en normale builds hebben deze tools niet nodig.

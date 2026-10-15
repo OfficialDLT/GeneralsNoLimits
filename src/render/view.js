@@ -6,7 +6,7 @@ import {
   buildings,
 } from "../config/index.js";
 import { height, water, cliff, clamp } from "../simulation/world.js";
-import { model, box } from "./models.js";
+import { entityModel, box } from "./models.js";
 export class View {
   constructor(canvas) {
     this.canvas = canvas;
@@ -215,86 +215,58 @@ export class View {
             factions[this.game.players[e.owner].faction].color;
     const key = e.type + "|" + color;
     if (this.templates.has(key)) return this.templates.get(key);
-    let group;
-    if (e.kind === "building") {
-      const role = d.role;
-      group = model(
-        role === "hq" ? "hq" : role === "factory" ? "factory" : "barracks",
-      );
-      if (d.radius !== 14) group.scale.setScalar(d.radius / 18);
-      if (
-        [
-          "power",
-          "super",
-          "airfield",
-          "tech",
-          "income",
-          "defense",
-          "oil",
-        ].includes(role)
-      ) {
-        box(
-          group,
-          6,
-          role === "super" ? 25 : 12,
-          6,
-          color,
-          0,
-          role === "super" ? 18 : 12,
-        );
-        if (role === "airfield") box(group, 40, 0.4, 10, 0x454f49, 0, 1, -20);
-        if (role === "defense") box(group, 1, 1, 15, 0x29332a, 0, 15, -6);
-        if (role === "oil") box(group, 1, 20, 1, 0x1f302a, 7, 14, 7);
-        if (role === "power") {
-          const dome = new THREE.Mesh(
-            new THREE.SphereGeometry(7, 12, 8),
-            new THREE.MeshStandardMaterial({
-              color: 0xa5d9ec,
-              metalness: 0.4,
-              roughness: 0.4,
-            }),
-          );
-          dome.position.y = 12;
-          group.add(dome);
-        }
-      }
-    } else {
-      group = model(d.kind === "infantry" ? "soldier" : "tank");
-      if (d.kind === "air") {
-        group = model("tank");
-        group.scale.set(1.8, 0.4, 1.8);
-        box(group, 15, 0.4, 2, color, 0, 2, 0);
-        if (!d.ammo) {
-          box(group, 20, 0.15, 1, 0x29382c, 0, 5, 0);
-          box(group, 1, 0.15, 20, 0x29382c, 0, 5, 0);
-        }
-      }
-      if (d.kind === "vehicle") group.scale.set(0.8, 0.8, 0.8);
-      if (d.builder) {
-        box(group, 7, 1, 2, 0xcbbb62, 0, 1, -5);
-      }
-      if (d.kind === "boat") {
-        box(group, 8, 2, 13, color, 0, 1, 0);
-      }
-    }
-    group.traverse((o) => {
-      if (o.isMesh) {
-        o.material = o.material.clone();
-        const c = o.material.color;
-        if (c.g > c.r * 0.95 && c.g > c.b * 1.05)
-          c.lerp(new THREE.Color(color), 0.6);
-        o.castShadow = true;
-      }
-    });
-    const badge = new THREE.Mesh(
-      new THREE.PlaneGeometry(3, 3),
-      new THREE.MeshBasicMaterial({ color, side: THREE.DoubleSide }),
-    );
-    badge.rotation.x = -Math.PI / 2;
-    badge.position.y = 0.25;
-    group.add(badge);
+    const group = entityModel(e.type, d, color);
     this.templates.set(key, group);
     return group;
+  }
+  portrait(type, kind = "unit", owner = 0) {
+    this.portraits ??= new Map();
+    const key = type + "|" + owner;
+    if (this.portraits.has(key)) return this.portraits.get(key);
+    const scene = new THREE.Scene();
+    scene.background = new THREE.Color("#263638");
+    scene.add(new THREE.HemisphereLight(0xc9dfdf, 0x303024, 2.5));
+    const light = new THREE.DirectionalLight(0xffdfad, 3);
+    light.position.set(-20, 35, 30);
+    scene.add(light);
+    const model = this.template({ type, kind, owner }).clone(true);
+    scene.add(model);
+    const bounds = new THREE.Box3().setFromObject(model),
+      size = bounds.getSize(new THREE.Vector3()),
+      center = bounds.getCenter(new THREE.Vector3());
+    const extent = Math.max(size.x, size.y, size.z) * 0.72 + 1;
+    const camera = new THREE.OrthographicCamera(
+      -extent,
+      extent,
+      extent,
+      -extent,
+      0.1,
+      300,
+    );
+    camera.position
+      .copy(center)
+      .add(new THREE.Vector3(-extent * 1.4, extent * 0.95, extent * 1.7));
+    camera.lookAt(center);
+    const target = new THREE.WebGLRenderTarget(160, 160);
+    target.texture.colorSpace = THREE.SRGBColorSpace;
+    const previous = this.renderer.getRenderTarget();
+    this.renderer.setRenderTarget(target);
+    this.renderer.render(scene, camera);
+    const pixels = new Uint8Array(160 * 160 * 4);
+    this.renderer.readRenderTargetPixels(target, 0, 0, 160, 160, pixels);
+    this.renderer.setRenderTarget(previous);
+    target.dispose();
+    const canvas = document.createElement("canvas");
+    canvas.width = 160;
+    canvas.height = 160;
+    const ctx = canvas.getContext("2d"),
+      data = ctx.createImageData(160, 160);
+    for (let y = 0; y < 160; y++)
+      data.data.set(pixels.subarray((159 - y) * 640, (160 - y) * 640), y * 640);
+    ctx.putImageData(data, 0, 0);
+    const image = canvas.toDataURL();
+    this.portraits.set(key, image);
+    return image;
   }
   sync() {
     const g = this.game;
@@ -352,13 +324,7 @@ export class View {
             ? Math.max(0.15, e.progress)
             : 1);
       mesh.rotation.z = e.hp <= 0 ? 0.2 : damaged < 0.3 ? 0.04 : 0;
-      mesh.visible =
-        !e.inside &&
-        (e.owner === 0 ||
-          g.isVisible(e) ||
-          (e.kind === "building" &&
-            g.explored[this.fogIndex(e.x, e.z)] &&
-            g.detected(e, 0)));
+      mesh.visible = !e.inside && (e.owner === 0 || g.isVisible(e));
       record.ring.visible = this.selected.includes(e.id) && e.hp > 0;
       record.ring.material.color.set(damaged < 0.3 ? 0xff7556 : 0xc6ef75);
     }
@@ -695,6 +661,9 @@ export class View {
         height(g.map, e.x, e.z) +
         (units[e.type]?.kind === "air" ? (e.landed ? 3 : 28) : 0);
       r.mesh.rotation.y = e.rotation;
+      r.mesh.traverse((o) => {
+        if (o.name === "rotor") o.rotation.y += dt * 24;
+      });
       if (r.mesh.visible && e.hp > 0) {
         r.trailClock = (r.trailClock || 0) + dt;
         if (r.trailClock > 0.7) {

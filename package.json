@@ -1,12 +1,12 @@
 {
   "name": "generals-no-limits",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "private": true,
   "type": "module",
   "scripts": {
     "dev": "vite --host 0.0.0.0",
     "build": "vite build",
-    "test": "node --test src/game.test.js src/simulation/*.test.js",
+    "test": "node --test src/game.test.js src/simulation/*.test.js src/render/*.test.js",
     "test:browser": "node scripts/browser-smoke.mjs",
     "deploy:pages": "npm run build && node scripts/publish-pages.mjs"
   },

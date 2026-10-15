@@ -1,10 +1,15 @@
 import "./style.css";
 import { Game } from "./simulation/engine.js";
+import { MenuScene } from "./render/menu-scene.js";
 import { View } from "./render/view.js";
 import { Controls } from "./ui/controls.js";
 import { Interface } from "./ui/interface.js";
 import { Audio } from "./ui/audio.js";
 const audio = new Audio();
+const menuScene = new MenuScene();
+document.addEventListener("pointerdown", (e) => {
+  if (!audio.unlocked && !e.target.closest("#music-toggle")) audio.unlock();
+});
 const view = new View(document.querySelector("#world"));
 const ui = new Interface(audio);
 const controls = new Controls(view, ui);
@@ -30,8 +35,14 @@ function frame(now) {
   requestAnimationFrame(frame);
   const dt = Math.min((now - last) / 1000, 0.25);
   last = now;
-  if (!game) {
-    view.renderer.render(view.scene, view.camera);
+  audio.update(
+    !game || ui.screen === "menu" ? "menu" : game.player.faction,
+    !!game &&
+      !game.paused &&
+      game.units.some((e) => e.owner === 0 && e.path.length),
+  );
+  if (!game || ui.screen === "menu") {
+    menuScene.update(dt, view.renderer);
     return;
   }
   controls.update(dt);
@@ -45,7 +56,7 @@ function frame(now) {
   } else accumulator = 0;
   for (const event of game.drain()) {
     view.effect(event);
-    audio.event(event, game.player.faction);
+    audio.event(event, game.player.faction, game.get(event.id)?.type);
     if (event.type === "replay_complete") ui.toast("Replay afgelopen");
     if (
       [
@@ -77,10 +88,5 @@ function frame(now) {
     ui.update();
   }
   view.update(dt);
-  if (!game.paused)
-    audio.update(
-      game.player.faction,
-      game.units.some((e) => e.owner === 0 && e.path.length),
-    );
 }
 requestAnimationFrame(frame);
