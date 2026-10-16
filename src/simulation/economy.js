@@ -80,6 +80,15 @@ export const economyMethods = {
       cliff(this.map, x, z)
     )
       return "Ongeldig terrein";
+    if (d.role === 'airfield') {
+      const samples = [];
+      for (const dx of [-55, 0, 55]) for (const dz of [-55, 0, 55]) {
+        if (water(this.map, x + dx, z + dz) || cliff(this.map, x + dx, z + dz))
+          return 'Het hele vliegveld moet op droog, vlak terrein passen';
+        samples.push(height(this.map, x + dx, z + dz));
+      }
+      if (Math.max(...samples) - Math.min(...samples) > 8) return 'Kies een vlakke bouwplek voor de startbaan';
+    }
     if (
       this.buildings.some(
         (b) => distance({ x, z }, b) < b.radius + d.radius + 5,
@@ -179,6 +188,7 @@ export const economyMethods = {
               e.x + e.radius + 9,
               e.z - e.radius - 9,
             );
+            if (units[q.type].kind === 'air' && units[q.type].ammo != null) this.baseAircraft(u, e);
             if (e.rallyPoint) u.order = { type: "move", ...e.rallyPoint };
             if (units[q.type].collector && !e.rallyPoint)
               u.order = { type: "harvest" };

@@ -8,7 +8,9 @@ import {
   upgrades,
   powers,
 } from "../config/index.js";
-import { Navigation } from "./world.js";
+import { Navigation, height, water, townLots, distance } from "./world.js";
+import { maps } from '../config/index.js';
+import { AIRFIELD, airfieldPoint } from '../config/airfield.js';
 const game = (faction = "usa") =>
   new Game({
     mode: "sandbox",
@@ -215,9 +217,112 @@ test("aircraft return to airfields, land and reload", () => {
     b = g.add("usa_airfield", 0, -180, -100),
     u = g.add("raptor", 0, b.x + 30, b.z);
   u.ammo = 0;
-  run(g, 4);
+  const states = new Set();
+  for (let i = 0; i < 400; i++) { g.step(0.1); states.add(u.flightState); }
   assert.equal(u.ammo, 4);
-  assert.equal(u.landed, false);
+  assert.equal(u.landed, true);
+  assert.equal(u.flightState, 'parked');
+  assert.ok(states.has('landing') && states.has('taxiIn') && states.has('rearming'));
+  assert.ok(distance(u, airfieldPoint(b, AIRFIELD.parkingX, AIRFIELD.parkingZ[u.parkingSlot])) < 2);
+});
+
+test('Highland Valley has four times the area, walkable hills and a town clear of spawns', () => {
+  const g = new Game({ map: 'huge', mode: 'sandbox', players: 8 });
+  assert.equal(g.map.size ** 2, maps.large.size ** 2 * 4);
+  assert.equal(townLots(g.map).length, 20);
+  assert.equal(g.buildings.filter(b => b.type.startsWith('town_')).length, 20);
+  for (const h of g.map.hills) assert.ok(height(g.map, h.x, h.z) > 60);
+  for (const lot of townLots(g.map)) {
+    assert.equal(height(g.map, lot.x, lot.z), 1);
+    assert.equal(water(g.map, lot.x, lot.z), false);
+    assert.ok(g.players.every(p => distance(lot, p.home) > 300));
+  }
+  const route = g.nav.path({ x: -1200, z: -500 }, { x: 1200, z: 500 });
+  assert.ok(route.length > 0, 'large-map navigation crosses the river');
+});
+
+test('Super Easy waits five minutes, sends two infantry, and never builds advanced weapons', () => {
+  const g = new Game({ map: 'medium', mode: 'sandbox', difficulty: 'super_easy' });
+  const p = g.players[1], initial = g.buildings.filter(b => b.owner === 1).length;
+  assert.equal(p.handicap, 0.3);
+  g.time = 299; g.ai();
+  assert.ok(g.units.filter(u => u.owner === 1).every(u => u.order.type !== 'attackMove'));
+  p.aiNext = 0; g.time = 301; g.ai();
+  assert.equal(g.units.filter(u => u.owner === 1 && u.order.type === 'attackMove').length, 2);
+  assert.equal(p.nextWave, 421);
+  g.time = 350; g.ai();
+  assert.equal(g.units.filter(u => u.owner === 1 && u.order.type === 'attackMove').length, 2);
+  assert.equal(g.buildings.filter(b => b.owner === 1).length, initial);
+  assert.ok(g.buildings.filter(b => b.owner === 1).flatMap(b => b.queue).every(q => q.type === 'red_guard'));
+});
+
+const sortieGame = () => {
+  const g = new Game({ mode: 'sandbox', players: 2, map: 'medium', difficulty: 'super_easy', cash: 100000 });
+  const b = g.add('usa_airfield', 0, -350, -200), u = g.add('raptor', 0, b.x, b.z);
+  g.baseAircraft(u, b);
+  const target = g.add('china_hq', 1, -150, -180);
+  target.hp = target.maxHp = 1000000;
+  g.command({ type: 'order', ids: [u.id], order: 'attack', targetId: target.id });
+  return { g, b, u, target };
+};
+test('aircraft taxi and take off, orbit, fire four times, land, reload and resume the same target', () => {
+  const { g, u, target } = sortieGame();
+  const states = new Set(), positions = [], shots = [];
+  let reloaded = false, previousAmmo = u.ammo;
+  for (let i = 0; i < 1200; i++) {
+    g.step(0.1); states.add(u.flightState);
+    const events = g.drain().filter(e => e.type === 'shot' && e.id === u.id);
+    for (const event of events) { shots.push(event); positions.push({ x: u.x, z: u.z }); }
+    if (previousAmmo === 0 && u.ammo === 4) reloaded = true;
+    previousAmmo = u.ammo;
+    if (shots.length === 5) break;
+  }
+  assert.equal(shots.length, 5);
+  assert.ok(reloaded);
+  assert.equal(u.order.targetId, target.id);
+  for (const state of ['taxiOut', 'takeoff', 'flying', 'returning', 'landing', 'taxiIn', 'rearming', 'parked']) assert.ok(states.has(state), state);
+  assert.ok(distance(positions[0], positions[1]) > 5, 'aircraft keeps moving between shots');
+  assert.ok(shots[4].time - shots[3].time > 3, 'no fifth shot before landing and rearming');
+});
+test('dead targets and stop orders return aircraft to a parked hangar', () => {
+  for (const cancel of ['dead', 'stop']) {
+    const { g, u, target } = sortieGame();
+    for (let i = 0; i < 200 && u.flightState !== 'flying'; i++) g.step(0.1);
+    if (cancel === 'dead') target.hp = 0;
+    else g.command({ type: 'order', ids: [u.id], order: 'stop' });
+    run(g, 45);
+    assert.equal(u.flightState, 'parked', cancel);
+    assert.equal(u.landed, true, cancel);
+    assert.equal(u.ammo, 4, cancel);
+  }
+});
+test('aircraft recover from destroyed/captured bases, and saved sorties resume deterministically', () => {
+  const { g, u, b } = sortieGame();
+  run(g, 10);
+  const replacement = g.add('usa_airfield', 0, -350, 80);
+  b.owner = 1;
+  g.step(0.1);
+  assert.equal(u.homeAirfieldId, replacement.id);
+  const saved = Game.load(g.save());
+  run(g, 20); run(saved, 20);
+  for (const key of ['x', 'z', 'ammo', 'flightState', 'homeAirfieldId', 'altitude']) assert.equal(saved.get(u.id)[key], u[key], key);
+  replacement.hp = 0;
+  u.ammo = 0;
+  g.step(0.1);
+  assert.equal(u.flightState, 'holding');
+  run(g, 2);
+  assert.ok(Number.isFinite(u.x) && Number.isFinite(u.z));
+});
+test('hangar slots are distinct, rotated with the airport, and reserve queued aircraft capacity', () => {
+  const g = game(), b = g.add('usa_airfield', 0, -200, -100);
+  b.rotation = Math.PI / 2;
+  const planes = Array.from({ length: 4 }, () => g.add('raptor', 0, b.x, b.z));
+  for (const u of planes) g.baseAircraft(u, b);
+  assert.equal(new Set(planes.map(u => `${u.x},${u.z}`)).size, 4);
+  assert.ok(g.command({ type: 'train', id: b.id, unit: 'raptor' }).includes('Hangars vol'));
+  planes[0].hp = 0;
+  assert.equal(g.command({ type: 'train', id: b.id, unit: 'raptor' }), null);
+  assert.ok(g.command({ type: 'train', id: b.id, unit: 'raptor' }).includes('Hangars vol'));
 });
 test("A* crosses land bridges and avoids blocked water and structures", () => {
   const map = { size: 600 },

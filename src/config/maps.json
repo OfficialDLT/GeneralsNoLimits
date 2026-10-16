@@ -13,6 +13,20 @@
     "weather": "rain",
     "description": "Uitbreiden naar olievelden"
   },
+  "huge": {
+    "name": "Highland Valley",
+    "size": 4000,
+    "seed": 74,
+    "weather": "clear",
+    "description": "4 × 4 km, glooiende heuvels en een bezetbaar stadje",
+    "hills": [
+      { "x": -950, "z": 900, "radius": 370, "height": 85 },
+      { "x": 850, "z": -900, "radius": 400, "height": 100 },
+      { "x": 900, "z": 1000, "radius": 330, "height": 70 },
+      { "x": -1150, "z": -950, "radius": 320, "height": 65 }
+    ],
+    "town": { "x": -620, "z": -100, "columns": 5, "rows": 4, "spacing": 64 }
+  },
   "large": {
     "name": "No Limits",
     "size": 2000,

@@ -345,9 +345,65 @@ try {
       );
     }),
   );
+  const expansion = await page.evaluate(() => {
+    const p = window.__probe;
+    p.activate(new p.Game({ mode: 'sandbox', faction: 'usa', players: 2, map: 'huge', difficulty: 'super_easy' }));
+    const g = p.game;
+    const b = g.add('usa_airfield', 0, g.player.home.x + 220, g.player.home.z + 180);
+    const u = g.add('raptor', 0, b.x, b.z);
+    g.baseAircraft(u, b);
+    const target = g.add('china_hq', 1, b.x - 240, b.z + 160);
+    target.hp = target.maxHp = 1000000;
+    p.controls.select([u.id]); p.ui.update();
+    g.command({ type: 'order', ids: [u.id], order: 'attack', targetId: target.id });
+    const states = new Set();
+    let shots = 0;
+    let liveAmmo = false;
+    for (let i = 0; i < 1000 && shots < 5; i++) {
+      g.step(0.1); states.add(u.flightState);
+      shots += g.drain().filter(e => e.type === 'shot' && e.id === u.id).length;
+      if (shots === 1) { p.ui.update(); liveAmmo ||= document.querySelector('#description').textContent.includes('Munitie 3/4'); }
+    }
+    g.command({ type: 'order', ids: [u.id], order: 'stop' });
+    for (let i = 0; i < 600 && u.flightState !== 'parked'; i++) { g.step(0.1); g.drain(); }
+    p.controls.select([u.id]);
+    p.view.focus.set(b.x - 10, 0, b.z + 15); p.view.zoom = 170; p.view.yaw = -0.55;
+    g.updateFog(); p.view.sync();
+    let runwayLength = 0;
+    p.view.template(b).traverse(mesh => {
+      if (!mesh.isMesh) return;
+      mesh.geometry.computeBoundingBox();
+      const bounds = mesh.geometry.boundingBox;
+      runwayLength = Math.max(runwayLength, bounds.max.z - bounds.min.z);
+    });
+    window.__airportPreview = { b, u };
+    return { size: g.map.size, town: g.buildings.filter(b => b.type.startsWith('town_')).length,
+      shots, states: [...states], landed: u.landed, ammo: u.ammo, runwayLength, liveAmmo,
+      clearedTrees: p.view.forestMatrices.every((m, i) =>
+        (m.elements[12] - b.x) ** 2 + (m.elements[14] - b.z) ** 2 >= (b.radius + 8) ** 2 || p.view.forestCleared[i]) };
+  });
+  assert.equal(expansion.size, 4000);
+  assert.equal(expansion.town, 20);
+  assert.equal(expansion.shots, 5);
+  assert.equal(expansion.landed, true);
+  assert.equal(expansion.ammo, 4);
+  assert.equal(expansion.liveAmmo, true);
+  assert.equal(expansion.clearedTrees, true);
+  assert.ok(expansion.runwayLength >= 110);
+  for (const state of ['takeoff', 'landing', 'rearming']) assert.ok(expansion.states.includes(state), state);
+  await page.waitForTimeout(300);
+  await page.screenshot({ path: 'docs/airport-update.png' });
+  await page.evaluate(() => {
+    const p = window.__probe, town = p.game.map.town;
+    p.view.focus.set(town.x, 0, town.z + 60); p.view.zoom = 430; p.view.yaw = 0;
+    // Reveal only for the development screenshot; the shipped game retains fog of war.
+    p.game.explored.fill(1); p.game.visible.fill(1); p.view.sync(); p.game.paused = true;
+  });
+  await page.waitForTimeout(150);
+  await page.screenshot({ path: 'docs/highland-town.png' });
   assert.deepEqual(errors, []);
   console.log(
-    "PASS browser: menus, 3 factions, 8-player start, camera/edge movement, group/double-click/control groups, Force Fire, queues/pause, rally, rotated placement, save-load and UI",
+    "PASS browser: menus, 174 audio assets, 3 factions, 8-player start, camera/controls, queues, placement, saves, 4km town map and full airport sortie/rearm/return cycle",
   );
 } finally {
   await browser?.close();

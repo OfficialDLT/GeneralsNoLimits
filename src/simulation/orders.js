@@ -56,29 +56,8 @@ export const ordersMethods = {
           if (p.faction === "china") u.status.propaganda = 1;
         }
     if (e.veterancy === 3) e.hp = Math.min(e.maxHp, e.hp + 3 * dt);
-    if (e.ammo === 0) {
-      e.landed = false;
-      const pad = this.buildings
-        .filter(
-          (b) =>
-            b.owner === e.owner &&
-            buildings[b.type].role === "airfield" &&
-            b.progress === 1,
-        )
-        .sort((a, b) => distance(a, e) - distance(b, e))[0];
-      if (pad) {
-        this.go(e, { x: pad.x + pad.radius + 8, z: pad.z }, dt);
-        if (distance(e, pad) < pad.radius + 25) {
-          e.landed = true;
-          e.rearm = (e.rearm || 0) + dt;
-          if (e.rearm > 3) {
-            e.ammo = d.ammo;
-            e.landed = false;
-            e.rearm = 0;
-            e.hp = Math.min(e.maxHp, e.hp + 100);
-          }
-        }
-      }
+    if (d.kind === 'air' && d.ammo != null) {
+      this.stepAircraft(e, dt);
       return;
     }
     const o = e.order,

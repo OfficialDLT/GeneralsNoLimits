@@ -152,11 +152,11 @@ export class Interface {
     )
       .map(
         ([id, m]) =>
-          `<option value="${id}" ${id === "medium" ? "selected" : ""}>${m.name} (${m.size}m)</option>`,
+          `<option value="${id}" ${id === "huge" ? "selected" : ""}>${m.name} (${m.size}m)</option>`,
       )
       .join(
         "",
-      )}</select></label><label>Moeilijkheid<select id="difficulty"><option value="easy">Easy</option><option value="medium" selected>Medium</option><option value="hard">Hard</option><option value="brutal">Brutal</option></select></label><label>Spelers<input id="players" type="number" min="${mode === "sandbox" ? 1 : 2}" max="8" value="${mode === "sandbox" ? 1 : 2}"></label><label>Startgeld<input id="cash" type="number" min="1000" max="1000000" step="1000" value="8000"></label><label>Handicap<select id="handicap"><option value="1">100%</option><option value="0.75">75% damage</option><option value="0.5">50% damage</option></select></label><label>Teams<select id="teams"><option value="0">Iedereen tegen iedereen</option><option value="1">Speler 2 is bondgenoot (min. 3)</option></select></label></div><p>Extra spelers zijn AI. ${mode === "sandbox" ? "Geen win/verlies; één speler is mogelijk." : "Vernietig alle vijandelijke gebouwen."}</p><button id="map-import">Kaart-JSON laden <span>size, seed, weather, name</span></button><button id="map-export">Kaart-JSON exporteren</button><button id="begin" class="primary">Start operatie</button><button id="back">Terug</button></div>`;
+      )}</select></label><label>Moeilijkheid<select id="difficulty"><option value="super_easy" selected>Super Easy · oefenen</option><option value="easy">Easy</option><option value="medium">Medium</option><option value="hard">Hard</option><option value="brutal">Brutal</option></select></label><label>Spelers<input id="players" type="number" min="${mode === "sandbox" ? 1 : 2}" max="8" value="${mode === "sandbox" ? 1 : 2}"></label><label>Startgeld<input id="cash" type="number" min="1000" max="1000000" step="1000" value="8000"></label><label>Handicap<select id="handicap"><option value="1">100%</option><option value="0.75">75% damage</option><option value="0.5">50% damage</option></select></label><label>Teams<select id="teams"><option value="0">Iedereen tegen iedereen</option><option value="1">Speler 2 is bondgenoot (min. 3)</option></select></label></div><p>Extra spelers zijn AI. ${mode === "sandbox" ? "Geen win/verlies; één speler is mogelijk." : "Vernietig alle vijandelijke gebouwen."}</p><button id="map-import">Kaart-JSON laden <span>size, seed, weather, name</span></button><button id="map-export">Kaart-JSON exporteren</button><button id="begin" class="primary">Start operatie</button><button id="back">Terug</button></div>`;
     const update = () => {
       $("#subfaction").innerHTML = Object.entries(
         factions[$("#faction").value].subs,
@@ -170,8 +170,9 @@ export class Interface {
     update();
     this.customMap = null;
     $("#map-import").onclick = () => this.file("map");
+    $("#map").onchange = () => { this.customMap = null; };
     $("#map-export").onclick = () =>
-      this.download(maps[$("#map").value], "generals-map.json");
+      this.download(this.customMap || maps[$("#map").value], "generals-map.json");
     $("#begin").onclick = () => {
       this.audio.unlock();
       this.start({
@@ -334,13 +335,27 @@ export class Interface {
           if (
             !Number.isFinite(data.size) ||
             data.size < 400 ||
-            data.size > 2400 ||
+            data.size > 4000 ||
             !Number.isFinite(data.seed) ||
             !["clear", "rain", "snow"].includes(data.weather)
           )
             throw Error(
-              "Kaart vereist size 400–2400, seed en weather clear/rain/snow",
+              "Kaart vereist size 400–4000, seed en weather clear/rain/snow",
             );
+          if (data.hills !== undefined && (!Array.isArray(data.hills) || data.hills.length > 32 || data.hills.some(h =>
+            !h || ![h.x, h.z, h.radius, h.height].every(Number.isFinite) ||
+            Math.abs(h.x) > data.size / 2 || Math.abs(h.z) > data.size / 2 ||
+            h.radius < 20 || h.radius > data.size || h.height < 0 || h.height > 250)))
+            throw Error('Ongeldige heuvels: maximaal 32, met geldige x, z, radius en height');
+          if (data.town !== undefined) {
+            const t = data.town;
+            if (!t || ![t.x, t.z, t.spacing].every(Number.isFinite) ||
+              !Number.isInteger(t.columns) || !Number.isInteger(t.rows) ||
+              t.columns < 1 || t.columns > 8 || t.rows < 1 || t.rows > 8 || t.spacing < 48 || t.spacing > 128 ||
+              Math.abs(t.x) + (t.columns + 1) * t.spacing / 2 > data.size / 2 ||
+              Math.abs(t.z) + (t.rows + 1) * t.spacing / 2 > data.size / 2)
+              throw Error('Ongeldig stadje: maximaal 8 × 8 blokken binnen de kaart');
+          }
           this.customMap = {
             ...data,
             name: String(data.name || "Custom map").slice(0, 80),
@@ -396,7 +411,7 @@ export class Interface {
       e?.owner === 0
         ? e.kind === "building"
           ? `HP ${Math.ceil(e.hp)}/${e.maxHp} · ${e.progress < 1 ? "Bouw bezig" : "Rechts op kaart: verzamelvlag"}`
-          : `${units[e.type]?.armor} · ${["Recruit", "Veteran", "Elite", "Heroic"][e.veterancy]}`
+          : `${units[e.type]?.armor} · ${["Recruit", "Veteran", "Elite", "Heroic"][e.veterancy]}${e.ammo != null ? ` · Munitie ${e.ammo}/4 · ${{ parked: 'In hangar', rearming: 'Herladen', taxiOut: 'Taxiën', takeoff: 'Opstijgen', flying: 'In vlucht', returning: 'Terug naar basis', landing: 'Landen', taxiIn: 'Naar hangar', holding: 'Wachten op vliegveld' }[e.flightState] || 'In vlucht'}` : ''}`
         : "Selecteer je bouwer of hoofdkwartier.";
     if (e?.owner === 0) {
       const d = def(e);
@@ -607,6 +622,8 @@ export class Interface {
       p.upgrades,
       p.mode,
       e?.passengers.length,
+      e?.ammo,
+      e?.flightState,
       p.cash > 100,
       g.buildings
         .filter((b) => b.owner === 0 && b.progress === 1)

@@ -14,12 +14,60 @@ export function cliff(map, x, z) {
 export function height(map, x, z) {
   if (water(map, x, z)) return -3;
   if (cliff(map, x, z)) return 24;
-  return 2 * Math.sin(x / 100) * Math.sin(z / 110);
+  let elevation = 2 * Math.sin(x / 100) * Math.sin(z / 110);
+  for (const hill of map.hills || []) {
+    const t = Math.min(1, Math.hypot(x - hill.x, z - hill.z) / hill.radius);
+    elevation += hill.height * (1 - t * t) ** 2;
+  }
+  // Level the town square and streets without changing the surrounding hills.
+  if (map.town && Math.abs(x - map.town.x) < (map.town.columns + 1) * map.town.spacing / 2 &&
+      Math.abs(z - map.town.z) < (map.town.rows + 1) * map.town.spacing / 2) return 1;
+  return elevation;
+}
+export function townLots(map) {
+  if (!map.town) return [];
+  const { x, z, columns, rows, spacing } = map.town;
+  return Array.from({ length: columns * rows }, (_, i) => ({
+    x: x + (i % columns - (columns - 1) / 2) * spacing,
+    z: z + (Math.floor(i / columns) - (rows - 1) / 2) * spacing,
+    type: ['town_house', 'town_shop', 'town_apartment'][i % 3],
+  }));
+}
+class Frontier {
+  constructor() { this.items = []; this.sequence = 0; }
+  get length() { return this.items.length; }
+  before(a, b) { return a.f < b.f || (a.f === b.f && a.sequence < b.sequence); }
+  push(value) {
+    value.sequence = this.sequence++;
+    const a = this.items;
+    a.push(value);
+    let i = a.length - 1;
+    while (i > 0) {
+      const parent = (i - 1) >> 1;
+      if (!this.before(a[i], a[parent])) break;
+      [a[i], a[parent]] = [a[parent], a[i]]; i = parent;
+    }
+  }
+  pop() {
+    const a = this.items, first = a[0], last = a.pop();
+    if (a.length) {
+      a[0] = last;
+      let i = 0;
+      while (true) {
+        let best = i, left = i * 2 + 1, right = left + 1;
+        if (left < a.length && this.before(a[left], a[best])) best = left;
+        if (right < a.length && this.before(a[right], a[best])) best = right;
+        if (best === i) break;
+        [a[i], a[best]] = [a[best], a[i]]; i = best;
+      }
+    }
+    return first;
+  }
 }
 export class Navigation {
   constructor(map) {
     this.map = map;
-    this.cell = 12;
+    this.cell = Math.max(12, Math.ceil(map.size / 200));
     this.n = Math.ceil(map.size / this.cell);
     this.blocked = new Set();
   }
@@ -75,16 +123,13 @@ export class Navigation {
     const key = (i, j) => i + j * this.n,
       startKey = key(si, sj),
       goal = key(ti, tj);
-    const open = [{ i: si, j: sj, key: startKey, f: 0 }],
+    const open = new Frontier(),
       g = new Map([[startKey, 0]]),
       parents = new Map(),
       closed = new Set();
-    let iterations = 0;
-    while (open.length && iterations++ < 10000) {
-      let best = 0;
-      for (let i = 1; i < open.length; i++)
-        if (open[i].f < open[best].f) best = i;
-      const cur = open.splice(best, 1)[0];
+    open.push({ i: si, j: sj, key: startKey, f: 0 });
+    while (open.length && closed.size < this.n * this.n) {
+      const cur = open.pop();
       if (cur.key === goal) {
         const route = [];
         let k = goal;

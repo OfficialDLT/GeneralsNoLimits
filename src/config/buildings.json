@@ -80,19 +80,21 @@
     "hotkey": "r"
   },
   "usa_airfield": {
-    "name": "Airfield",
+    "name": "Advanced Airfield",
     "faction": "usa",
     "role": "airfield",
     "cost": 1000,
     "hp": 1400,
-    "radius": 20,
+    "radius": 78,
     "seconds": 6,
     "powerUse": 3,
     "power": 0,
     "population": 0,
-    "prerequisites": ["factory"],
-    "sight": 140,
-    "description": "Airfield",
+    "prerequisites": [
+      "factory"
+    ],
+    "sight": 180,
+    "description": "Vier hangars, verkeerstoren en startbaan; vier vliegtuigen per vliegveld",
     "hotkey": "y"
   },
   "usa_tech": {
@@ -252,19 +254,21 @@
     "hotkey": "r"
   },
   "china_airfield": {
-    "name": "Airfield",
+    "name": "Advanced Airfield",
     "faction": "china",
     "role": "airfield",
     "cost": 1000,
     "hp": 1400,
-    "radius": 20,
+    "radius": 78,
     "seconds": 6,
     "powerUse": 3,
     "power": 0,
     "population": 0,
-    "prerequisites": ["factory"],
-    "sight": 140,
-    "description": "Airfield",
+    "prerequisites": [
+      "factory"
+    ],
+    "sight": 180,
+    "description": "Vier hangars, verkeerstoren en startbaan; vier vliegtuigen per vliegveld",
     "hotkey": "y"
   },
   "china_tech": {
@@ -704,20 +708,21 @@
     "prerequisites": []
   },
   "neutral_airfield": {
-    "name": "Tech Airfield",
+    "name": "Neutral Airport",
     "faction": "neutral",
     "role": "airfield",
     "cost": 0,
     "hp": 1800,
-    "radius": 16,
-    "sight": 100,
+    "radius": 78,
+    "sight": 180,
     "seconds": 0,
     "powerUse": 0,
     "power": 0,
     "population": 0,
     "capacity": 0,
     "income": 0,
-    "prerequisites": []
+    "prerequisites": [],
+    "description": "Vier hangars, verkeerstoren en startbaan; vier vliegtuigen per vliegveld"
   },
   "refinery": {
     "name": "Oil Refinery",
@@ -732,6 +737,54 @@
     "power": 0,
     "population": 0,
     "capacity": 0,
+    "income": 0,
+    "prerequisites": []
+  },
+  "town_house": {
+    "name": "Woonhuis",
+    "faction": "neutral",
+    "role": "civilian",
+    "cost": 0,
+    "hp": 1200,
+    "radius": 16,
+    "sight": 100,
+    "seconds": 0,
+    "powerUse": 0,
+    "power": 0,
+    "population": 0,
+    "capacity": 4,
+    "income": 0,
+    "prerequisites": []
+  },
+  "town_shop": {
+    "name": "Dorpswinkel",
+    "faction": "neutral",
+    "role": "civilian",
+    "cost": 0,
+    "hp": 1500,
+    "radius": 16,
+    "sight": 100,
+    "seconds": 0,
+    "powerUse": 0,
+    "power": 0,
+    "population": 0,
+    "capacity": 6,
+    "income": 0,
+    "prerequisites": []
+  },
+  "town_apartment": {
+    "name": "Appartementen",
+    "faction": "neutral",
+    "role": "civilian",
+    "cost": 0,
+    "hp": 2400,
+    "radius": 16,
+    "sight": 100,
+    "seconds": 0,
+    "powerUse": 0,
+    "power": 0,
+    "population": 0,
+    "capacity": 10,
     "income": 0,
     "prerequisites": []
   }

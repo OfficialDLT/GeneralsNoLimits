@@ -2,6 +2,8 @@ import { economyMethods } from "./economy.js";
 import { combatMethods } from "./combat.js";
 import { ordersMethods } from "./orders.js";
 import { aiMethods } from "./ai.js";
+import { aircraftMethods } from './aircraft.js';
+import { AIRFIELD } from '../config/airfield.js';
 import { visionMethods } from "./vision.js";
 import {
   factions,
@@ -15,7 +17,7 @@ import {
   definition as def,
 } from "../config/index.js";
 import { SpatialHash, Pool } from "./spatial.js";
-import { Navigation, distance, clamp, water, cliff, height } from "./world.js";
+import { Navigation, distance, clamp, water, cliff, height, townLots } from "./world.js";
 const alive = (e) => e.hp > 0;
 export class Game {
   constructor(settings = {}) {
@@ -106,7 +108,7 @@ export class Game {
         earned: 0,
         incomeSample: 0,
         mode: "search",
-        handicap: id === 0 ? Number(this.settings.handicap) : 1,
+        handicap: id === 0 ? Number(this.settings.handicap) : this.settings.difficulty === 'super_easy' ? 0.3 : 1,
         eliminated: false,
       };
     });
@@ -196,6 +198,14 @@ export class Game {
     ];
     for (const [type, x, z] of neutral) {
       this.add(type, -1, x, z, true);
+    }
+    for (const lot of townLots(this.map)) this.add(lot.type, -1, lot.x, lot.z, true);
+    if (this.map.town) {
+      for (let i = 0; i < 6; i++)
+        this.add('civilian_unit', -1, this.map.town.x + i * 12, this.map.town.z);
+      for (const side of [-1, 1]) this.supplies.push({
+        id: this.nextId++, x: side * this.map.size * 0.2, z: this.map.size * 0.2, amount: 40000,
+      });
     }
     this.add("civilian_unit", -1, 40, 70); // explicit harmless civilian type below
     this.crates.push(
@@ -326,6 +336,12 @@ export class Game {
           return "Geen geldig productiegebouw";
         if (!this.requirements(owner, d)) return "Vereiste gebouwen ontbreken";
         if (e.queue.length >= 8) return "Wachtrij vol";
+        if (d.kind === 'air' && d.ammo != null) {
+          const capacity = this.buildings.filter(b => b.owner === owner && b.progress === 1 && buildings[b.type].role === 'airfield').length * AIRFIELD.capacity;
+          const reserved = this.units.filter(u => u.owner === owner && units[u.type]?.ammo != null).length +
+            this.buildings.filter(b => b.owner === owner).reduce((n, b) => n + b.queue.filter(q => q.kind === 'unit' && units[q.type]?.ammo != null).length, 0);
+          if (reserved >= capacity) return 'Hangars vol: bouw een extra vliegveld (vier vliegtuigen per basis)';
+        }
         if (
           d.hero &&
           (this.units.some((u) => u.owner === owner && u.type === c.unit) ||
@@ -772,6 +788,7 @@ Object.assign(
   economyMethods,
   combatMethods,
   ordersMethods,
+  aircraftMethods,
   aiMethods,
   visionMethods,
 );

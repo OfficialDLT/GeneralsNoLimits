@@ -10,11 +10,15 @@ De workflow `Publish browser game` bouwt en publiceert volgende wijzigingen aan 
 
 ## Windows: dubbelklikken
 
-Download [releases/GeneralsNoLimits.exe](https://github.com/OfficialDLT/GeneralsNoLimits/blob/main/releases/GeneralsNoLimits.exe) met **Download raw file** en dubbelklik. De ingebouwde game opent in je standaardbrowser. Je hebt geen terminal, Node.js of losse spelbestanden nodig. De executable is Windows x64, niet digitaal ondertekend, en wordt vanuit Linux gebouwd; Windows-browseropening moet op Windows worden getest.
+Download [releases/GeneralsNoLimits.exe](https://github.com/OfficialDLT/GeneralsNoLimits/blob/main/releases/GeneralsNoLimits.exe) met **Download raw file** en dubbelklik. De ingebouwde game opent in je standaardbrowser. Je hebt geen terminal, Node.js of losse spelbestanden nodig. De executable is Windows x64 en niet digitaal ondertekend.
 
 De lokale server luistert alleen op `127.0.0.1` op poort 41731, met een vrije poort als fallback. De vaste voorkeurpoort houdt browseropties bij volgende starts beschikbaar. Sluit alle spelpagina's; de server stopt na ongeveer twee minuten. Download na een update de nieuwe executable en vervang de vorige. Je oude executable heeft geen automatische updater. De SHA-256 staat in `releases/SHA256SUMS.txt`.
 
 ## Snel spelen
+
+Nieuw: **Highland Valley** is 4 × 4 km, met glooiende heuvels, extra supplies en een stadje met twintig bezetbare huizen, winkels en appartementen. Kies **Super Easy** om rustig te oefenen: vijf minuten voorbereiding, maximaal twee infanteristen per aanval, twee minuten tussen aanvallen en vijandelijke schade op 30%. Deze AI bouwt geen tech of superwapens.
+
+Het **Advanced Airfield** heeft vier hangars, een verkeerstoren, taxibanen en een lange start-/landingsbaan. Elk vliegveld biedt plaats aan vier straaljagers of bommenwerpers. Ze taxiën naar de baan, stijgen op en cirkelen boven hun doel. Na vier schoten landen ze, taxiën naar hun hangar en herladen drie seconden. Daarna hervatten ze dezelfde aanval als het doel nog leeft. Zonder opdracht, na Stop of na vernietiging van het doel keren ze terug en parkeren. Bij verlies van hun vliegveld wijken ze uit naar een eigen vliegveld met ruimte. Helikopters behouden hun bestaande bediening.
 
 1. Kies **Sandbox** om bediening en een factie te ontdekken, of **Skirmish** voor een echte tegenstander.
 2. Kies USA, China of GLA, een generaal, kaart, startgeld en moeilijkheid. Extra spelers zijn lokale AI, maximaal acht totaal. Teams kunnen speler 2 bondgenoot maken.
@@ -67,7 +71,7 @@ Als jouw npm het postinstall-script van esbuild blokkeert: `npm install-scripts 
 - `src/config/buildings.json`: kosten, bouwtijd, radius, power, capaciteit, economie, defenses en superwapens.
 - `src/config/upgrades.json`, `powers.json`, `factions.json`: effecten, cooldowns, kleuren, generaalsvarianten en voice lines.
 - `src/config/combat.json`: armor/damage-matrix, veterancy en promotiedrempels.
-- `src/config/maps.json`, `missions.json`: kaartpresets en campaign-briefings/doelen. Via Skirmish kun je een kaart-JSON laden/exporteren: `name`, `size` (400–2400), `seed`, `weather` (`clear`, `rain`, `snow`). Terreinpatronen zijn procedureel, geen vrije sculpting-editor.
+- `src/config/maps.json`, `missions.json`: kaartpresets en campaign-briefings/doelen. Via Skirmish kun je een kaart-JSON laden/exporteren: `name`, `size` (400–4000), `seed`, `weather` (`clear`, `rain`, `snow`), optionele `hills` en `town`. Terreinpatronen zijn procedureel, geen vrije sculpting-editor.
 
 De simulatie is los van Three.js: `simulation/engine.js` beheert state en opdrachten, met aparte systemen voor `economy`, `combat`, `orders`, `ai`, `vision`, `world` (A*) en `spatial` (spatial hash en pooling). `render/` bevat de bestaande modelvormen en de 3D-weergave; `ui/` bevat besturing, menu's, command bar en audio. De oude zuivere `game.js`-helpers blijven behouden voor compatibiliteit met het eerste prototype.
 
@@ -92,6 +96,8 @@ sha256sum releases/GeneralsNoLimits.exe > releases/SHA256SUMS.txt
 ```
 
 De launcher embedt de Vite-build en gebruikt alleen Go's standaardbibliotheek. Wijzigingen in JSON/config worden meegenomen bij opnieuw bouwen. De bestaande executable verandert pas wanneer je hem opnieuw bouwt.
+
+Op Windows met Go op je PATH: `powershell -File scripts/build-windows.ps1`. Het script bouwt het spel opnieuw, vervangt uitsluitend de gegenereerde `launcher/web`-map, draait de launchertests en werkt de executable en SHA-256 bij.
 
 ## Presentatie-update 0.3
 

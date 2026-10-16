@@ -1,6 +1,7 @@
 import * as THREE from "three";
 import { mergeGeometries } from "three/addons/utils/BufferGeometryUtils.js";
 import { applyWeathering } from './materials.js';
+import { AIRFIELD } from '../config/airfield.js';
 const neutralMaterial = new THREE.MeshStandardMaterial({
   vertexColors: true,
   roughness: 0.78,
@@ -479,7 +480,92 @@ function windows(g, p, w, d, y = 5) {
     box(g, 2, 0.2, 0.3, p.dark, x, y - 1, -d / 2 - 0.1);
   }
 }
+function airport(p) {
+  const g = new THREE.Group();
+  box(g, 86, 0.8, 116, 0x777568, -7, 0.4);
+  box(g, 58, 0.12, 105, 0x525957, -15, 0.88);
+  box(g, 21, 0.16, 108, 0x363d3c, AIRFIELD.runwayX, 1);
+  for (const x of [AIRFIELD.runwayX - 10, AIRFIELD.runwayX + 10]) {
+    box(g, 0.35, 0.05, 107, 0xd6d0b5, x, 1.11);
+    for (let z = -50; z <= 50; z += 10) {
+      box(g, 0.65, 0.2, 0.65, 0xb9edf0, x + Math.sign(x - AIRFIELD.runwayX), 1.25, z);
+    }
+  }
+  for (let z = -30; z <= 30; z += 10) box(g, 0.6, 0.06, 4, 0xe4e0ce, AIRFIELD.runwayX, 1.12, z);
+  for (const z of [-44, 44])
+    for (const dx of [-7, -5, -3, 3, 5, 7]) box(g, 1.2, 0.06, 5, 0xdedac9, AIRFIELD.runwayX + dx, 1.12, z);
+  // Runway designation 18/36, built from painted segments rather than a font dependency.
+  const segments = { 1: [1, 2], 3: [0, 1, 2, 3, 6], 6: [0, 2, 3, 4, 5, 6], 8: [0, 1, 2, 3, 4, 5, 6] };
+  const lines = [[0, -2, 2.5, 0.4], [1.2, -1, 0.4, 2], [1.2, 1, 0.4, 2], [0, 2, 2.5, 0.4], [-1.2, 1, 0.4, 2], [-1.2, -1, 0.4, 2], [0, 0, 2.5, 0.4]];
+  for (const [text, z] of [['18', -35], ['36', 35]]) {
+    const marking = new THREE.Group();
+    [...text].forEach((digit, i) => {
+      for (const n of segments[digit]) {
+        const [x, dz, w, depth] = lines[n];
+        box(marking, w, 0.06, depth, 0xdedac9, x + (i - 0.5) * 4, 1.12, dz);
+      }
+    });
+    marking.position.set(AIRFIELD.runwayX, 0, z);
+    if (z > 0) marking.rotation.y = Math.PI;
+    g.add(marking);
+  }
+  box(g, 0.3, 0.05, 94, 0xc8a64f, 0, 1.04);
+  for (const z of AIRFIELD.parkingZ) {
+    box(g, 17, 7, 19, p.body, -36, 4.2, z);
+    const roof = part(g, new THREE.CylinderGeometry(9.7, 9.7, 18, 18, 1, false, 0, Math.PI), 0x8c9087, -36, 7.7, z);
+    roof.rotation.z = Math.PI / 2;
+    box(g, 0.3, 6.5, 16, p.dark, -27.3, 4.1, z);
+    for (let y = 1.3; y < 7; y += 0.8) box(g, 0.15, 0.12, 15.5, 0x7e8279, -27, y, z);
+    box(g, 0.5, 0.6, 18, p.trim, -26.8, 7.5, z);
+    box(g, 23, 0.07, 0.24, 0xc8a64f, -12, 1.05, z);
+    for (const dz of [-8.5, 8.5]) box(g, 17, 0.06, 0.2, 0xc9c2a5, -16, 1.04, z + dz);
+    box(g, 0.7, 0.35, 0.7, 0x8bcc99, -26.4, 7, z - 7);
+  }
+  // Tower, observation cabin, roof equipment, antenna and fuel tanks.
+  wedge(g, 13, 17, 14, p.light, -9, 9.5, -45);
+  box(g, 16, 1, 17, p.dark, -9, 18.5, -45);
+  box(g, 12, 6, 12, p.dark, -9, 22, -45);
+  box(g, 12.2, 3.5, 12.2, p.glass, -9, 22.5, -45);
+  for (const x of [-15, -9, -3]) box(g, 0.5, 6, 12.4, p.dark, x, 22, -45);
+  box(g, 15, 0.8, 15, p.light, -9, 25.4, -45);
+  cylinder(g, 0.15, 10, p.dark, -9, 30.4, -45, 0.15, 6);
+  sphere(g, 0.5, 0xdd6355, -9, 35.5, -45);
+  for (const z of [43, 51]) {
+    const tank = cylinder(g, 2.5, 12, 0xb1afa0, -13, 3.8, z, 2.5, 12);
+    tank.rotation.z = Math.PI / 2;
+    for (const x of [-17, -9]) box(g, 1, 3, 4, p.dark, x, 2.1, z);
+  }
+  return g;
+}
+function townBuilding(type, p) {
+  const g = new THREE.Group(), floors = type === 'town_apartment' ? 3 : type === 'town_shop' ? 1 : 2;
+  const w = type === 'town_apartment' ? 24 : 19, depth = 20;
+  box(g, w + 3, 0.7, depth + 3, 0x888378);
+  box(g, w, floors * 5, depth, type === 'town_shop' ? 0xb4a685 : 0xc9bb9d, 0, 0.8 + floors * 2.5);
+  for (let f = 0; f < floors; f++) {
+    windows(g, p, w, depth, 3.7 + f * 5);
+    box(g, w + 0.4, 0.35, depth + 0.4, 0x8c8777, 0, 1 + f * 5);
+  }
+  if (type === 'town_house') {
+    for (const side of [-1, 1]) {
+      const roof = box(g, w * 0.59, 0.65, depth + 3, 0x865d45, side * w * 0.25, 12.5);
+      roof.rotation.z = -side * 0.4;
+    }
+    box(g, 2, 5, 2, 0x8d806f, 5, 13, 4);
+  } else {
+    box(g, w + 1, 0.7, depth + 1, 0x746f60, 0, floors * 5 + 1.3);
+    box(g, 5, 1.5, 4, 0x969787, 4, floors * 5 + 2.4, 3);
+  }
+  box(g, 3, 4.5, 0.25, p.dark, 0, 3, -depth / 2 - 0.2);
+  if (type === 'town_shop') {
+    box(g, w + 1, 0.5, 5, 0x707d65, 0, 5.7, -depth / 2 - 2);
+    for (const x of [-7, 7]) box(g, 0.3, 5, 0.3, p.dark, x, 3, -depth / 2 - 4);
+  }
+  return g;
+}
 function building(type, d, p) {
+  if (d.role === 'airfield') return airport(p);
+  if (type.startsWith('town_')) return townBuilding(type, p);
   const g = new THREE.Group(),
     f = d.faction,
     role = d.role;
@@ -642,7 +728,7 @@ export function entityModel(type, d, color = "#63b9ff") {
       : d.kind === "infantry" || type === "civilian_unit"
         ? infantry(type, d, p)
         : vehicle(type, d, p);
-  if (d.role) g.rotation.y = Math.PI;
+  if (d.role && d.role !== 'airfield') g.rotation.y = Math.PI;
   return bake(g);
 }
 // Retained primitive API for scenery and older prototype integrations.

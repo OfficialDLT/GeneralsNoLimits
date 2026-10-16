@@ -7,7 +7,7 @@ import {
   buildings,
 } from "../config/index.js";
 import { height, water, cliff, clamp } from "../simulation/world.js";
-import { entityModel, box } from "./models.js";
+import { entityModel, box, bake } from "./models.js";
 export class View {
   constructor(canvas) {
     this.canvas = canvas;
@@ -103,7 +103,8 @@ export class View {
     const map = game.map;
     this.terrainTexture.repeat.set(map.size / 65, map.size / 65);
     this.scene.fog = new THREE.Fog("#91a99a", 700, map.size * 2);
-    const geometry = new THREE.PlaneGeometry(map.size, map.size, 128, 128);
+    const segments = Math.min(256, Math.max(128, Math.ceil(map.size / 16)));
+    const geometry = new THREE.PlaneGeometry(map.size, map.size, segments, segments);
     geometry.rotateX(-Math.PI / 2);
     const positions = geometry.attributes.position;
     const colors = [];
@@ -156,6 +157,35 @@ export class View {
     this.ground.userData.owned = true;
     this.ground.receiveShadow = true;
     this.root.add(this.ground);
+    if (map.town) {
+      const { x, z, columns, rows, spacing } = map.town;
+      const streets = new THREE.Group();
+      for (let i = 0; i <= columns; i++) {
+        const sx = x + (i - columns / 2) * spacing;
+        box(streets, 12, 0.16, rows * spacing + 12, 0x505450, sx, 1.12, z);
+        for (let j = -rows * spacing / 2; j < rows * spacing / 2; j += 16)
+          box(streets, 0.4, 0.03, 5, 0xc8bf9e, sx, 1.22, z + j);
+      }
+      for (let i = 0; i <= rows; i++) {
+        const sz = z + (i - rows / 2) * spacing;
+        box(streets, columns * spacing + 12, 0.17, 12, 0x505450, x, 1.14, sz);
+        for (let j = -columns * spacing / 2; j < columns * spacing / 2; j += 16)
+          box(streets, 5, 0.03, 0.4, 0xc8bf9e, x + j, 1.24, sz);
+        for (let j = 0; j < columns; j++) {
+          const sx = x + (j - (columns - 1) / 2) * spacing;
+          box(streets, 0.4, 8, 0.4, 0x555a56, sx, 5, sz + 9);
+          box(streets, 0.6, 0.35, 3.5, 0xc5bb8d, sx, 9.1, sz + 8);
+        }
+      }
+      const streetMesh = bake(streets);
+      streetMesh.traverse(o => {
+        if (!o.isMesh) return;
+        o.material = new THREE.MeshStandardMaterial({ vertexColors: true, roughness: 1 });
+        o.material.onBeforeCompile = material.onBeforeCompile;
+        o.userData.owned = true;
+      });
+      this.root.add(streetMesh);
+    }
     // Bridge decks connect the two banks; water and cliffs participate in navigation.
     for (const z of [-map.size * 0.065, 0, map.size * 0.065]) {
       const bridge = new THREE.Group();
@@ -203,6 +233,8 @@ export class View {
     }
     this.forest = forest;
     this.forestMatrices = [];
+    this.forestCleared = new Uint8Array(count);
+    this.treeClearings = new Set();
     for (let i = 0; i < count; i++) {
       const m = new THREE.Matrix4();
       forest.getMatrixAt(i, m);
@@ -335,7 +367,7 @@ export class View {
         e.x,
         height(g.map, e.x, e.z) +
           (d.kind === "air"
-            ? 28 + (e.ammo === 0 ? 0 : Math.sin(g.time) * 0.5)
+            ? (e.altitude ?? 28) + (e.landed ? 0 : Math.sin(g.time) * 0.3)
             : 0),
         e.z,
       );
@@ -348,7 +380,7 @@ export class View {
           : e.kind === "building"
             ? Math.max(0.15, e.progress)
             : 1);
-      mesh.rotation.z = e.hp <= 0 ? 0.2 : damaged < 0.3 ? 0.04 : 0;
+      mesh.rotation.z = e.hp <= 0 ? 0.2 : d.kind === 'air' ? (e.bank || 0) : damaged < 0.3 ? 0.04 : 0;
       mesh.visible = !e.inside && (e.owner === 0 || g.isVisible(e));
       record.ring.visible = this.selected.includes(e.id) && e.hp > 0;
       record.ring.material.color.set(damaged < 0.3 ? 0xff7556 : 0xc6ef75);
@@ -375,11 +407,20 @@ export class View {
         p.amount > 0 && !!g.explored[this.fogIndex(p.x, p.z)];
     });
     const zero = new THREE.Matrix4().makeScale(0, 0, 0);
+    for (const b of g.buildings) {
+      if (this.treeClearings.has(b.id) || (b.owner !== 0 && !g.isVisible(b))) continue;
+      this.treeClearings.add(b.id);
+      for (let i = 0; i < this.forestMatrices.length; i++) {
+        const m = this.forestMatrices[i];
+        if ((m.elements[12] - b.x) ** 2 + (m.elements[14] - b.z) ** 2 < (b.radius + 8) ** 2)
+          this.forestCleared[i] = 1;
+      }
+    }
     for (let i = 0; i < this.forestMatrices.length; i++) {
       const m = this.forestMatrices[i];
       this.forest.setMatrixAt(
         i,
-        g.explored[this.fogIndex(m.elements[12], m.elements[14])] ? m : zero,
+        !this.forestCleared[i] && g.explored[this.fogIndex(m.elements[12], m.elements[14])] ? m : zero,
       );
     }
     this.forest.instanceMatrix.needsUpdate = true;

@@ -1094,7 +1094,7 @@
     "prerequisites": ["tech"],
     "description": "Aurora Bomber \u00b7 air",
     "antiAir": true,
-    "ammo": 1,
+    "ammo": 4,
     "splash": 35,
     "hotkey": "y",
     "voice": {
@@ -1180,7 +1180,7 @@
     "prerequisites": ["tech"],
     "description": "B-52 \u00b7 air",
     "antiAir": true,
-    "ammo": 1,
+    "ammo": 4,
     "splash": 45,
     "hotkey": "u",
     "voice": {
@@ -1265,7 +1265,7 @@
     "prerequisites": [],
     "description": "Raptor \u00b7 air",
     "antiAir": true,
-    "ammo": 6,
+    "ammo": 4,
     "subfaction": "air_force",
     "hotkey": "i",
     "voice": {
@@ -1321,7 +1321,7 @@
     "prerequisites": ["tech"],
     "description": "Aurora Bomber \u00b7 air",
     "antiAir": true,
-    "ammo": 1,
+    "ammo": 4,
     "splash": 35,
     "subfaction": "superweapons",
     "hotkey": "o",

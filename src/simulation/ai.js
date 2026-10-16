@@ -15,6 +15,10 @@ export const aiMethods = {
   ai() {
     for (const p of this.players.slice(1)) {
       if (p.eliminated) continue;
+      if (this.settings.difficulty === 'super_easy') {
+        this.superEasyAI(p);
+        continue;
+      }
       const difficulty =
         { easy: 0.45, medium: 1, hard: 1.4, brutal: 2 }[
           this.settings.difficulty
@@ -244,6 +248,23 @@ export const aiMethods = {
             );
       }
     }
+  },
+  superEasyAI(p) {
+    // Give a new player five minutes to learn. Small waves, no tech, powers or superweapons.
+    if (this.time < (p.aiNext ?? 60)) return;
+    p.aiNext = this.time + 35;
+    const army = this.units.filter(u => u.owner === p.id && units[u.type]?.damage && !units[u.type]?.collector);
+    const infantry = { usa: 'ranger', china: 'red_guard', gla: 'rebel' }[p.faction];
+    const barracks = this.buildings.find(b => b.owner === p.id && b.progress === 1 && buildings[b.type].role === 'barracks');
+    if (barracks && !barracks.queue.length && army.length < 6)
+      this.command({ type: 'train', id: barracks.id, unit: infantry, owner: p.id }, false);
+    if (this.time < 300 || this.time < (p.nextWave ?? 0)) return;
+    const target = this.buildings.find(b => this.enemy(p.id, b.owner));
+    if (!target) return;
+    const wave = army.filter(u => units[u.type].kind === 'infantry' && ['guard', 'stop'].includes(u.order.type)).slice(0, 2);
+    if (wave.length < 2) return;
+    this.command({ type: 'order', ids: wave.map(u => u.id), order: 'attackMove', x: target.x, z: target.z, owner: p.id }, false);
+    p.nextWave = this.time + 120;
   },
   objectives() {
     if (this.settings.mode !== "campaign") return [];
