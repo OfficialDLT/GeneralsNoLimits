@@ -1,0 +1,872 @@
+{
+  "audio/units/usa_dozer-select.mp3": {
+    "provider": "ElevenLabs",
+    "signature": "{\"endpoint\":\"text-to-speech/CwhRBWXzGAHq8TQ4Fs17?output_format=mp3_44100_128\",\"body\":{\"text\":\"Construction crew is standing by.\",\"model_id\":\"eleven_multilingual_v2\",\"voice_settings\":{\"stability\":0.55,\"similarity_boost\":0.75,\"style\":0.35,\"use_speaker_boost\":true}}}",
+    "bytes": 33061
+  },
+  "audio/units/usa_dozer-move.mp3": {
+    "provider": "ElevenLabs",
+    "signature": "{\"endpoint\":\"text-to-speech/CwhRBWXzGAHq8TQ4Fs17?output_format=mp3_44100_128\",\"body\":{\"text\":\"Taking our tools over there.\",\"model_id\":\"eleven_multilingual_v2\",\"voice_settings\":{\"stability\":0.55,\"similarity_boost\":0.75,\"style\":0.35,\"use_speaker_boost\":true}}}",
+    "bytes": 26374
+  },
+  "audio/units/usa_dozer-attack.mp3": {
+    "provider": "ElevenLabs",
+    "signature": "{\"endpoint\":\"text-to-speech/CwhRBWXzGAHq8TQ4Fs17?output_format=mp3_44100_128\",\"body\":{\"text\":\"Clearing the construction site.\",\"model_id\":\"eleven_multilingual_v2\",\"voice_settings\":{\"stability\":0.55,\"similarity_boost\":0.75,\"style\":0.35,\"use_speaker_boost\":true}}}",
+    "bytes": 28464
+  },
+  "audio/units/china_dozer-select.mp3": {
+    "provider": "ElevenLabs",
+    "signature": "{\"endpoint\":\"text-to-speech/IKne3meq5aSn9XLyUdCD?output_format=mp3_44100_128\",\"body\":{\"text\":\"Engineering team is ready.\",\"model_id\":\"eleven_multilingual_v2\",\"voice_settings\":{\"stability\":0.55,\"similarity_boost\":0.75,\"style\":0.35,\"use_speaker_boost\":true}}}",
+    "bytes": 21776
+  },
+  "audio/units/china_dozer-move.mp3": {
+    "provider": "ElevenLabs",
+    "signature": "{\"endpoint\":\"text-to-speech/IKne3meq5aSn9XLyUdCD?output_format=mp3_44100_128\",\"body\":{\"text\":\"Heavy machinery moving.\",\"model_id\":\"eleven_multilingual_v2\",\"voice_settings\":{\"stability\":0.55,\"similarity_boost\":0.75,\"style\":0.35,\"use_speaker_boost\":true}}}",
+    "bytes": 24284
+  },
+  "audio/units/china_dozer-attack.mp3": {
+    "provider": "ElevenLabs",
+    "signature": "{\"endpoint\":\"text-to-speech/IKne3meq5aSn9XLyUdCD?output_format=mp3_44100_128\",\"body\":{\"text\":\"We will clear the way.\",\"model_id\":\"eleven_multilingual_v2\",\"voice_settings\":{\"stability\":0.55,\"similarity_boost\":0.75,\"style\":0.35,\"use_speaker_boost\":true}}}",
+    "bytes": 22612
+  },
+  "audio/units/worker-select.mp3": {
+    "provider": "ElevenLabs",
+    "signature": "{\"endpoint\":\"text-to-speech/JBFqnCBsd6RMkjVDRZzb?output_format=mp3_44100_128\",\"body\":{\"text\":\"Tools are ready. What needs building?\",\"model_id\":\"eleven_multilingual_v2\",\"voice_settings\":{\"stability\":0.55,\"similarity_boost\":0.75,\"style\":0.35,\"use_speaker_boost\":true}}}",
+    "bytes": 39749
+  },
+  "audio/units/worker-move.mp3": {
+    "provider": "ElevenLabs",
+    "signature": "{\"endpoint\":\"text-to-speech/JBFqnCBsd6RMkjVDRZzb?output_format=mp3_44100_128\",\"body\":{\"text\":\"I will take the back road.\",\"model_id\":\"eleven_multilingual_v2\",\"voice_settings\":{\"stability\":0.55,\"similarity_boost\":0.75,\"style\":0.35,\"use_speaker_boost\":true}}}",
+    "bytes": 27210
+  },
+  "audio/units/worker-attack.mp3": {
+    "provider": "ElevenLabs",
+    "signature": "{\"endpoint\":\"text-to-speech/JBFqnCBsd6RMkjVDRZzb?output_format=mp3_44100_128\",\"body\":{\"text\":\"We will stand our ground.\",\"model_id\":\"eleven_multilingual_v2\",\"voice_settings\":{\"stability\":0.55,\"similarity_boost\":0.75,\"style\":0.35,\"use_speaker_boost\":true}}}",
+    "bytes": 24702
+  },
+  "audio/units/ranger-select.mp3": {
+    "provider": "ElevenLabs",
+    "signature": "{\"endpoint\":\"text-to-speech/N2lVS1w4EtoT3dr4eOWO?output_format=mp3_44100_128\",\"body\":{\"text\":\"Ranger squad, reporting in.\",\"model_id\":\"eleven_multilingual_v2\",\"voice_settings\":{\"stability\":0.55,\"similarity_boost\":0.75,\"style\":0.35,\"use_speaker_boost\":true}}}",
+    "bytes": 35151
+  },
+  "audio/units/ranger-move.mp3": {
+    "provider": "ElevenLabs",
+    "signature": "{\"endpoint\":\"text-to-speech/N2lVS1w4EtoT3dr4eOWO?output_format=mp3_44100_128\",\"body\":{\"text\":\"Boots on the ground. Moving out.\",\"model_id\":\"eleven_multilingual_v2\",\"voice_settings\":{\"stability\":0.55,\"similarity_boost\":0.75,\"style\":0.35,\"use_speaker_boost\":true}}}",
+    "bytes": 39749
+  },
+  "audio/units/ranger-attack.mp3": {
+    "provider": "ElevenLabs",
+    "signature": "{\"endpoint\":\"text-to-speech/N2lVS1w4EtoT3dr4eOWO?output_format=mp3_44100_128\",\"body\":{\"text\":\"Squad, engage that target.\",\"model_id\":\"eleven_multilingual_v2\",\"voice_settings\":{\"stability\":0.55,\"similarity_boost\":0.75,\"style\":0.35,\"use_speaker_boost\":true}}}",
+    "bytes": 33897
+  },
+  "audio/units/missile_defender-select.mp3": {
+    "provider": "ElevenLabs",
+    "signature": "{\"endpoint\":\"text-to-speech/SOYHLrjzK2X1ezoPC6cr?output_format=mp3_44100_128\",\"body\":{\"text\":\"Missile Defender ready.\",\"model_id\":\"eleven_multilingual_v2\",\"voice_settings\":{\"stability\":0.55,\"similarity_boost\":0.75,\"style\":0.35,\"use_speaker_boost\":true}}}",
+    "bytes": 22612
+  },
+  "audio/units/missile_defender-move.mp3": {
+    "provider": "ElevenLabs",
+    "signature": "{\"endpoint\":\"text-to-speech/SOYHLrjzK2X1ezoPC6cr?output_format=mp3_44100_128\",\"body\":{\"text\":\"Moving out. Missile Defender.\",\"model_id\":\"eleven_multilingual_v2\",\"voice_settings\":{\"stability\":0.55,\"similarity_boost\":0.75,\"style\":0.35,\"use_speaker_boost\":true}}}",
+    "bytes": 30972
+  },
+  "audio/units/missile_defender-attack.mp3": {
+    "provider": "ElevenLabs",
+    "signature": "{\"endpoint\":\"text-to-speech/SOYHLrjzK2X1ezoPC6cr?output_format=mp3_44100_128\",\"body\":{\"text\":\"Engaging target. Missile Defender.\",\"model_id\":\"eleven_multilingual_v2\",\"voice_settings\":{\"stability\":0.55,\"similarity_boost\":0.75,\"style\":0.35,\"use_speaker_boost\":true}}}",
+    "bytes": 38077
+  },
+  "audio/units/pathfinder-select.mp3": {
+    "provider": "ElevenLabs",
+    "signature": "{\"endpoint\":\"text-to-speech/TX3LPaxmHKxFdv7VOQHJ?output_format=mp3_44100_128\",\"body\":{\"text\":\"Pathfinder ready.\",\"model_id\":\"eleven_multilingual_v2\",\"voice_settings\":{\"stability\":0.55,\"similarity_boost\":0.75,\"style\":0.35,\"use_speaker_boost\":true}}}",
+    "bytes": 22612
+  },
+  "audio/units/pathfinder-move.mp3": {
+    "provider": "ElevenLabs",
+    "signature": "{\"endpoint\":\"text-to-speech/TX3LPaxmHKxFdv7VOQHJ?output_format=mp3_44100_128\",\"body\":{\"text\":\"Moving out. Pathfinder.\",\"model_id\":\"eleven_multilingual_v2\",\"voice_settings\":{\"stability\":0.55,\"similarity_boost\":0.75,\"style\":0.35,\"use_speaker_boost\":true}}}",
+    "bytes": 33061
+  },
+  "audio/units/pathfinder-attack.mp3": {
+    "provider": "ElevenLabs",
+    "signature": "{\"endpoint\":\"text-to-speech/TX3LPaxmHKxFdv7VOQHJ?output_format=mp3_44100_128\",\"body\":{\"text\":\"Engaging target. Pathfinder.\",\"model_id\":\"eleven_multilingual_v2\",\"voice_settings\":{\"stability\":0.55,\"similarity_boost\":0.75,\"style\":0.35,\"use_speaker_boost\":true}}}",
+    "bytes": 34315
+  },
+  "audio/units/burton-select.mp3": {
+    "provider": "ElevenLabs",
+    "signature": "{\"endpoint\":\"text-to-speech/bIHbv24MWmeRgasZH58o?output_format=mp3_44100_128\",\"body\":{\"text\":\"Burton here. Give me the mission.\",\"model_id\":\"eleven_multilingual_v2\",\"voice_settings\":{\"stability\":0.55,\"similarity_boost\":0.75,\"style\":0.35,\"use_speaker_boost\":true}}}",
+    "bytes": 35987
+  },
+  "audio/units/burton-move.mp3": {
+    "provider": "ElevenLabs",
+    "signature": "{\"endpoint\":\"text-to-speech/bIHbv24MWmeRgasZH58o?output_format=mp3_44100_128\",\"body\":{\"text\":\"Quiet and steady. On my way.\",\"model_id\":\"eleven_multilingual_v2\",\"voice_settings\":{\"stability\":0.55,\"similarity_boost\":0.75,\"style\":0.35,\"use_speaker_boost\":true}}}",
+    "bytes": 30972
+  },
+  "audio/units/burton-attack.mp3": {
+    "provider": "ElevenLabs",
+    "signature": "{\"endpoint\":\"text-to-speech/bIHbv24MWmeRgasZH58o?output_format=mp3_44100_128\",\"body\":{\"text\":\"I have the target in sight.\",\"model_id\":\"eleven_multilingual_v2\",\"voice_settings\":{\"stability\":0.55,\"similarity_boost\":0.75,\"style\":0.35,\"use_speaker_boost\":true}}}",
+    "bytes": 27210
+  },
+  "audio/units/red_guard-select.mp3": {
+    "provider": "ElevenLabs",
+    "signature": "{\"endpoint\":\"text-to-speech/cjVigY5qzO86Huf0OWal?output_format=mp3_44100_128\",\"body\":{\"text\":\"Red Guard ready.\",\"model_id\":\"eleven_multilingual_v2\",\"voice_settings\":{\"stability\":0.55,\"similarity_boost\":0.75,\"style\":0.35,\"use_speaker_boost\":true}}}",
+    "bytes": 15925
+  },
+  "audio/units/red_guard-move.mp3": {
+    "provider": "ElevenLabs",
+    "signature": "{\"endpoint\":\"text-to-speech/cjVigY5qzO86Huf0OWal?output_format=mp3_44100_128\",\"body\":{\"text\":\"Moving out. Red Guard.\",\"model_id\":\"eleven_multilingual_v2\",\"voice_settings\":{\"stability\":0.55,\"similarity_boost\":0.75,\"style\":0.35,\"use_speaker_boost\":true}}}",
+    "bytes": 21776
+  },
+  "audio/units/red_guard-attack.mp3": {
+    "provider": "ElevenLabs",
+    "signature": "{\"endpoint\":\"text-to-speech/cjVigY5qzO86Huf0OWal?output_format=mp3_44100_128\",\"body\":{\"text\":\"Engaging target. Red Guard.\",\"model_id\":\"eleven_multilingual_v2\",\"voice_settings\":{\"stability\":0.55,\"similarity_boost\":0.75,\"style\":0.35,\"use_speaker_boost\":true}}}",
+    "bytes": 30972
+  },
+  "audio/units/tank_hunter-select.mp3": {
+    "provider": "ElevenLabs",
+    "signature": "{\"endpoint\":\"text-to-speech/iP95p4xoKVk53GoZ742B?output_format=mp3_44100_128\",\"body\":{\"text\":\"Tank Hunter ready.\",\"model_id\":\"eleven_multilingual_v2\",\"voice_settings\":{\"stability\":0.55,\"similarity_boost\":0.75,\"style\":0.35,\"use_speaker_boost\":true}}}",
+    "bytes": 19687
+  },
+  "audio/units/tank_hunter-move.mp3": {
+    "provider": "ElevenLabs",
+    "signature": "{\"endpoint\":\"text-to-speech/iP95p4xoKVk53GoZ742B?output_format=mp3_44100_128\",\"body\":{\"text\":\"Moving out. Tank Hunter.\",\"model_id\":\"eleven_multilingual_v2\",\"voice_settings\":{\"stability\":0.55,\"similarity_boost\":0.75,\"style\":0.35,\"use_speaker_boost\":true}}}",
+    "bytes": 24702
+  },
+  "audio/units/tank_hunter-attack.mp3": {
+    "provider": "ElevenLabs",
+    "signature": "{\"endpoint\":\"text-to-speech/iP95p4xoKVk53GoZ742B?output_format=mp3_44100_128\",\"body\":{\"text\":\"Engaging target. Tank Hunter.\",\"model_id\":\"eleven_multilingual_v2\",\"voice_settings\":{\"stability\":0.55,\"similarity_boost\":0.75,\"style\":0.35,\"use_speaker_boost\":true}}}",
+    "bytes": 30972
+  },
+  "audio/units/hacker-select.mp3": {
+    "provider": "ElevenLabs",
+    "signature": "{\"endpoint\":\"text-to-speech/nPczCjzI2devNBz1zQrb?output_format=mp3_44100_128\",\"body\":{\"text\":\"Hacker ready.\",\"model_id\":\"eleven_multilingual_v2\",\"voice_settings\":{\"stability\":0.55,\"similarity_boost\":0.75,\"style\":0.35,\"use_speaker_boost\":true}}}",
+    "bytes": 18015
+  },
+  "audio/units/hacker-move.mp3": {
+    "provider": "ElevenLabs",
+    "signature": "{\"endpoint\":\"text-to-speech/nPczCjzI2devNBz1zQrb?output_format=mp3_44100_128\",\"body\":{\"text\":\"Moving out. Hacker.\",\"model_id\":\"eleven_multilingual_v2\",\"voice_settings\":{\"stability\":0.55,\"similarity_boost\":0.75,\"style\":0.35,\"use_speaker_boost\":true}}}",
+    "bytes": 22612
+  },
+  "audio/units/hacker-attack.mp3": {
+    "provider": "ElevenLabs",
+    "signature": "{\"endpoint\":\"text-to-speech/nPczCjzI2devNBz1zQrb?output_format=mp3_44100_128\",\"body\":{\"text\":\"Engaging target. Hacker.\",\"model_id\":\"eleven_multilingual_v2\",\"voice_settings\":{\"stability\":0.55,\"similarity_boost\":0.75,\"style\":0.35,\"use_speaker_boost\":true}}}",
+    "bytes": 28464
+  },
+  "audio/units/lotus-select.mp3": {
+    "provider": "ElevenLabs",
+    "signature": "{\"endpoint\":\"text-to-speech/EXAVITQu4vr4xnSDxMaL?output_format=mp3_44100_128\",\"body\":{\"text\":\"Lotus online. Awaiting your signal.\",\"model_id\":\"eleven_multilingual_v2\",\"voice_settings\":{\"stability\":0.55,\"similarity_boost\":0.75,\"style\":0.35,\"use_speaker_boost\":true}}}",
+    "bytes": 38913
+  },
+  "audio/units/lotus-move.mp3": {
+    "provider": "ElevenLabs",
+    "signature": "{\"endpoint\":\"text-to-speech/EXAVITQu4vr4xnSDxMaL?output_format=mp3_44100_128\",\"body\":{\"text\":\"Moving through their blind spot.\",\"model_id\":\"eleven_multilingual_v2\",\"voice_settings\":{\"stability\":0.55,\"similarity_boost\":0.75,\"style\":0.35,\"use_speaker_boost\":true}}}",
+    "bytes": 30972
+  },
+  "audio/units/lotus-attack.mp3": {
+    "provider": "ElevenLabs",
+    "signature": "{\"endpoint\":\"text-to-speech/EXAVITQu4vr4xnSDxMaL?output_format=mp3_44100_128\",\"body\":{\"text\":\"Their systems belong to us.\",\"model_id\":\"eleven_multilingual_v2\",\"voice_settings\":{\"stability\":0.55,\"similarity_boost\":0.75,\"style\":0.35,\"use_speaker_boost\":true}}}",
+    "bytes": 32225
+  },
+  "audio/units/rebel-select.mp3": {
+    "provider": "ElevenLabs",
+    "signature": "{\"endpoint\":\"text-to-speech/onwK4e9ZLuTAKqWW03F9?output_format=mp3_44100_128\",\"body\":{\"text\":\"Rebel ready.\",\"model_id\":\"eleven_multilingual_v2\",\"voice_settings\":{\"stability\":0.55,\"similarity_boost\":0.75,\"style\":0.35,\"use_speaker_boost\":true}}}",
+    "bytes": 17597
+  },
+  "audio/units/rebel-move.mp3": {
+    "provider": "ElevenLabs",
+    "signature": "{\"endpoint\":\"text-to-speech/onwK4e9ZLuTAKqWW03F9?output_format=mp3_44100_128\",\"body\":{\"text\":\"Moving out. Rebel.\",\"model_id\":\"eleven_multilingual_v2\",\"voice_settings\":{\"stability\":0.55,\"similarity_boost\":0.75,\"style\":0.35,\"use_speaker_boost\":true}}}",
+    "bytes": 28464
+  },
+  "audio/units/rebel-attack.mp3": {
+    "provider": "ElevenLabs",
+    "signature": "{\"endpoint\":\"text-to-speech/onwK4e9ZLuTAKqWW03F9?output_format=mp3_44100_128\",\"body\":{\"text\":\"Engaging target. Rebel.\",\"model_id\":\"eleven_multilingual_v2\",\"voice_settings\":{\"stability\":0.55,\"similarity_boost\":0.75,\"style\":0.35,\"use_speaker_boost\":true}}}",
+    "bytes": 33897
+  },
+  "audio/units/rpg-select.mp3": {
+    "provider": "ElevenLabs",
+    "signature": "{\"endpoint\":\"text-to-speech/pNInz6obpgDQGcFmaJgB?output_format=mp3_44100_128\",\"body\":{\"text\":\"RPG Trooper ready.\",\"model_id\":\"eleven_multilingual_v2\",\"voice_settings\":{\"stability\":0.55,\"similarity_boost\":0.75,\"style\":0.35,\"use_speaker_boost\":true}}}",
+    "bytes": 27210
+  },
+  "audio/units/rpg-move.mp3": {
+    "provider": "ElevenLabs",
+    "signature": "{\"endpoint\":\"text-to-speech/pNInz6obpgDQGcFmaJgB?output_format=mp3_44100_128\",\"body\":{\"text\":\"Moving out. RPG Trooper.\",\"model_id\":\"eleven_multilingual_v2\",\"voice_settings\":{\"stability\":0.55,\"similarity_boost\":0.75,\"style\":0.35,\"use_speaker_boost\":true}}}",
+    "bytes": 41003
+  },
+  "audio/units/rpg-attack.mp3": {
+    "provider": "ElevenLabs",
+    "signature": "{\"endpoint\":\"text-to-speech/pNInz6obpgDQGcFmaJgB?output_format=mp3_44100_128\",\"body\":{\"text\":\"Engaging target. RPG Trooper.\",\"model_id\":\"eleven_multilingual_v2\",\"voice_settings\":{\"stability\":0.55,\"similarity_boost\":0.75,\"style\":0.35,\"use_speaker_boost\":true}}}",
+    "bytes": 49362
+  },
+  "audio/units/terrorist-select.mp3": {
+    "provider": "ElevenLabs",
+    "signature": "{\"endpoint\":\"text-to-speech/pqHfZKP75CvOlQylNhV4?output_format=mp3_44100_128\",\"body\":{\"text\":\"Terrorist ready.\",\"model_id\":\"eleven_multilingual_v2\",\"voice_settings\":{\"stability\":0.55,\"similarity_boost\":0.75,\"style\":0.35,\"use_speaker_boost\":true}}}",
+    "bytes": 21776
+  },
+  "audio/units/terrorist-move.mp3": {
+    "provider": "ElevenLabs",
+    "signature": "{\"endpoint\":\"text-to-speech/pqHfZKP75CvOlQylNhV4?output_format=mp3_44100_128\",\"body\":{\"text\":\"Moving out. Terrorist.\",\"model_id\":\"eleven_multilingual_v2\",\"voice_settings\":{\"stability\":0.55,\"similarity_boost\":0.75,\"style\":0.35,\"use_speaker_boost\":true}}}",
+    "bytes": 29300
+  },
+  "audio/units/terrorist-attack.mp3": {
+    "provider": "ElevenLabs",
+    "signature": "{\"endpoint\":\"text-to-speech/pqHfZKP75CvOlQylNhV4?output_format=mp3_44100_128\",\"body\":{\"text\":\"Engaging target. Terrorist.\",\"model_id\":\"eleven_multilingual_v2\",\"voice_settings\":{\"stability\":0.55,\"similarity_boost\":0.75,\"style\":0.35,\"use_speaker_boost\":true}}}",
+    "bytes": 32225
+  },
+  "audio/units/angry_mob-select.mp3": {
+    "provider": "ElevenLabs",
+    "signature": "{\"endpoint\":\"text-to-speech/CwhRBWXzGAHq8TQ4Fs17?output_format=mp3_44100_128\",\"body\":{\"text\":\"Angry Mob ready.\",\"model_id\":\"eleven_multilingual_v2\",\"voice_settings\":{\"stability\":0.55,\"similarity_boost\":0.75,\"style\":0.35,\"use_speaker_boost\":true}}}",
+    "bytes": 21776
+  },
+  "audio/units/angry_mob-move.mp3": {
+    "provider": "ElevenLabs",
+    "signature": "{\"endpoint\":\"text-to-speech/CwhRBWXzGAHq8TQ4Fs17?output_format=mp3_44100_128\",\"body\":{\"text\":\"Moving out. Angry Mob.\",\"model_id\":\"eleven_multilingual_v2\",\"voice_settings\":{\"stability\":0.55,\"similarity_boost\":0.75,\"style\":0.35,\"use_speaker_boost\":true}}}",
+    "bytes": 26374
+  },
+  "audio/units/angry_mob-attack.mp3": {
+    "provider": "ElevenLabs",
+    "signature": "{\"endpoint\":\"text-to-speech/CwhRBWXzGAHq8TQ4Fs17?output_format=mp3_44100_128\",\"body\":{\"text\":\"Engaging target. Angry Mob.\",\"model_id\":\"eleven_multilingual_v2\",\"voice_settings\":{\"stability\":0.55,\"similarity_boost\":0.75,\"style\":0.35,\"use_speaker_boost\":true}}}",
+    "bytes": 35151
+  },
+  "audio/units/jarmen-select.mp3": {
+    "provider": "ElevenLabs",
+    "signature": "{\"endpoint\":\"text-to-speech/IKne3meq5aSn9XLyUdCD?output_format=mp3_44100_128\",\"body\":{\"text\":\"The marksman is in position.\",\"model_id\":\"eleven_multilingual_v2\",\"voice_settings\":{\"stability\":0.55,\"similarity_boost\":0.75,\"style\":0.35,\"use_speaker_boost\":true}}}",
+    "bytes": 25538
+  },
+  "audio/units/jarmen-move.mp3": {
+    "provider": "ElevenLabs",
+    "signature": "{\"endpoint\":\"text-to-speech/IKne3meq5aSn9XLyUdCD?output_format=mp3_44100_128\",\"body\":{\"text\":\"A quiet path. Nobody will see me.\",\"model_id\":\"eleven_multilingual_v2\",\"voice_settings\":{\"stability\":0.55,\"similarity_boost\":0.75,\"style\":0.35,\"use_speaker_boost\":true}}}",
+    "bytes": 36823
+  },
+  "audio/units/jarmen-attack.mp3": {
+    "provider": "ElevenLabs",
+    "signature": "{\"endpoint\":\"text-to-speech/IKne3meq5aSn9XLyUdCD?output_format=mp3_44100_128\",\"body\":{\"text\":\"One shot is all I need.\",\"model_id\":\"eleven_multilingual_v2\",\"voice_settings\":{\"stability\":0.55,\"similarity_boost\":0.75,\"style\":0.35,\"use_speaker_boost\":true}}}",
+    "bytes": 22612
+  },
+  "audio/units/hijacker-select.mp3": {
+    "provider": "ElevenLabs",
+    "signature": "{\"endpoint\":\"text-to-speech/JBFqnCBsd6RMkjVDRZzb?output_format=mp3_44100_128\",\"body\":{\"text\":\"Hijacker ready.\",\"model_id\":\"eleven_multilingual_v2\",\"voice_settings\":{\"stability\":0.55,\"similarity_boost\":0.75,\"style\":0.35,\"use_speaker_boost\":true}}}",
+    "bytes": 21776
+  },
+  "audio/units/hijacker-move.mp3": {
+    "provider": "ElevenLabs",
+    "signature": "{\"endpoint\":\"text-to-speech/JBFqnCBsd6RMkjVDRZzb?output_format=mp3_44100_128\",\"body\":{\"text\":\"Moving out. Hijacker.\",\"model_id\":\"eleven_multilingual_v2\",\"voice_settings\":{\"stability\":0.55,\"similarity_boost\":0.75,\"style\":0.35,\"use_speaker_boost\":true}}}",
+    "bytes": 27210
+  },
+  "audio/units/hijacker-attack.mp3": {
+    "provider": "ElevenLabs",
+    "signature": "{\"endpoint\":\"text-to-speech/JBFqnCBsd6RMkjVDRZzb?output_format=mp3_44100_128\",\"body\":{\"text\":\"Engaging target. Hijacker.\",\"model_id\":\"eleven_multilingual_v2\",\"voice_settings\":{\"stability\":0.55,\"similarity_boost\":0.75,\"style\":0.35,\"use_speaker_boost\":true}}}",
+    "bytes": 32225
+  },
+  "audio/units/crusader-select.mp3": {
+    "provider": "ElevenLabs",
+    "signature": "{\"endpoint\":\"text-to-speech/N2lVS1w4EtoT3dr4eOWO?output_format=mp3_44100_128\",\"body\":{\"text\":\"Crusader armor is ready.\",\"model_id\":\"eleven_multilingual_v2\",\"voice_settings\":{\"stability\":0.55,\"similarity_boost\":0.75,\"style\":0.35,\"use_speaker_boost\":true}}}",
+    "bytes": 29300
+  },
+  "audio/units/crusader-move.mp3": {
+    "provider": "ElevenLabs",
+    "signature": "{\"endpoint\":\"text-to-speech/N2lVS1w4EtoT3dr4eOWO?output_format=mp3_44100_128\",\"body\":{\"text\":\"Tracks rolling, commander.\",\"model_id\":\"eleven_multilingual_v2\",\"voice_settings\":{\"stability\":0.55,\"similarity_boost\":0.75,\"style\":0.35,\"use_speaker_boost\":true}}}",
+    "bytes": 30972
+  },
+  "audio/units/crusader-attack.mp3": {
+    "provider": "ElevenLabs",
+    "signature": "{\"endpoint\":\"text-to-speech/N2lVS1w4EtoT3dr4eOWO?output_format=mp3_44100_128\",\"body\":{\"text\":\"Main gun, fire at will.\",\"model_id\":\"eleven_multilingual_v2\",\"voice_settings\":{\"stability\":0.55,\"similarity_boost\":0.75,\"style\":0.35,\"use_speaker_boost\":true}}}",
+    "bytes": 35151
+  },
+  "audio/units/paladin-select.mp3": {
+    "provider": "ElevenLabs",
+    "signature": "{\"endpoint\":\"text-to-speech/SOYHLrjzK2X1ezoPC6cr?output_format=mp3_44100_128\",\"body\":{\"text\":\"Paladin ready.\",\"model_id\":\"eleven_multilingual_v2\",\"voice_settings\":{\"stability\":0.55,\"similarity_boost\":0.75,\"style\":0.35,\"use_speaker_boost\":true}}}",
+    "bytes": 20523
+  },
+  "audio/units/paladin-move.mp3": {
+    "provider": "ElevenLabs",
+    "signature": "{\"endpoint\":\"text-to-speech/SOYHLrjzK2X1ezoPC6cr?output_format=mp3_44100_128\",\"body\":{\"text\":\"Moving out. Paladin.\",\"model_id\":\"eleven_multilingual_v2\",\"voice_settings\":{\"stability\":0.55,\"similarity_boost\":0.75,\"style\":0.35,\"use_speaker_boost\":true}}}",
+    "bytes": 24702
+  },
+  "audio/units/paladin-attack.mp3": {
+    "provider": "ElevenLabs",
+    "signature": "{\"endpoint\":\"text-to-speech/SOYHLrjzK2X1ezoPC6cr?output_format=mp3_44100_128\",\"body\":{\"text\":\"Engaging target. Paladin.\",\"model_id\":\"eleven_multilingual_v2\",\"voice_settings\":{\"stability\":0.55,\"similarity_boost\":0.75,\"style\":0.35,\"use_speaker_boost\":true}}}",
+    "bytes": 32225
+  },
+  "audio/units/tomahawk-select.mp3": {
+    "provider": "ElevenLabs",
+    "signature": "{\"endpoint\":\"text-to-speech/TX3LPaxmHKxFdv7VOQHJ?output_format=mp3_44100_128\",\"body\":{\"text\":\"Tomahawk ready.\",\"model_id\":\"eleven_multilingual_v2\",\"voice_settings\":{\"stability\":0.55,\"similarity_boost\":0.75,\"style\":0.35,\"use_speaker_boost\":true}}}",
+    "bytes": 20941
+  },
+  "audio/units/tomahawk-move.mp3": {
+    "provider": "ElevenLabs",
+    "signature": "{\"endpoint\":\"text-to-speech/TX3LPaxmHKxFdv7VOQHJ?output_format=mp3_44100_128\",\"body\":{\"text\":\"Moving out. Tomahawk.\",\"model_id\":\"eleven_multilingual_v2\",\"voice_settings\":{\"stability\":0.55,\"similarity_boost\":0.75,\"style\":0.35,\"use_speaker_boost\":true}}}",
+    "bytes": 32225
+  },
+  "audio/units/tomahawk-attack.mp3": {
+    "provider": "ElevenLabs",
+    "signature": "{\"endpoint\":\"text-to-speech/TX3LPaxmHKxFdv7VOQHJ?output_format=mp3_44100_128\",\"body\":{\"text\":\"Engaging target. Tomahawk.\",\"model_id\":\"eleven_multilingual_v2\",\"voice_settings\":{\"stability\":0.55,\"similarity_boost\":0.75,\"style\":0.35,\"use_speaker_boost\":true}}}",
+    "bytes": 32225
+  },
+  "audio/units/humvee-select.mp3": {
+    "provider": "ElevenLabs",
+    "signature": "{\"endpoint\":\"text-to-speech/bIHbv24MWmeRgasZH58o?output_format=mp3_44100_128\",\"body\":{\"text\":\"Humvee ready.\",\"model_id\":\"eleven_multilingual_v2\",\"voice_settings\":{\"stability\":0.55,\"similarity_boost\":0.75,\"style\":0.35,\"use_speaker_boost\":true}}}",
+    "bytes": 18015
+  },
+  "audio/units/humvee-move.mp3": {
+    "provider": "ElevenLabs",
+    "signature": "{\"endpoint\":\"text-to-speech/bIHbv24MWmeRgasZH58o?output_format=mp3_44100_128\",\"body\":{\"text\":\"Moving out. Humvee.\",\"model_id\":\"eleven_multilingual_v2\",\"voice_settings\":{\"stability\":0.55,\"similarity_boost\":0.75,\"style\":0.35,\"use_speaker_boost\":true}}}",
+    "bytes": 24702
+  },
+  "audio/units/humvee-attack.mp3": {
+    "provider": "ElevenLabs",
+    "signature": "{\"endpoint\":\"text-to-speech/bIHbv24MWmeRgasZH58o?output_format=mp3_44100_128\",\"body\":{\"text\":\"Engaging target. Humvee.\",\"model_id\":\"eleven_multilingual_v2\",\"voice_settings\":{\"stability\":0.55,\"similarity_boost\":0.75,\"style\":0.35,\"use_speaker_boost\":true}}}",
+    "bytes": 27628
+  },
+  "audio/units/ambulance-select.mp3": {
+    "provider": "ElevenLabs",
+    "signature": "{\"endpoint\":\"text-to-speech/cjVigY5qzO86Huf0OWal?output_format=mp3_44100_128\",\"body\":{\"text\":\"Ambulance ready.\",\"model_id\":\"eleven_multilingual_v2\",\"voice_settings\":{\"stability\":0.55,\"similarity_boost\":0.75,\"style\":0.35,\"use_speaker_boost\":true}}}",
+    "bytes": 16761
+  },
+  "audio/units/ambulance-move.mp3": {
+    "provider": "ElevenLabs",
+    "signature": "{\"endpoint\":\"text-to-speech/cjVigY5qzO86Huf0OWal?output_format=mp3_44100_128\",\"body\":{\"text\":\"Moving out. Ambulance.\",\"model_id\":\"eleven_multilingual_v2\",\"voice_settings\":{\"stability\":0.55,\"similarity_boost\":0.75,\"style\":0.35,\"use_speaker_boost\":true}}}",
+    "bytes": 20941
+  },
+  "audio/units/ambulance-attack.mp3": {
+    "provider": "ElevenLabs",
+    "signature": "{\"endpoint\":\"text-to-speech/cjVigY5qzO86Huf0OWal?output_format=mp3_44100_128\",\"body\":{\"text\":\"Engaging target. Ambulance.\",\"model_id\":\"eleven_multilingual_v2\",\"voice_settings\":{\"stability\":0.55,\"similarity_boost\":0.75,\"style\":0.35,\"use_speaker_boost\":true}}}",
+    "bytes": 27210
+  },
+  "audio/units/battlemaster-select.mp3": {
+    "provider": "ElevenLabs",
+    "signature": "{\"endpoint\":\"text-to-speech/iP95p4xoKVk53GoZ742B?output_format=mp3_44100_128\",\"body\":{\"text\":\"Armor battalion awaiting orders.\",\"model_id\":\"eleven_multilingual_v2\",\"voice_settings\":{\"stability\":0.55,\"similarity_boost\":0.75,\"style\":0.35,\"use_speaker_boost\":true}}}",
+    "bytes": 30136
+  },
+  "audio/units/battlemaster-move.mp3": {
+    "provider": "ElevenLabs",
+    "signature": "{\"endpoint\":\"text-to-speech/iP95p4xoKVk53GoZ742B?output_format=mp3_44100_128\",\"body\":{\"text\":\"Engines forward. Keep formation.\",\"model_id\":\"eleven_multilingual_v2\",\"voice_settings\":{\"stability\":0.55,\"similarity_boost\":0.75,\"style\":0.35,\"use_speaker_boost\":true}}}",
+    "bytes": 29300
+  },
+  "audio/units/battlemaster-attack.mp3": {
+    "provider": "ElevenLabs",
+    "signature": "{\"endpoint\":\"text-to-speech/iP95p4xoKVk53GoZ742B?output_format=mp3_44100_128\",\"body\":{\"text\":\"Full barrage. Break their line.\",\"model_id\":\"eleven_multilingual_v2\",\"voice_settings\":{\"stability\":0.55,\"similarity_boost\":0.75,\"style\":0.35,\"use_speaker_boost\":true}}}",
+    "bytes": 27628
+  },
+  "audio/units/overlord-select.mp3": {
+    "provider": "ElevenLabs",
+    "signature": "{\"endpoint\":\"text-to-speech/nPczCjzI2devNBz1zQrb?output_format=mp3_44100_128\",\"body\":{\"text\":\"Overlord ready.\",\"model_id\":\"eleven_multilingual_v2\",\"voice_settings\":{\"stability\":0.55,\"similarity_boost\":0.75,\"style\":0.35,\"use_speaker_boost\":true}}}",
+    "bytes": 20523
+  },
+  "audio/units/overlord-move.mp3": {
+    "provider": "ElevenLabs",
+    "signature": "{\"endpoint\":\"text-to-speech/nPczCjzI2devNBz1zQrb?output_format=mp3_44100_128\",\"body\":{\"text\":\"Moving out. Overlord.\",\"model_id\":\"eleven_multilingual_v2\",\"voice_settings\":{\"stability\":0.55,\"similarity_boost\":0.75,\"style\":0.35,\"use_speaker_boost\":true}}}",
+    "bytes": 24284
+  },
+  "audio/units/overlord-attack.mp3": {
+    "provider": "ElevenLabs",
+    "signature": "{\"endpoint\":\"text-to-speech/nPczCjzI2devNBz1zQrb?output_format=mp3_44100_128\",\"body\":{\"text\":\"Engaging target. Overlord.\",\"model_id\":\"eleven_multilingual_v2\",\"voice_settings\":{\"stability\":0.55,\"similarity_boost\":0.75,\"style\":0.35,\"use_speaker_boost\":true}}}",
+    "bytes": 31390
+  },
+  "audio/units/dragon_tank-select.mp3": {
+    "provider": "ElevenLabs",
+    "signature": "{\"endpoint\":\"text-to-speech/onwK4e9ZLuTAKqWW03F9?output_format=mp3_44100_128\",\"body\":{\"text\":\"Dragon Tank ready.\",\"model_id\":\"eleven_multilingual_v2\",\"voice_settings\":{\"stability\":0.55,\"similarity_boost\":0.75,\"style\":0.35,\"use_speaker_boost\":true}}}",
+    "bytes": 22612
+  },
+  "audio/units/dragon_tank-move.mp3": {
+    "provider": "ElevenLabs",
+    "signature": "{\"endpoint\":\"text-to-speech/onwK4e9ZLuTAKqWW03F9?output_format=mp3_44100_128\",\"body\":{\"text\":\"Moving out. Dragon Tank.\",\"model_id\":\"eleven_multilingual_v2\",\"voice_settings\":{\"stability\":0.55,\"similarity_boost\":0.75,\"style\":0.35,\"use_speaker_boost\":true}}}",
+    "bytes": 35987
+  },
+  "audio/units/dragon_tank-attack.mp3": {
+    "provider": "ElevenLabs",
+    "signature": "{\"endpoint\":\"text-to-speech/onwK4e9ZLuTAKqWW03F9?output_format=mp3_44100_128\",\"body\":{\"text\":\"Engaging target. Dragon Tank.\",\"model_id\":\"eleven_multilingual_v2\",\"voice_settings\":{\"stability\":0.55,\"similarity_boost\":0.75,\"style\":0.35,\"use_speaker_boost\":true}}}",
+    "bytes": 39749
+  },
+  "audio/units/gatling_tank-select.mp3": {
+    "provider": "ElevenLabs",
+    "signature": "{\"endpoint\":\"text-to-speech/pNInz6obpgDQGcFmaJgB?output_format=mp3_44100_128\",\"body\":{\"text\":\"Gattling Tank ready.\",\"model_id\":\"eleven_multilingual_v2\",\"voice_settings\":{\"stability\":0.55,\"similarity_boost\":0.75,\"style\":0.35,\"use_speaker_boost\":true}}}",
+    "bytes": 21776
+  },
+  "audio/units/gatling_tank-move.mp3": {
+    "provider": "ElevenLabs",
+    "signature": "{\"endpoint\":\"text-to-speech/pNInz6obpgDQGcFmaJgB?output_format=mp3_44100_128\",\"body\":{\"text\":\"Moving out. Gattling Tank.\",\"model_id\":\"eleven_multilingual_v2\",\"voice_settings\":{\"stability\":0.55,\"similarity_boost\":0.75,\"style\":0.35,\"use_speaker_boost\":true}}}",
+    "bytes": 37659
+  },
+  "audio/units/gatling_tank-attack.mp3": {
+    "provider": "ElevenLabs",
+    "signature": "{\"endpoint\":\"text-to-speech/pNInz6obpgDQGcFmaJgB?output_format=mp3_44100_128\",\"body\":{\"text\":\"Engaging target. Gattling Tank.\",\"model_id\":\"eleven_multilingual_v2\",\"voice_settings\":{\"stability\":0.55,\"similarity_boost\":0.75,\"style\":0.35,\"use_speaker_boost\":true}}}",
+    "bytes": 38913
+  },
+  "audio/units/troop_crawler-select.mp3": {
+    "provider": "ElevenLabs",
+    "signature": "{\"endpoint\":\"text-to-speech/pqHfZKP75CvOlQylNhV4?output_format=mp3_44100_128\",\"body\":{\"text\":\"Troop Crawler ready.\",\"model_id\":\"eleven_multilingual_v2\",\"voice_settings\":{\"stability\":0.55,\"similarity_boost\":0.75,\"style\":0.35,\"use_speaker_boost\":true}}}",
+    "bytes": 23448
+  },
+  "audio/units/troop_crawler-move.mp3": {
+    "provider": "ElevenLabs",
+    "signature": "{\"endpoint\":\"text-to-speech/pqHfZKP75CvOlQylNhV4?output_format=mp3_44100_128\",\"body\":{\"text\":\"Moving out. Troop Crawler.\",\"model_id\":\"eleven_multilingual_v2\",\"voice_settings\":{\"stability\":0.55,\"similarity_boost\":0.75,\"style\":0.35,\"use_speaker_boost\":true}}}",
+    "bytes": 33061
+  },
+  "audio/units/troop_crawler-attack.mp3": {
+    "provider": "ElevenLabs",
+    "signature": "{\"endpoint\":\"text-to-speech/pqHfZKP75CvOlQylNhV4?output_format=mp3_44100_128\",\"body\":{\"text\":\"Engaging target. Troop Crawler.\",\"model_id\":\"eleven_multilingual_v2\",\"voice_settings\":{\"stability\":0.55,\"similarity_boost\":0.75,\"style\":0.35,\"use_speaker_boost\":true}}}",
+    "bytes": 38077
+  },
+  "audio/units/supply_truck-select.mp3": {
+    "provider": "ElevenLabs",
+    "signature": "{\"endpoint\":\"text-to-speech/CwhRBWXzGAHq8TQ4Fs17?output_format=mp3_44100_128\",\"body\":{\"text\":\"Supply Truck ready.\",\"model_id\":\"eleven_multilingual_v2\",\"voice_settings\":{\"stability\":0.55,\"similarity_boost\":0.75,\"style\":0.35,\"use_speaker_boost\":true}}}",
+    "bytes": 21776
+  },
+  "audio/units/supply_truck-move.mp3": {
+    "provider": "ElevenLabs",
+    "signature": "{\"endpoint\":\"text-to-speech/CwhRBWXzGAHq8TQ4Fs17?output_format=mp3_44100_128\",\"body\":{\"text\":\"Moving out. Supply Truck.\",\"model_id\":\"eleven_multilingual_v2\",\"voice_settings\":{\"stability\":0.55,\"similarity_boost\":0.75,\"style\":0.35,\"use_speaker_boost\":true}}}",
+    "bytes": 27210
+  },
+  "audio/units/supply_truck-attack.mp3": {
+    "provider": "ElevenLabs",
+    "signature": "{\"endpoint\":\"text-to-speech/CwhRBWXzGAHq8TQ4Fs17?output_format=mp3_44100_128\",\"body\":{\"text\":\"Engaging target. Supply Truck.\",\"model_id\":\"eleven_multilingual_v2\",\"voice_settings\":{\"stability\":0.55,\"similarity_boost\":0.75,\"style\":0.35,\"use_speaker_boost\":true}}}",
+    "bytes": 38913
+  },
+  "audio/units/scorpion-select.mp3": {
+    "provider": "ElevenLabs",
+    "signature": "{\"endpoint\":\"text-to-speech/IKne3meq5aSn9XLyUdCD?output_format=mp3_44100_128\",\"body\":{\"text\":\"Scorpion crew, ready to strike.\",\"model_id\":\"eleven_multilingual_v2\",\"voice_settings\":{\"stability\":0.55,\"similarity_boost\":0.75,\"style\":0.35,\"use_speaker_boost\":true}}}",
+    "bytes": 31390
+  },
+  "audio/units/scorpion-move.mp3": {
+    "provider": "ElevenLabs",
+    "signature": "{\"endpoint\":\"text-to-speech/IKne3meq5aSn9XLyUdCD?output_format=mp3_44100_128\",\"body\":{\"text\":\"Taking the back roads.\",\"model_id\":\"eleven_multilingual_v2\",\"voice_settings\":{\"stability\":0.55,\"similarity_boost\":0.75,\"style\":0.35,\"use_speaker_boost\":true}}}",
+    "bytes": 22612
+  },
+  "audio/units/scorpion-attack.mp3": {
+    "provider": "ElevenLabs",
+    "signature": "{\"endpoint\":\"text-to-speech/IKne3meq5aSn9XLyUdCD?output_format=mp3_44100_128\",\"body\":{\"text\":\"Hit them where it hurts.\",\"model_id\":\"eleven_multilingual_v2\",\"voice_settings\":{\"stability\":0.55,\"similarity_boost\":0.75,\"style\":0.35,\"use_speaker_boost\":true}}}",
+    "bytes": 22612
+  },
+  "audio/units/marauder-select.mp3": {
+    "provider": "ElevenLabs",
+    "signature": "{\"endpoint\":\"text-to-speech/JBFqnCBsd6RMkjVDRZzb?output_format=mp3_44100_128\",\"body\":{\"text\":\"Marauder ready.\",\"model_id\":\"eleven_multilingual_v2\",\"voice_settings\":{\"stability\":0.55,\"similarity_boost\":0.75,\"style\":0.35,\"use_speaker_boost\":true}}}",
+    "bytes": 20523
+  },
+  "audio/units/marauder-move.mp3": {
+    "provider": "ElevenLabs",
+    "signature": "{\"endpoint\":\"text-to-speech/JBFqnCBsd6RMkjVDRZzb?output_format=mp3_44100_128\",\"body\":{\"text\":\"Moving out. Marauder.\",\"model_id\":\"eleven_multilingual_v2\",\"voice_settings\":{\"stability\":0.55,\"similarity_boost\":0.75,\"style\":0.35,\"use_speaker_boost\":true}}}",
+    "bytes": 27628
+  },
+  "audio/units/marauder-attack.mp3": {
+    "provider": "ElevenLabs",
+    "signature": "{\"endpoint\":\"text-to-speech/JBFqnCBsd6RMkjVDRZzb?output_format=mp3_44100_128\",\"body\":{\"text\":\"Engaging target. Marauder.\",\"model_id\":\"eleven_multilingual_v2\",\"voice_settings\":{\"stability\":0.55,\"similarity_boost\":0.75,\"style\":0.35,\"use_speaker_boost\":true}}}",
+    "bytes": 30972
+  },
+  "audio/units/technical-select.mp3": {
+    "provider": "ElevenLabs",
+    "signature": "{\"endpoint\":\"text-to-speech/N2lVS1w4EtoT3dr4eOWO?output_format=mp3_44100_128\",\"body\":{\"text\":\"Technical ready.\",\"model_id\":\"eleven_multilingual_v2\",\"voice_settings\":{\"stability\":0.55,\"similarity_boost\":0.75,\"style\":0.35,\"use_speaker_boost\":true}}}",
+    "bytes": 21776
+  },
+  "audio/units/technical-move.mp3": {
+    "provider": "ElevenLabs",
+    "signature": "{\"endpoint\":\"text-to-speech/N2lVS1w4EtoT3dr4eOWO?output_format=mp3_44100_128\",\"body\":{\"text\":\"Moving out. Technical.\",\"model_id\":\"eleven_multilingual_v2\",\"voice_settings\":{\"stability\":0.55,\"similarity_boost\":0.75,\"style\":0.35,\"use_speaker_boost\":true}}}",
+    "bytes": 27628
+  },
+  "audio/units/technical-attack.mp3": {
+    "provider": "ElevenLabs",
+    "signature": "{\"endpoint\":\"text-to-speech/N2lVS1w4EtoT3dr4eOWO?output_format=mp3_44100_128\",\"body\":{\"text\":\"Engaging target. Technical.\",\"model_id\":\"eleven_multilingual_v2\",\"voice_settings\":{\"stability\":0.55,\"similarity_boost\":0.75,\"style\":0.35,\"use_speaker_boost\":true}}}",
+    "bytes": 36823
+  },
+  "audio/units/quad-select.mp3": {
+    "provider": "ElevenLabs",
+    "signature": "{\"endpoint\":\"text-to-speech/SOYHLrjzK2X1ezoPC6cr?output_format=mp3_44100_128\",\"body\":{\"text\":\"Quad Cannon ready.\",\"model_id\":\"eleven_multilingual_v2\",\"voice_settings\":{\"stability\":0.55,\"similarity_boost\":0.75,\"style\":0.35,\"use_speaker_boost\":true}}}",
+    "bytes": 23448
+  },
+  "audio/units/quad-move.mp3": {
+    "provider": "ElevenLabs",
+    "signature": "{\"endpoint\":\"text-to-speech/SOYHLrjzK2X1ezoPC6cr?output_format=mp3_44100_128\",\"body\":{\"text\":\"Moving out. Quad Cannon.\",\"model_id\":\"eleven_multilingual_v2\",\"voice_settings\":{\"stability\":0.55,\"similarity_boost\":0.75,\"style\":0.35,\"use_speaker_boost\":true}}}",
+    "bytes": 30136
+  },
+  "audio/units/quad-attack.mp3": {
+    "provider": "ElevenLabs",
+    "signature": "{\"endpoint\":\"text-to-speech/SOYHLrjzK2X1ezoPC6cr?output_format=mp3_44100_128\",\"body\":{\"text\":\"Engaging target. Quad Cannon.\",\"model_id\":\"eleven_multilingual_v2\",\"voice_settings\":{\"stability\":0.55,\"similarity_boost\":0.75,\"style\":0.35,\"use_speaker_boost\":true}}}",
+    "bytes": 35151
+  },
+  "audio/units/scud_launcher-select.mp3": {
+    "provider": "ElevenLabs",
+    "signature": "{\"endpoint\":\"text-to-speech/TX3LPaxmHKxFdv7VOQHJ?output_format=mp3_44100_128\",\"body\":{\"text\":\"Scud Launcher ready.\",\"model_id\":\"eleven_multilingual_v2\",\"voice_settings\":{\"stability\":0.55,\"similarity_boost\":0.75,\"style\":0.35,\"use_speaker_boost\":true}}}",
+    "bytes": 22612
+  },
+  "audio/units/scud_launcher-move.mp3": {
+    "provider": "ElevenLabs",
+    "signature": "{\"endpoint\":\"text-to-speech/TX3LPaxmHKxFdv7VOQHJ?output_format=mp3_44100_128\",\"body\":{\"text\":\"Moving out. Scud Launcher.\",\"model_id\":\"eleven_multilingual_v2\",\"voice_settings\":{\"stability\":0.55,\"similarity_boost\":0.75,\"style\":0.35,\"use_speaker_boost\":true}}}",
+    "bytes": 35151
+  },
+  "audio/units/scud_launcher-attack.mp3": {
+    "provider": "ElevenLabs",
+    "signature": "{\"endpoint\":\"text-to-speech/TX3LPaxmHKxFdv7VOQHJ?output_format=mp3_44100_128\",\"body\":{\"text\":\"Engaging target. Scud Launcher.\",\"model_id\":\"eleven_multilingual_v2\",\"voice_settings\":{\"stability\":0.55,\"similarity_boost\":0.75,\"style\":0.35,\"use_speaker_boost\":true}}}",
+    "bytes": 34315
+  },
+  "audio/units/bomb_truck-select.mp3": {
+    "provider": "ElevenLabs",
+    "signature": "{\"endpoint\":\"text-to-speech/bIHbv24MWmeRgasZH58o?output_format=mp3_44100_128\",\"body\":{\"text\":\"Bomb Truck ready.\",\"model_id\":\"eleven_multilingual_v2\",\"voice_settings\":{\"stability\":0.55,\"similarity_boost\":0.75,\"style\":0.35,\"use_speaker_boost\":true}}}",
+    "bytes": 20941
+  },
+  "audio/units/bomb_truck-move.mp3": {
+    "provider": "ElevenLabs",
+    "signature": "{\"endpoint\":\"text-to-speech/bIHbv24MWmeRgasZH58o?output_format=mp3_44100_128\",\"body\":{\"text\":\"Moving out. Bomb Truck.\",\"model_id\":\"eleven_multilingual_v2\",\"voice_settings\":{\"stability\":0.55,\"similarity_boost\":0.75,\"style\":0.35,\"use_speaker_boost\":true}}}",
+    "bytes": 28464
+  },
+  "audio/units/bomb_truck-attack.mp3": {
+    "provider": "ElevenLabs",
+    "signature": "{\"endpoint\":\"text-to-speech/bIHbv24MWmeRgasZH58o?output_format=mp3_44100_128\",\"body\":{\"text\":\"Engaging target. Bomb Truck.\",\"model_id\":\"eleven_multilingual_v2\",\"voice_settings\":{\"stability\":0.55,\"similarity_boost\":0.75,\"style\":0.35,\"use_speaker_boost\":true}}}",
+    "bytes": 30136
+  },
+  "audio/units/radar_van-select.mp3": {
+    "provider": "ElevenLabs",
+    "signature": "{\"endpoint\":\"text-to-speech/cjVigY5qzO86Huf0OWal?output_format=mp3_44100_128\",\"body\":{\"text\":\"Radar Van ready.\",\"model_id\":\"eleven_multilingual_v2\",\"voice_settings\":{\"stability\":0.55,\"similarity_boost\":0.75,\"style\":0.35,\"use_speaker_boost\":true}}}",
+    "bytes": 17597
+  },
+  "audio/units/radar_van-move.mp3": {
+    "provider": "ElevenLabs",
+    "signature": "{\"endpoint\":\"text-to-speech/cjVigY5qzO86Huf0OWal?output_format=mp3_44100_128\",\"body\":{\"text\":\"Moving out. Radar Van.\",\"model_id\":\"eleven_multilingual_v2\",\"voice_settings\":{\"stability\":0.55,\"similarity_boost\":0.75,\"style\":0.35,\"use_speaker_boost\":true}}}",
+    "bytes": 21776
+  },
+  "audio/units/radar_van-attack.mp3": {
+    "provider": "ElevenLabs",
+    "signature": "{\"endpoint\":\"text-to-speech/cjVigY5qzO86Huf0OWal?output_format=mp3_44100_128\",\"body\":{\"text\":\"Engaging target. Radar Van.\",\"model_id\":\"eleven_multilingual_v2\",\"voice_settings\":{\"stability\":0.55,\"similarity_boost\":0.75,\"style\":0.35,\"use_speaker_boost\":true}}}",
+    "bytes": 30972
+  },
+  "audio/units/comanche-select.mp3": {
+    "provider": "ElevenLabs",
+    "signature": "{\"endpoint\":\"text-to-speech/iP95p4xoKVk53GoZ742B?output_format=mp3_44100_128\",\"body\":{\"text\":\"Comanche ready.\",\"model_id\":\"eleven_multilingual_v2\",\"voice_settings\":{\"stability\":0.55,\"similarity_boost\":0.75,\"style\":0.35,\"use_speaker_boost\":true}}}",
+    "bytes": 16761
+  },
+  "audio/units/comanche-move.mp3": {
+    "provider": "ElevenLabs",
+    "signature": "{\"endpoint\":\"text-to-speech/iP95p4xoKVk53GoZ742B?output_format=mp3_44100_128\",\"body\":{\"text\":\"Moving out. Comanche.\",\"model_id\":\"eleven_multilingual_v2\",\"voice_settings\":{\"stability\":0.55,\"similarity_boost\":0.75,\"style\":0.35,\"use_speaker_boost\":true}}}",
+    "bytes": 19687
+  },
+  "audio/units/comanche-attack.mp3": {
+    "provider": "ElevenLabs",
+    "signature": "{\"endpoint\":\"text-to-speech/iP95p4xoKVk53GoZ742B?output_format=mp3_44100_128\",\"body\":{\"text\":\"Engaging target. Comanche.\",\"model_id\":\"eleven_multilingual_v2\",\"voice_settings\":{\"stability\":0.55,\"similarity_boost\":0.75,\"style\":0.35,\"use_speaker_boost\":true}}}",
+    "bytes": 25538
+  },
+  "audio/units/chinook-select.mp3": {
+    "provider": "ElevenLabs",
+    "signature": "{\"endpoint\":\"text-to-speech/nPczCjzI2devNBz1zQrb?output_format=mp3_44100_128\",\"body\":{\"text\":\"Chinook ready.\",\"model_id\":\"eleven_multilingual_v2\",\"voice_settings\":{\"stability\":0.55,\"similarity_boost\":0.75,\"style\":0.35,\"use_speaker_boost\":true}}}",
+    "bytes": 16761
+  },
+  "audio/units/chinook-move.mp3": {
+    "provider": "ElevenLabs",
+    "signature": "{\"endpoint\":\"text-to-speech/nPczCjzI2devNBz1zQrb?output_format=mp3_44100_128\",\"body\":{\"text\":\"Moving out. Chinook.\",\"model_id\":\"eleven_multilingual_v2\",\"voice_settings\":{\"stability\":0.55,\"similarity_boost\":0.75,\"style\":0.35,\"use_speaker_boost\":true}}}",
+    "bytes": 25538
+  },
+  "audio/units/chinook-attack.mp3": {
+    "provider": "ElevenLabs",
+    "signature": "{\"endpoint\":\"text-to-speech/nPczCjzI2devNBz1zQrb?output_format=mp3_44100_128\",\"body\":{\"text\":\"Engaging target. Chinook.\",\"model_id\":\"eleven_multilingual_v2\",\"voice_settings\":{\"stability\":0.55,\"similarity_boost\":0.75,\"style\":0.35,\"use_speaker_boost\":true}}}",
+    "bytes": 27210
+  },
+  "audio/units/raptor-select.mp3": {
+    "provider": "ElevenLabs",
+    "signature": "{\"endpoint\":\"text-to-speech/onwK4e9ZLuTAKqWW03F9?output_format=mp3_44100_128\",\"body\":{\"text\":\"Raptor ready.\",\"model_id\":\"eleven_multilingual_v2\",\"voice_settings\":{\"stability\":0.55,\"similarity_boost\":0.75,\"style\":0.35,\"use_speaker_boost\":true}}}",
+    "bytes": 17597
+  },
+  "audio/units/raptor-move.mp3": {
+    "provider": "ElevenLabs",
+    "signature": "{\"endpoint\":\"text-to-speech/onwK4e9ZLuTAKqWW03F9?output_format=mp3_44100_128\",\"body\":{\"text\":\"Moving out. Raptor.\",\"model_id\":\"eleven_multilingual_v2\",\"voice_settings\":{\"stability\":0.55,\"similarity_boost\":0.75,\"style\":0.35,\"use_speaker_boost\":true}}}",
+    "bytes": 29300
+  },
+  "audio/units/raptor-attack.mp3": {
+    "provider": "ElevenLabs",
+    "signature": "{\"endpoint\":\"text-to-speech/onwK4e9ZLuTAKqWW03F9?output_format=mp3_44100_128\",\"body\":{\"text\":\"Engaging target. Raptor.\",\"model_id\":\"eleven_multilingual_v2\",\"voice_settings\":{\"stability\":0.55,\"similarity_boost\":0.75,\"style\":0.35,\"use_speaker_boost\":true}}}",
+    "bytes": 33897
+  },
+  "audio/units/stealth_fighter-select.mp3": {
+    "provider": "ElevenLabs",
+    "signature": "{\"endpoint\":\"text-to-speech/pNInz6obpgDQGcFmaJgB?output_format=mp3_44100_128\",\"body\":{\"text\":\"Stealth Fighter ready.\",\"model_id\":\"eleven_multilingual_v2\",\"voice_settings\":{\"stability\":0.55,\"similarity_boost\":0.75,\"style\":0.35,\"use_speaker_boost\":true}}}",
+    "bytes": 21776
+  },
+  "audio/units/stealth_fighter-move.mp3": {
+    "provider": "ElevenLabs",
+    "signature": "{\"endpoint\":\"text-to-speech/pNInz6obpgDQGcFmaJgB?output_format=mp3_44100_128\",\"body\":{\"text\":\"Moving out. Stealth Fighter.\",\"model_id\":\"eleven_multilingual_v2\",\"voice_settings\":{\"stability\":0.55,\"similarity_boost\":0.75,\"style\":0.35,\"use_speaker_boost\":true}}}",
+    "bytes": 44346
+  },
+  "audio/units/stealth_fighter-attack.mp3": {
+    "provider": "ElevenLabs",
+    "signature": "{\"endpoint\":\"text-to-speech/pNInz6obpgDQGcFmaJgB?output_format=mp3_44100_128\",\"body\":{\"text\":\"Engaging target. Stealth Fighter.\",\"model_id\":\"eleven_multilingual_v2\",\"voice_settings\":{\"stability\":0.55,\"similarity_boost\":0.75,\"style\":0.35,\"use_speaker_boost\":true}}}",
+    "bytes": 30972
+  },
+  "audio/units/aurora-select.mp3": {
+    "provider": "ElevenLabs",
+    "signature": "{\"endpoint\":\"text-to-speech/pqHfZKP75CvOlQylNhV4?output_format=mp3_44100_128\",\"body\":{\"text\":\"Aurora Bomber ready.\",\"model_id\":\"eleven_multilingual_v2\",\"voice_settings\":{\"stability\":0.55,\"similarity_boost\":0.75,\"style\":0.35,\"use_speaker_boost\":true}}}",
+    "bytes": 25538
+  },
+  "audio/units/aurora-move.mp3": {
+    "provider": "ElevenLabs",
+    "signature": "{\"endpoint\":\"text-to-speech/pqHfZKP75CvOlQylNhV4?output_format=mp3_44100_128\",\"body\":{\"text\":\"Moving out. Aurora Bomber.\",\"model_id\":\"eleven_multilingual_v2\",\"voice_settings\":{\"stability\":0.55,\"similarity_boost\":0.75,\"style\":0.35,\"use_speaker_boost\":true}}}",
+    "bytes": 36823
+  },
+  "audio/units/aurora-attack.mp3": {
+    "provider": "ElevenLabs",
+    "signature": "{\"endpoint\":\"text-to-speech/pqHfZKP75CvOlQylNhV4?output_format=mp3_44100_128\",\"body\":{\"text\":\"Engaging target. Aurora Bomber.\",\"model_id\":\"eleven_multilingual_v2\",\"voice_settings\":{\"stability\":0.55,\"similarity_boost\":0.75,\"style\":0.35,\"use_speaker_boost\":true}}}",
+    "bytes": 39749
+  },
+  "audio/units/mig-select.mp3": {
+    "provider": "ElevenLabs",
+    "signature": "{\"endpoint\":\"text-to-speech/CwhRBWXzGAHq8TQ4Fs17?output_format=mp3_44100_128\",\"body\":{\"text\":\"MiG ready.\",\"model_id\":\"eleven_multilingual_v2\",\"voice_settings\":{\"stability\":0.55,\"similarity_boost\":0.75,\"style\":0.35,\"use_speaker_boost\":true}}}",
+    "bytes": 15925
+  },
+  "audio/units/mig-move.mp3": {
+    "provider": "ElevenLabs",
+    "signature": "{\"endpoint\":\"text-to-speech/CwhRBWXzGAHq8TQ4Fs17?output_format=mp3_44100_128\",\"body\":{\"text\":\"Moving out. MiG.\",\"model_id\":\"eleven_multilingual_v2\",\"voice_settings\":{\"stability\":0.55,\"similarity_boost\":0.75,\"style\":0.35,\"use_speaker_boost\":true}}}",
+    "bytes": 24284
+  },
+  "audio/units/mig-attack.mp3": {
+    "provider": "ElevenLabs",
+    "signature": "{\"endpoint\":\"text-to-speech/CwhRBWXzGAHq8TQ4Fs17?output_format=mp3_44100_128\",\"body\":{\"text\":\"Engaging target. MiG.\",\"model_id\":\"eleven_multilingual_v2\",\"voice_settings\":{\"stability\":0.55,\"similarity_boost\":0.75,\"style\":0.35,\"use_speaker_boost\":true}}}",
+    "bytes": 27210
+  },
+  "audio/units/helix-select.mp3": {
+    "provider": "ElevenLabs",
+    "signature": "{\"endpoint\":\"text-to-speech/IKne3meq5aSn9XLyUdCD?output_format=mp3_44100_128\",\"body\":{\"text\":\"Helix ready.\",\"model_id\":\"eleven_multilingual_v2\",\"voice_settings\":{\"stability\":0.55,\"similarity_boost\":0.75,\"style\":0.35,\"use_speaker_boost\":true}}}",
+    "bytes": 16761
+  },
+  "audio/units/helix-move.mp3": {
+    "provider": "ElevenLabs",
+    "signature": "{\"endpoint\":\"text-to-speech/IKne3meq5aSn9XLyUdCD?output_format=mp3_44100_128\",\"body\":{\"text\":\"Moving out. Helix.\",\"model_id\":\"eleven_multilingual_v2\",\"voice_settings\":{\"stability\":0.55,\"similarity_boost\":0.75,\"style\":0.35,\"use_speaker_boost\":true}}}",
+    "bytes": 26374
+  },
+  "audio/units/helix-attack.mp3": {
+    "provider": "ElevenLabs",
+    "signature": "{\"endpoint\":\"text-to-speech/IKne3meq5aSn9XLyUdCD?output_format=mp3_44100_128\",\"body\":{\"text\":\"Engaging target. Helix.\",\"model_id\":\"eleven_multilingual_v2\",\"voice_settings\":{\"stability\":0.55,\"similarity_boost\":0.75,\"style\":0.35,\"use_speaker_boost\":true}}}",
+    "bytes": 31390
+  },
+  "audio/units/b52-select.mp3": {
+    "provider": "ElevenLabs",
+    "signature": "{\"endpoint\":\"text-to-speech/JBFqnCBsd6RMkjVDRZzb?output_format=mp3_44100_128\",\"body\":{\"text\":\"B-52 ready.\",\"model_id\":\"eleven_multilingual_v2\",\"voice_settings\":{\"stability\":0.55,\"similarity_boost\":0.75,\"style\":0.35,\"use_speaker_boost\":true}}}",
+    "bytes": 22612
+  },
+  "audio/units/b52-move.mp3": {
+    "provider": "ElevenLabs",
+    "signature": "{\"endpoint\":\"text-to-speech/JBFqnCBsd6RMkjVDRZzb?output_format=mp3_44100_128\",\"body\":{\"text\":\"Moving out. B-52.\",\"model_id\":\"eleven_multilingual_v2\",\"voice_settings\":{\"stability\":0.55,\"similarity_boost\":0.75,\"style\":0.35,\"use_speaker_boost\":true}}}",
+    "bytes": 31390
+  },
+  "audio/units/b52-attack.mp3": {
+    "provider": "ElevenLabs",
+    "signature": "{\"endpoint\":\"text-to-speech/JBFqnCBsd6RMkjVDRZzb?output_format=mp3_44100_128\",\"body\":{\"text\":\"Engaging target. B-52.\",\"model_id\":\"eleven_multilingual_v2\",\"voice_settings\":{\"stability\":0.55,\"similarity_boost\":0.75,\"style\":0.35,\"use_speaker_boost\":true}}}",
+    "bytes": 39749
+  },
+  "audio/units/gunboat-select.mp3": {
+    "provider": "ElevenLabs",
+    "signature": "{\"endpoint\":\"text-to-speech/N2lVS1w4EtoT3dr4eOWO?output_format=mp3_44100_128\",\"body\":{\"text\":\"Patrol Boat ready.\",\"model_id\":\"eleven_multilingual_v2\",\"voice_settings\":{\"stability\":0.55,\"similarity_boost\":0.75,\"style\":0.35,\"use_speaker_boost\":true}}}",
+    "bytes": 24702
+  },
+  "audio/units/gunboat-move.mp3": {
+    "provider": "ElevenLabs",
+    "signature": "{\"endpoint\":\"text-to-speech/N2lVS1w4EtoT3dr4eOWO?output_format=mp3_44100_128\",\"body\":{\"text\":\"Moving out. Patrol Boat.\",\"model_id\":\"eleven_multilingual_v2\",\"voice_settings\":{\"stability\":0.55,\"similarity_boost\":0.75,\"style\":0.35,\"use_speaker_boost\":true}}}",
+    "bytes": 30136
+  },
+  "audio/units/gunboat-attack.mp3": {
+    "provider": "ElevenLabs",
+    "signature": "{\"endpoint\":\"text-to-speech/N2lVS1w4EtoT3dr4eOWO?output_format=mp3_44100_128\",\"body\":{\"text\":\"Engaging target. Patrol Boat.\",\"model_id\":\"eleven_multilingual_v2\",\"voice_settings\":{\"stability\":0.55,\"similarity_boost\":0.75,\"style\":0.35,\"use_speaker_boost\":true}}}",
+    "bytes": 34315
+  },
+  "audio/units/amphibious-select.mp3": {
+    "provider": "ElevenLabs",
+    "signature": "{\"endpoint\":\"text-to-speech/SOYHLrjzK2X1ezoPC6cr?output_format=mp3_44100_128\",\"body\":{\"text\":\"Amphibious Transport ready.\",\"model_id\":\"eleven_multilingual_v2\",\"voice_settings\":{\"stability\":0.55,\"similarity_boost\":0.75,\"style\":0.35,\"use_speaker_boost\":true}}}",
+    "bytes": 28464
+  },
+  "audio/units/amphibious-move.mp3": {
+    "provider": "ElevenLabs",
+    "signature": "{\"endpoint\":\"text-to-speech/SOYHLrjzK2X1ezoPC6cr?output_format=mp3_44100_128\",\"body\":{\"text\":\"Moving out. Amphibious Transport.\",\"model_id\":\"eleven_multilingual_v2\",\"voice_settings\":{\"stability\":0.55,\"similarity_boost\":0.75,\"style\":0.35,\"use_speaker_boost\":true}}}",
+    "bytes": 37659
+  },
+  "audio/units/amphibious-attack.mp3": {
+    "provider": "ElevenLabs",
+    "signature": "{\"endpoint\":\"text-to-speech/SOYHLrjzK2X1ezoPC6cr?output_format=mp3_44100_128\",\"body\":{\"text\":\"Engaging target. Amphibious Transport.\",\"model_id\":\"eleven_multilingual_v2\",\"voice_settings\":{\"stability\":0.55,\"similarity_boost\":0.75,\"style\":0.35,\"use_speaker_boost\":true}}}",
+    "bytes": 43510
+  },
+  "audio/units/king_raptor-select.mp3": {
+    "provider": "ElevenLabs",
+    "signature": "{\"endpoint\":\"text-to-speech/TX3LPaxmHKxFdv7VOQHJ?output_format=mp3_44100_128\",\"body\":{\"text\":\"King Raptor ready.\",\"model_id\":\"eleven_multilingual_v2\",\"voice_settings\":{\"stability\":0.55,\"similarity_boost\":0.75,\"style\":0.35,\"use_speaker_boost\":true}}}",
+    "bytes": 24702
+  },
+  "audio/units/king_raptor-move.mp3": {
+    "provider": "ElevenLabs",
+    "signature": "{\"endpoint\":\"text-to-speech/TX3LPaxmHKxFdv7VOQHJ?output_format=mp3_44100_128\",\"body\":{\"text\":\"Moving out. King Raptor.\",\"model_id\":\"eleven_multilingual_v2\",\"voice_settings\":{\"stability\":0.55,\"similarity_boost\":0.75,\"style\":0.35,\"use_speaker_boost\":true}}}",
+    "bytes": 30136
+  },
+  "audio/units/king_raptor-attack.mp3": {
+    "provider": "ElevenLabs",
+    "signature": "{\"endpoint\":\"text-to-speech/TX3LPaxmHKxFdv7VOQHJ?output_format=mp3_44100_128\",\"body\":{\"text\":\"Engaging target. King Raptor.\",\"model_id\":\"eleven_multilingual_v2\",\"voice_settings\":{\"stability\":0.55,\"similarity_boost\":0.75,\"style\":0.35,\"use_speaker_boost\":true}}}",
+    "bytes": 37659
+  },
+  "audio/units/laser_crusader-select.mp3": {
+    "provider": "ElevenLabs",
+    "signature": "{\"endpoint\":\"text-to-speech/bIHbv24MWmeRgasZH58o?output_format=mp3_44100_128\",\"body\":{\"text\":\"Laser Crusader ready.\",\"model_id\":\"eleven_multilingual_v2\",\"voice_settings\":{\"stability\":0.55,\"similarity_boost\":0.75,\"style\":0.35,\"use_speaker_boost\":true}}}",
+    "bytes": 24702
+  },
+  "audio/units/laser_crusader-move.mp3": {
+    "provider": "ElevenLabs",
+    "signature": "{\"endpoint\":\"text-to-speech/bIHbv24MWmeRgasZH58o?output_format=mp3_44100_128\",\"body\":{\"text\":\"Moving out. Laser Crusader.\",\"model_id\":\"eleven_multilingual_v2\",\"voice_settings\":{\"stability\":0.55,\"similarity_boost\":0.75,\"style\":0.35,\"use_speaker_boost\":true}}}",
+    "bytes": 29300
+  },
+  "audio/units/laser_crusader-attack.mp3": {
+    "provider": "ElevenLabs",
+    "signature": "{\"endpoint\":\"text-to-speech/bIHbv24MWmeRgasZH58o?output_format=mp3_44100_128\",\"body\":{\"text\":\"Engaging target. Laser Crusader.\",\"model_id\":\"eleven_multilingual_v2\",\"voice_settings\":{\"stability\":0.55,\"similarity_boost\":0.75,\"style\":0.35,\"use_speaker_boost\":true}}}",
+    "bytes": 41003
+  },
+  "audio/units/alpha_aurora-select.mp3": {
+    "provider": "ElevenLabs",
+    "signature": "{\"endpoint\":\"text-to-speech/cjVigY5qzO86Huf0OWal?output_format=mp3_44100_128\",\"body\":{\"text\":\"Alpha Aurora ready.\",\"model_id\":\"eleven_multilingual_v2\",\"voice_settings\":{\"stability\":0.55,\"similarity_boost\":0.75,\"style\":0.35,\"use_speaker_boost\":true}}}",
+    "bytes": 23448
+  },
+  "audio/units/alpha_aurora-move.mp3": {
+    "provider": "ElevenLabs",
+    "signature": "{\"endpoint\":\"text-to-speech/cjVigY5qzO86Huf0OWal?output_format=mp3_44100_128\",\"body\":{\"text\":\"Moving out. Alpha Aurora.\",\"model_id\":\"eleven_multilingual_v2\",\"voice_settings\":{\"stability\":0.55,\"similarity_boost\":0.75,\"style\":0.35,\"use_speaker_boost\":true}}}",
+    "bytes": 24284
+  },
+  "audio/units/alpha_aurora-attack.mp3": {
+    "provider": "ElevenLabs",
+    "signature": "{\"endpoint\":\"text-to-speech/cjVigY5qzO86Huf0OWal?output_format=mp3_44100_128\",\"body\":{\"text\":\"Engaging target. Alpha Aurora.\",\"model_id\":\"eleven_multilingual_v2\",\"voice_settings\":{\"stability\":0.55,\"similarity_boost\":0.75,\"style\":0.35,\"use_speaker_boost\":true}}}",
+    "bytes": 30972
+  },
+  "audio/units/emperor-select.mp3": {
+    "provider": "ElevenLabs",
+    "signature": "{\"endpoint\":\"text-to-speech/iP95p4xoKVk53GoZ742B?output_format=mp3_44100_128\",\"body\":{\"text\":\"Emperor ready.\",\"model_id\":\"eleven_multilingual_v2\",\"voice_settings\":{\"stability\":0.55,\"similarity_boost\":0.75,\"style\":0.35,\"use_speaker_boost\":true}}}",
+    "bytes": 15925
+  },
+  "audio/units/emperor-move.mp3": {
+    "provider": "ElevenLabs",
+    "signature": "{\"endpoint\":\"text-to-speech/iP95p4xoKVk53GoZ742B?output_format=mp3_44100_128\",\"body\":{\"text\":\"Moving out. Emperor.\",\"model_id\":\"eleven_multilingual_v2\",\"voice_settings\":{\"stability\":0.55,\"similarity_boost\":0.75,\"style\":0.35,\"use_speaker_boost\":true}}}",
+    "bytes": 21776
+  },
+  "audio/units/emperor-attack.mp3": {
+    "provider": "ElevenLabs",
+    "signature": "{\"endpoint\":\"text-to-speech/iP95p4xoKVk53GoZ742B?output_format=mp3_44100_128\",\"body\":{\"text\":\"Engaging target. Emperor.\",\"model_id\":\"eleven_multilingual_v2\",\"voice_settings\":{\"stability\":0.55,\"similarity_boost\":0.75,\"style\":0.35,\"use_speaker_boost\":true}}}",
+    "bytes": 25538
+  },
+  "audio/units/mini_gunner-select.mp3": {
+    "provider": "ElevenLabs",
+    "signature": "{\"endpoint\":\"text-to-speech/nPczCjzI2devNBz1zQrb?output_format=mp3_44100_128\",\"body\":{\"text\":\"Mini Gunner ready.\",\"model_id\":\"eleven_multilingual_v2\",\"voice_settings\":{\"stability\":0.55,\"similarity_boost\":0.75,\"style\":0.35,\"use_speaker_boost\":true}}}",
+    "bytes": 19687
+  },
+  "audio/units/mini_gunner-move.mp3": {
+    "provider": "ElevenLabs",
+    "signature": "{\"endpoint\":\"text-to-speech/nPczCjzI2devNBz1zQrb?output_format=mp3_44100_128\",\"body\":{\"text\":\"Moving out. Mini Gunner.\",\"model_id\":\"eleven_multilingual_v2\",\"voice_settings\":{\"stability\":0.55,\"similarity_boost\":0.75,\"style\":0.35,\"use_speaker_boost\":true}}}",
+    "bytes": 24702
+  },
+  "audio/units/mini_gunner-attack.mp3": {
+    "provider": "ElevenLabs",
+    "signature": "{\"endpoint\":\"text-to-speech/nPczCjzI2devNBz1zQrb?output_format=mp3_44100_128\",\"body\":{\"text\":\"Engaging target. Mini Gunner.\",\"model_id\":\"eleven_multilingual_v2\",\"voice_settings\":{\"stability\":0.55,\"similarity_boost\":0.75,\"style\":0.35,\"use_speaker_boost\":true}}}",
+    "bytes": 28464
+  },
+  "audio/units/nuke_battlemaster-select.mp3": {
+    "provider": "ElevenLabs",
+    "signature": "{\"endpoint\":\"text-to-speech/onwK4e9ZLuTAKqWW03F9?output_format=mp3_44100_128\",\"body\":{\"text\":\"Nuke Battlemaster ready.\",\"model_id\":\"eleven_multilingual_v2\",\"voice_settings\":{\"stability\":0.55,\"similarity_boost\":0.75,\"style\":0.35,\"use_speaker_boost\":true}}}",
+    "bytes": 27210
+  },
+  "audio/units/nuke_battlemaster-move.mp3": {
+    "provider": "ElevenLabs",
+    "signature": "{\"endpoint\":\"text-to-speech/onwK4e9ZLuTAKqWW03F9?output_format=mp3_44100_128\",\"body\":{\"text\":\"Moving out. Nuke Battlemaster.\",\"model_id\":\"eleven_multilingual_v2\",\"voice_settings\":{\"stability\":0.55,\"similarity_boost\":0.75,\"style\":0.35,\"use_speaker_boost\":true}}}",
+    "bytes": 46436
+  },
+  "audio/units/nuke_battlemaster-attack.mp3": {
+    "provider": "ElevenLabs",
+    "signature": "{\"endpoint\":\"text-to-speech/onwK4e9ZLuTAKqWW03F9?output_format=mp3_44100_128\",\"body\":{\"text\":\"Engaging target. Nuke Battlemaster.\",\"model_id\":\"eleven_multilingual_v2\",\"voice_settings\":{\"stability\":0.55,\"similarity_boost\":0.75,\"style\":0.35,\"use_speaker_boost\":true}}}",
+    "bytes": 48526
+  },
+  "audio/units/toxin_rebel-select.mp3": {
+    "provider": "ElevenLabs",
+    "signature": "{\"endpoint\":\"text-to-speech/pNInz6obpgDQGcFmaJgB?output_format=mp3_44100_128\",\"body\":{\"text\":\"Toxin Rebel ready.\",\"model_id\":\"eleven_multilingual_v2\",\"voice_settings\":{\"stability\":0.55,\"similarity_boost\":0.75,\"style\":0.35,\"use_speaker_boost\":true}}}",
+    "bytes": 24284
+  },
+  "audio/units/toxin_rebel-move.mp3": {
+    "provider": "ElevenLabs",
+    "signature": "{\"endpoint\":\"text-to-speech/pNInz6obpgDQGcFmaJgB?output_format=mp3_44100_128\",\"body\":{\"text\":\"Moving out. Toxin Rebel.\",\"model_id\":\"eleven_multilingual_v2\",\"voice_settings\":{\"stability\":0.55,\"similarity_boost\":0.75,\"style\":0.35,\"use_speaker_boost\":true}}}",
+    "bytes": 35987
+  },
+  "audio/units/toxin_rebel-attack.mp3": {
+    "provider": "ElevenLabs",
+    "signature": "{\"endpoint\":\"text-to-speech/pNInz6obpgDQGcFmaJgB?output_format=mp3_44100_128\",\"body\":{\"text\":\"Engaging target. Toxin Rebel.\",\"model_id\":\"eleven_multilingual_v2\",\"voice_settings\":{\"stability\":0.55,\"similarity_boost\":0.75,\"style\":0.35,\"use_speaker_boost\":true}}}",
+    "bytes": 44346
+  },
+  "audio/units/stealth_hijacker-select.mp3": {
+    "provider": "ElevenLabs",
+    "signature": "{\"endpoint\":\"text-to-speech/pqHfZKP75CvOlQylNhV4?output_format=mp3_44100_128\",\"body\":{\"text\":\"Stealth Hijacker ready.\",\"model_id\":\"eleven_multilingual_v2\",\"voice_settings\":{\"stability\":0.55,\"similarity_boost\":0.75,\"style\":0.35,\"use_speaker_boost\":true}}}",
+    "bytes": 27628
+  },
+  "audio/units/stealth_hijacker-move.mp3": {
+    "provider": "ElevenLabs",
+    "signature": "{\"endpoint\":\"text-to-speech/pqHfZKP75CvOlQylNhV4?output_format=mp3_44100_128\",\"body\":{\"text\":\"Moving out. Stealth Hijacker.\",\"model_id\":\"eleven_multilingual_v2\",\"voice_settings\":{\"stability\":0.55,\"similarity_boost\":0.75,\"style\":0.35,\"use_speaker_boost\":true}}}",
+    "bytes": 37659
+  },
+  "audio/units/stealth_hijacker-attack.mp3": {
+    "provider": "ElevenLabs",
+    "signature": "{\"endpoint\":\"text-to-speech/pqHfZKP75CvOlQylNhV4?output_format=mp3_44100_128\",\"body\":{\"text\":\"Engaging target. Stealth Hijacker.\",\"model_id\":\"eleven_multilingual_v2\",\"voice_settings\":{\"stability\":0.55,\"similarity_boost\":0.75,\"style\":0.35,\"use_speaker_boost\":true}}}",
+    "bytes": 44346
+  },
+  "audio/units/demo_bike-select.mp3": {
+    "provider": "ElevenLabs",
+    "signature": "{\"endpoint\":\"text-to-speech/CwhRBWXzGAHq8TQ4Fs17?output_format=mp3_44100_128\",\"body\":{\"text\":\"Demo Bike ready.\",\"model_id\":\"eleven_multilingual_v2\",\"voice_settings\":{\"stability\":0.55,\"similarity_boost\":0.75,\"style\":0.35,\"use_speaker_boost\":true}}}",
+    "bytes": 21776
+  },
+  "audio/units/demo_bike-move.mp3": {
+    "provider": "ElevenLabs",
+    "signature": "{\"endpoint\":\"text-to-speech/CwhRBWXzGAHq8TQ4Fs17?output_format=mp3_44100_128\",\"body\":{\"text\":\"Moving out. Demo Bike.\",\"model_id\":\"eleven_multilingual_v2\",\"voice_settings\":{\"stability\":0.55,\"similarity_boost\":0.75,\"style\":0.35,\"use_speaker_boost\":true}}}",
+    "bytes": 28464
+  },
+  "audio/units/demo_bike-attack.mp3": {
+    "provider": "ElevenLabs",
+    "signature": "{\"endpoint\":\"text-to-speech/CwhRBWXzGAHq8TQ4Fs17?output_format=mp3_44100_128\",\"body\":{\"text\":\"Engaging target. Demo Bike.\",\"model_id\":\"eleven_multilingual_v2\",\"voice_settings\":{\"stability\":0.55,\"similarity_boost\":0.75,\"style\":0.35,\"use_speaker_boost\":true}}}",
+    "bytes": 33061
+  },
+  "audio/effects/gunfire.mp3": {
+    "provider": "ElevenLabs",
+    "signature": "{\"endpoint\":\"sound-generation\",\"body\":{\"text\":\"A short realistic military rifle burst outdoors, sharp dry cracks and mechanical action, no voices or music.\",\"duration_seconds\":1.5,\"model_id\":\"eleven_text_to_sound_v2\",\"prompt_influence\":0.6}}",
+    "bytes": 24702
+  },
+  "audio/effects/cannon.mp3": {
+    "provider": "ElevenLabs",
+    "signature": "{\"endpoint\":\"sound-generation\",\"body\":{\"text\":\"One modern tank cannon firing, powerful concussive report, metallic mechanism and short outdoor echo, no music.\",\"duration_seconds\":2,\"model_id\":\"eleven_text_to_sound_v2\",\"prompt_influence\":0.6}}",
+    "bytes": 33061
+  },
+  "audio/effects/missile.mp3": {
+    "provider": "ElevenLabs",
+    "signature": "{\"endpoint\":\"sound-generation\",\"body\":{\"text\":\"A single tactical rocket launch, ignition thump and roaring whoosh fading away, no voices or music.\",\"duration_seconds\":2,\"model_id\":\"eleven_text_to_sound_v2\",\"prompt_influence\":0.6}}",
+    "bytes": 33061
+  },
+  "audio/effects/explosion.mp3": {
+    "provider": "ElevenLabs",
+    "signature": "{\"endpoint\":\"sound-generation\",\"body\":{\"text\":\"A realistic battlefield explosion, sharp blast, deep rumble, scattered metal debris and dirt, no voices or music.\",\"duration_seconds\":3,\"model_id\":\"eleven_text_to_sound_v2\",\"prompt_influence\":0.6}}",
+    "bytes": 48944
+  },
+  "audio/effects/engine.mp3": {
+    "provider": "ElevenLabs",
+    "signature": "{\"endpoint\":\"sound-generation\",\"body\":{\"text\":\"Steady diesel tank engine with moving steel tracks on gravel, close mechanical detail, no voices or music.\",\"duration_seconds\":3,\"model_id\":\"eleven_text_to_sound_v2\",\"prompt_influence\":0.6}}",
+    "bytes": 48944
+  },
+  "audio/effects/laser.mp3": {
+    "provider": "ElevenLabs",
+    "signature": "{\"endpoint\":\"sound-generation\",\"body\":{\"text\":\"A powerful directed energy weapon discharge, electrical snap and sizzling pulse, grounded military science fiction, no music.\",\"duration_seconds\":1,\"model_id\":\"eleven_text_to_sound_v2\",\"prompt_influence\":0.6}}",
+    "bytes": 17179
+  },
+  "audio/announcer/building_complete.mp3": {
+    "provider": "ElevenLabs",
+    "signature": "{\"endpoint\":\"text-to-speech/EXAVITQu4vr4xnSDxMaL?output_format=mp3_44100_128\",\"body\":{\"text\":\"Building complete\",\"model_id\":\"eleven_multilingual_v2\",\"voice_settings\":{\"stability\":0.7,\"similarity_boost\":0.75,\"use_speaker_boost\":true}}}",
+    "bytes": 18015
+  },
+  "audio/announcer/low_power.mp3": {
+    "provider": "ElevenLabs",
+    "signature": "{\"endpoint\":\"text-to-speech/EXAVITQu4vr4xnSDxMaL?output_format=mp3_44100_128\",\"body\":{\"text\":\"Low power\",\"model_id\":\"eleven_multilingual_v2\",\"voice_settings\":{\"stability\":0.7,\"similarity_boost\":0.75,\"use_speaker_boost\":true}}}",
+    "bytes": 15925
+  },
+  "audio/announcer/destroyed.mp3": {
+    "provider": "ElevenLabs",
+    "signature": "{\"endpoint\":\"text-to-speech/EXAVITQu4vr4xnSDxMaL?output_format=mp3_44100_128\",\"body\":{\"text\":\"Unit lost\",\"model_id\":\"eleven_multilingual_v2\",\"voice_settings\":{\"stability\":0.7,\"similarity_boost\":0.75,\"use_speaker_boost\":true}}}",
+    "bytes": 14253
+  },
+  "audio/announcer/under_attack.mp3": {
+    "provider": "ElevenLabs",
+    "signature": "{\"endpoint\":\"text-to-speech/EXAVITQu4vr4xnSDxMaL?output_format=mp3_44100_128\",\"body\":{\"text\":\"Our base is under attack\",\"model_id\":\"eleven_multilingual_v2\",\"voice_settings\":{\"stability\":0.7,\"similarity_boost\":0.75,\"use_speaker_boost\":true}}}",
+    "bytes": 24284
+  },
+  "audio/announcer/super_detected.mp3": {
+    "provider": "ElevenLabs",
+    "signature": "{\"endpoint\":\"text-to-speech/EXAVITQu4vr4xnSDxMaL?output_format=mp3_44100_128\",\"body\":{\"text\":\"Superweapon detected\",\"model_id\":\"eleven_multilingual_v2\",\"voice_settings\":{\"stability\":0.7,\"similarity_boost\":0.75,\"use_speaker_boost\":true}}}",
+    "bytes": 23448
+  },
+  "audio/announcer/promotion.mp3": {
+    "provider": "ElevenLabs",
+    "signature": "{\"endpoint\":\"text-to-speech/EXAVITQu4vr4xnSDxMaL?output_format=mp3_44100_128\",\"body\":{\"text\":\"You have been promoted\",\"model_id\":\"eleven_multilingual_v2\",\"voice_settings\":{\"stability\":0.7,\"similarity_boost\":0.75,\"use_speaker_boost\":true}}}",
+    "bytes": 24284
+  }
+}
