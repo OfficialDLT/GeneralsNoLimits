@@ -8,6 +8,7 @@ import {
 } from "../config/index.js";
 import { height, water, cliff, clamp } from "../simulation/world.js";
 import { entityModel, box, bake } from "./models.js";
+import { BattlefieldParticles } from './particles.js';
 export class View {
   constructor(canvas) {
     this.canvas = canvas;
@@ -26,6 +27,7 @@ export class View {
     this.foliageTexture = new THREE.TextureLoader().load(`${import.meta.env.BASE_URL}art/pine.png`);
     this.foliageTexture.colorSpace = THREE.SRGBColorSpace;
     this.scene = new THREE.Scene();
+    this.particles = new BattlefieldParticles(this.scene);
     this.scene.background = new THREE.Color("#91a99a");
     this.camera = new THREE.PerspectiveCamera(48, 1, 1, 5000);
     this.focus = new THREE.Vector3();
@@ -65,6 +67,8 @@ export class View {
   }
   setGame(game) {
     this.game = game;
+    this.particles.clear();
+    for (const record of this.meshes.values()) record.materials?.forEach(m => m.dispose());
     this.meshes.clear();
     if (this.projectileRecords) {
       for (const m of this.projectileRecords.values()) {
@@ -192,7 +196,15 @@ export class View {
       box(bridge, map.size * 0.09, 1, 14, 0x9a9981, 0, 2, z);
       box(bridge, map.size * 0.09, 1, 1, 0x585e53, 0, 3, z - 7);
       box(bridge, map.size * 0.09, 1, 1, 0x585e53, 0, 3, z + 7);
-      this.root.add(bridge);
+      const deck = bake(bridge);
+      deck.name = 'fogged-bridge';
+      deck.traverse(o => {
+        if (!o.isMesh) return;
+        o.material = new THREE.MeshStandardMaterial({ vertexColors: true, roughness: 0.9 });
+        o.material.onBeforeCompile = material.onBeforeCompile;
+        o.userData.owned = true;
+      });
+      this.root.add(deck);
     }
     const count = Math.min(900, Math.round(map.size * 0.5));
     const foliagePlane = new THREE.PlaneGeometry(13, 18);
@@ -329,7 +341,7 @@ export class View {
     const g = this.game;
     if (!g) return;
     const aliveIds = new Set();
-    for (const e of g.entities) {
+    for (const e of g.renderEntities()) {
       if (
         e.hp <= 0 &&
         g.time - (this.meshes.get(e.id)?.rubbleTime ?? g.time) > 15
@@ -338,8 +350,17 @@ export class View {
       aliveIds.add(e.id);
       let record = this.meshes.get(e.id);
       if (!record || record.owner !== e.owner) {
-        if (record) this.root.remove(record.mesh);
+        if (record) { this.root.remove(record.mesh); record.materials?.forEach(m => m.dispose()); }
         const mesh = this.template(e).clone(true);
+        const materials = [];
+        mesh.traverse(o => {
+          if (!o.isMesh) return;
+          const source = o.material;
+          o.material = source.clone();
+          o.material.onBeforeCompile = source.onBeforeCompile;
+          o.material.customProgramCacheKey = source.customProgramCacheKey;
+          materials.push(o.material);
+        });
         const ring = new THREE.Mesh(
           new THREE.RingGeometry(e.radius + 1, e.radius + 1.5, 32),
           new THREE.MeshBasicMaterial({
@@ -353,6 +374,7 @@ export class View {
         this.root.add(mesh);
         record = {
           mesh,
+          materials,
           ring,
           owner: e.owner,
           baseScale: mesh.scale.clone(),
@@ -363,6 +385,8 @@ export class View {
       if (e.hp <= 0 && record.rubbleTime === null) record.rubbleTime = g.time;
       const mesh = record.mesh,
         d = def(e) || {};
+      record.memory = !!e.memory;
+      for (const m of record.materials) m.color.setScalar(record.memory ? 0.32 : 1);
       mesh.position.set(
         e.x,
         height(g.map, e.x, e.z) +
@@ -381,8 +405,8 @@ export class View {
             ? Math.max(0.15, e.progress)
             : 1);
       mesh.rotation.z = e.hp <= 0 ? 0.2 : d.kind === 'air' ? (e.bank || 0) : damaged < 0.3 ? 0.04 : 0;
-      mesh.visible = !e.inside && (e.owner === 0 || g.isVisible(e));
-      record.ring.visible = this.selected.includes(e.id) && e.hp > 0;
+      mesh.visible = !e.inside && (record.memory || e.owner === 0 || g.isVisible(e));
+      record.ring.visible = !record.memory && this.selected.includes(e.id) && e.hp > 0;
       record.ring.material.color.set(damaged < 0.3 ? 0xff7556 : 0xc6ef75);
     }
     for (const [id, r] of this.meshes)
@@ -390,6 +414,7 @@ export class View {
         this.root.remove(r.mesh);
         r.ring.geometry.dispose();
         r.ring.material.dispose();
+        r.materials?.forEach(m => m.dispose());
         this.meshes.delete(id);
       }
     if (!this.supplyMeshes.length) {
@@ -462,11 +487,12 @@ export class View {
     let count = 0;
     for (const e of g.entities) {
       const record = this.meshes.get(e.id);
+      const groupNumbers = e.owner === 0 ? Object.entries(this.groups || {}).filter(([, ids]) => ids.includes(e.id)).map(([number]) => number) : [];
       if (
-        !record?.mesh.visible ||
+        !record?.mesh.visible || record.memory ||
         e.hp <= 0 ||
         e.inside ||
-        !(this.selected.includes(e.id) || e.hp < e.maxHp || e.progress < 1) ||
+        !(groupNumbers.length || this.selected.includes(e.id) || e.hp < e.maxHp || e.progress < 1) ||
         count++ > 140
       )
         continue;
@@ -476,7 +502,7 @@ export class View {
       div.className = "health";
       div.style.left = p.x + "px";
       div.style.top = p.y - 18 + "px";
-      div.innerHTML = `<i style="width:${(100 * e.hp) / e.maxHp}%"></i><span>${e.veterancy ? "❯".repeat(e.veterancy) : ""}${e.progress < 1 ? " " + Math.floor(e.progress * 100) + "%" : ""}${e.status.emp ? " EMP" : ""}</span>`;
+      div.innerHTML = `<i style="width:${(100 * e.hp) / e.maxHp}%"></i><span>${groupNumbers.length ? '[' + groupNumbers.join(',') + '] ' : ''}${e.veterancy ? "❯".repeat(e.veterancy) : ""}${e.progress < 1 ? " " + Math.floor(e.progress * 100) + "%" : ""}${e.status.emp ? " EMP" : ""}</span>`;
       this.labels.append(div);
     }
   }
@@ -519,7 +545,7 @@ export class View {
     this.world(event);
     const hits = this.ray.intersectObjects(
       [...this.meshes.values()]
-        .filter((r) => r.mesh.visible)
+        .filter((r) => r.mesh.visible && !r.memory)
         .map((r) => r.mesh),
       true,
     );
@@ -618,6 +644,11 @@ export class View {
           z: event.z + (Math.random() - 0.5) * 12,
           radius: 1,
         });
+    if (['impact', 'destroyed', 'superweapon', 'power', 'smoke', 'fire', 'dust', 'shot', 'laser_intercept'].includes(event.type)) {
+      this.particles.emit(event, height(this.game.map, event.x || 0, event.z || 0));
+      if ((event.radius || 0) > 18) this.shake = 0.8;
+      return;
+    }
     if (this.effectMeshes.length > 240) {
       const fx = this.effectMeshes.shift();
       this.scene.remove(fx.mesh);
@@ -705,6 +736,7 @@ export class View {
     this.camera.updateMatrixWorld();
     this.sun.position.set(this.focus.x + 150, 250, this.focus.z + 100);
     this.sun.target.position.copy(this.focus);
+    this.particles.update(dt, this.canvas.height * 1.2, (x, z) => !!g.visible[this.fogIndex(x, z)]);
     for (let i = this.effectMeshes.length - 1; i >= 0; i--) {
       const e = this.effectMeshes[i];
       e.remaining -= dt;
@@ -720,21 +752,23 @@ export class View {
     }
     for (const e of g.entities) {
       const r = this.meshes.get(e.id);
-      if (!r) continue;
+      if (!r || r.memory) continue;
       r.mesh.position.x = e.x;
       r.mesh.position.z = e.z;
       r.mesh.position.y =
         height(g.map, e.x, e.z) +
-        (units[e.type]?.kind === "air" ? (e.landed ? 3 : 28) : 0);
+        (units[e.type]?.kind === "air" ? (e.altitude ?? (e.landed ? 1.2 : 28)) : 0);
       r.mesh.rotation.y = e.rotation;
       r.mesh.traverse((o) => {
         if (o.name === "rotor") o.rotation.y += dt * 24;
+        if (o.name === 'landing-gear') o.visible = !!e.landed || ['landing', 'taxiOut', 'taxiIn'].includes(e.flightState) || (e.flightState === 'takeoff' && e.altitude < 12);
       });
       if (r.mesh.visible && e.hp > 0) {
         r.trailClock = (r.trailClock || 0) + dt;
         if (r.trailClock > 0.7) {
           r.trailClock = 0;
           if (e.path.length && units[e.type]?.kind !== "air") {
+            if (units[e.type]?.kind === 'tank') this.effect({ type: 'dust', x: e.x, z: e.z, radius: 3 });
             this.effect({
               type: units[e.type]?.kind === "tank" ? "track" : "dust",
               x: e.x,
@@ -856,8 +890,9 @@ export class View {
             : "#090f0c";
         ctx.fillRect(x * cell, z * cell, cell + 1, cell + 1);
       }
-    for (const e of g.entities) {
-      if (e.hp <= 0 || e.inside || (!g.isVisible(e) && e.owner !== 0)) continue;
+    for (const e of g.renderEntities()) {
+      if (e.hp <= 0 || e.inside || (!e.memory && !g.isVisible(e) && e.owner !== 0)) continue;
+      ctx.globalAlpha = e.memory ? 0.4 : 1;
       ctx.fillStyle =
         e.owner < 0
           ? "#c9c0a5"
@@ -870,6 +905,7 @@ export class View {
         size,
         size,
       );
+      ctx.globalAlpha = 1;
     }
     if (g.lastAttack) {
       ctx.strokeStyle = "#ff6c5b";

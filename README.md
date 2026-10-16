@@ -1,6 +1,6 @@
 # Generals No Limits
 
-Een modulaire, speelbare 3D RTS geïnspireerd op Generals en Zero Hour. Drie facties, negen generaalsvarianten, economie, basisbouw, gevechten, AI, campaign en superwapens. Eigen quasi-realistische menu-art, portretten, terrein-, metaal- en boomassets, procedurele 3D-modellen en 174 door ElevenLabs gemaakte stemmen, meldingen en effecten. De bestaande synthetische muziek is voorlopig behouden. Zie [assetproductie](docs/asset-production.md) voor herkomst en reproductie.
+Een modulaire, speelbare 3D RTS geïnspireerd op Generals en Zero Hour. Drie facties, negen generaalsvarianten, economie, basisbouw, gevechten, AI, campaign en superwapens. Eigen quasi-realistische menu-art, portretten, terrein-, metaal- en boomassets, procedurele 3D-modellen en 176 door ElevenLabs gemaakte stemmen, meldingen en effecten. De originele oorlogsscore Steel Tempest is lokaal gesynthetiseerd. Zie [assetproductie](docs/asset-production.md) voor herkomst en reproductie.
 
 ## Direct in de browser spelen
 
@@ -31,12 +31,18 @@ De drie campaign-missies hebben een briefing en factiespecifieke doelen; de kaar
 
 ## Besturing
 
+Selecteer meerdere units en kies **Blok**, **Linie**, **Kolom**, **V-formatie** of **Verspreid** in de commandobalk. De volgende verplaatsing gebruikt die opstelling; grondunits stemmen hun marstempo op elkaar af. Met Shift+een cijfertoets sla je ook gemengde groepen van gebouwen en units op. Het groepsnummer wordt boven de objecten getoond.
+
+Een gewone verplaatsopdracht voor vliegtuigen eindigt nu in een blijvende **Guard-cirkel** boven de gekozen plek. Ze verdedigen die zone en hervatten hun wacht na herladen. **Stop** stuurt ze terug naar de hangar. Opstijgen en landen hebben aparte straaljagergeluiden.
+
+De nieuwe soundtrack **Steel Tempest** is een originele, lokaal gemaakte instrumentale oorlogstrack van 56,5 seconden op 136 BPM: zware drums, vervormde riffs en koperklanken. Reproduceren: `npm run assets:score`. Hiervoor is geen API-sleutel nodig.
+
 | Actie                                         | Bediening                                                                                        |
 | --------------------------------------------- | ------------------------------------------------------------------------------------------------ |
 | Camera bewegen                                | WASD, pijltjestoetsen of muis tegen schermrand                                                   |
 | Camera draaien / zoomen                       | Scrollknop vasthouden en slepen / scrollen                                                       |
 | Selectie                                      | Links klikken/slepen, Shift voegt toe, dubbelklik selecteert hetzelfde zichtbare type            |
-| Control groups                                | Ctrl+1–9 opslaan, 1–9 selecteren, dubbel indrukken centreren                                     |
+| Control groups                                | Shift+0–9 opslaan (units én gebouwen), 0–9 selecteren, dubbel indrukken centreren; Ctrl blijft ook werken |
 | Bewegen / aanvallen                           | Rechterklik op grond / vijand                                                                    |
 | Force Fire                                    | Ctrl+rechterklik; gewone rechterklik geeft nieuw bevel                                           |
 | Waypoints                                     | Shift+rechterklik of Q en doel kiezen                                                            |
@@ -54,7 +60,7 @@ Bouw- en trainhotkeys staan in de JSON-configs en op de knoppen; ze werken in de
 
 Het volledige overzicht van **alle 67 gevraagde punten**, met status, vereenvoudigingen en teststappen, staat in [docs/FEATURES.md](docs/FEATURES.md). Lees dat overzicht voor de verschillen met Generals/Zero Hour.
 
-Belangrijke grenzen: alle extra spelers zijn lokale AI; online multiplayer ontbreekt. Units en gebouwen gebruiken procedurele geometrie met gegenereerde materiaaltexturen; infantry en tanks hebben quasi-realistische klasseportretten, overige objecten 3D-cameos. Alle 54 unittypes hebben drie ElevenLabs-radioclips; EVA heeft zes ingesproken meldingen. Vier originele synthesizertracks verzorgen voorlopig de menu- en factiemuziek. Powers delen enkele effecttypen. Water, kliffen, bruggen, vliegen/landen en damage states zijn vereenvoudigd. Er is geen realistische sloopfysica of uitgebreide verhalende campaign.
+Belangrijke grenzen: alle extra spelers zijn lokale AI; online multiplayer ontbreekt. Units en gebouwen gebruiken procedurele geometrie met gegenereerde materiaaltexturen; elk unit- en gebouwtype heeft een eigen 3D-cameo. Alle 54 unittypes hebben drie ElevenLabs-radioclips; EVA heeft zes ingesproken meldingen. Steel Tempest verzorgt de menu- en gevechtsmuziek; de oudere tracks blijven als fallback aanwezig. Powers delen enkele effecttypen. Water, kliffen, bruggen, vliegen/landen en damage states zijn vereenvoudigd. Er is geen realistische sloopfysica of uitgebreide verhalende campaign.
 
 ## Ontwikkelen en stats aanpassen
 
@@ -105,4 +111,4 @@ Het hoofdmenu heeft gegenereerde militaire woestijnart, een metallic titel en ee
 
 De commandobalk staat onderin. Gebruik **COMMANDOBALK INKLAPPEN/UITKLAPPEN** voor meer kaartzicht, en de tabs **BEVELEN / GENERALS** om te wisselen. Cameos tonen de echte eigen 3D-modellen. Tanks, aircraft en factiegebouwen hebben nieuwe silhouetten en details, zonder originele game-assets over te nemen.
 
-Verkende vijandelijke en neutrale gebouwen verdwijnen nu ook in grijze fog of war. Elk unittype heeft drie eigen radioclips (selectie, bewegen, aanvallen) en een eigen stemprofiel in `src/config/voice-profiles.json`. Audio staat in `public/audio/`. Reproduceren kan met `npm run assets:audio -- --keep-music` en een lokale ElevenLabs-sleutel; spelen en normale builds hebben geen sleutel nodig. Het oude `generate-audio.py` is uitsluitend voor de eerdere synthetische assets.
+Verkende vijandelijke en neutrale gebouwen blijven donker zichtbaar met hun laatst geziene toestand; vijandelijke units verdwijnen buiten zicht. Ook bruggen volgen de terreinfog. Elk unittype heeft drie eigen radioclips (selectie, bewegen, aanvallen) en een eigen stemprofiel in `src/config/voice-profiles.json`. Audio staat in `public/audio/`. Reproduceren kan met `npm run assets:audio -- --keep-music` en een lokale ElevenLabs-sleutel; spelen en normale builds hebben geen sleutel nodig. Het oude `generate-audio.py` is uitsluitend voor de eerdere synthetische assets.

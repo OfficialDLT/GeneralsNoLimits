@@ -55,7 +55,7 @@ export class Audio {
     if (this.scene === scene && this.music.src) return;
     this.scene = scene;
     const track = scene === "menu" ? "iron-horizon" : `${scene}-command`;
-    this.music.src = `${base}audio/music/${track}.mp3`;
+    this.music.src = `${base}${assets.music?.[scene] || `audio/music/${track}.mp3`}`;
     this.music.load();
     this.playMusic();
   }
@@ -203,6 +203,8 @@ export class Audio {
     }
   }
   event(e, faction, type) {
+    if (['aircraft_takeoff', 'aircraft_landing'].includes(e.type) && e.owner === 0)
+      this.effect(e.type === 'aircraft_takeoff' ? 'takeoff' : 'landing', 0.25);
     const eva = {
       building_complete: "Building complete",
       low_power: "Low power",

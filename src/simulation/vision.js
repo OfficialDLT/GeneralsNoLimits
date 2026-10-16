@@ -24,6 +24,7 @@ export const visionMethods = {
     if (this.player.revealUntil > this.time) {
       this.visible.fill(1);
       this.explored.fill(1);
+      this.rememberBuildings();
       return;
     }
     const n = this.fogSize,
@@ -47,6 +48,30 @@ export const visionMethods = {
             this.explored[x + z * n] = 1;
           }
     }
+    this.rememberBuildings();
+  },
+  rememberBuildings() {
+    for (const b of this.buildings) {
+      if (b.owner !== 0 && !this.isVisible(b)) continue;
+      this.knownBuildings[b.id] = { id: b.id, kind: 'building', type: b.type, owner: b.owner,
+        x: b.x, z: b.z, rotation: b.rotation, hp: b.hp, maxHp: b.maxHp,
+        radius: b.radius, progress: b.progress, veterancy: b.veterancy,
+        inside: null, status: {}, passengers: [], attachments: [] };
+    }
+    for (const [id, b] of Object.entries(this.knownBuildings)) {
+      const index = clamp(Math.floor((b.x / this.map.size + 0.5) * 64), 0, 63) +
+        clamp(Math.floor((b.z / this.map.size + 0.5) * 64), 0, 63) * 64;
+      if (this.visible[index] && !this.get(Number(id))) delete this.knownBuildings[id];
+    }
+  },
+  renderEntities() {
+    const result = this.entities.filter(e => e.kind !== 'building' || e.owner === 0 || this.isVisible(e));
+    for (const b of Object.values(this.knownBuildings)) {
+      const current = this.get(b.id);
+      if (current?.owner === 0 || (current && this.isVisible(current))) continue;
+      result.push({ ...b, memory: true });
+    }
+    return result;
   },
   isVisible(e) {
     const x = clamp(

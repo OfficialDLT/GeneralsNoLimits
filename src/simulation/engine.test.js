@@ -11,6 +11,7 @@ import {
 import { Navigation, height, water, townLots, distance } from "./world.js";
 import { maps } from '../config/index.js';
 import { AIRFIELD, airfieldPoint } from '../config/airfield.js';
+import { formationOffset, formations } from './formations.js';
 const game = (faction = "usa") =>
   new Game({
     mode: "sandbox",
@@ -323,6 +324,57 @@ test('hangar slots are distinct, rotated with the airport, and reserve queued ai
   planes[0].hp = 0;
   assert.equal(g.command({ type: 'train', id: b.id, unit: 'raptor' }), null);
   assert.ok(g.command({ type: 'train', id: b.id, unit: 'raptor' }).includes('Hangars vol'));
+});
+test('formation orders have distinct slots, rotate with travel and survive replay', () => {
+  for (const mode of Object.keys(formations)) {
+    const offsets = Array.from({ length: 7 }, (_, i) => formationOffset(i, 7, mode));
+    assert.equal(new Set(offsets.map(p => `${p.x},${p.z}`)).size, 7, mode);
+    const g = game(), list = Array.from({ length: 7 }, (_, i) => g.add('ranger', 0, 150 + i, 100));
+    g.command({ type: 'order', ids: list.map(u => u.id), order: 'move', x: 100, z: 200, formation: mode });
+    assert.equal(new Set(list.map(u => `${u.order.x},${u.order.z}`)).size, 7, mode);
+    assert.equal(g.log.at(-1).formation, mode);
+  }
+});
+test('discovered buildings retain last-seen state without leaking hidden ownership or destruction', () => {
+  const g = game(), b = g.buildings.find(e => e.type === 'oil');
+  for (const u of g.entities.filter(e => e.owner === 0)) { u.x = b.x + 25; u.z = b.z + 25; }
+  g.updateFog();
+  const hp = b.hp;
+  assert.equal(g.knownBuildings[b.id].hp, hp);
+  for (const u of g.entities.filter(e => e.owner === 0)) { u.x = 250; u.z = 250; }
+  g.updateFog();
+  b.hp = 123; b.owner = -1;
+  assert.equal(g.renderEntities().find(e => e.id === b.id).memory, true);
+  assert.equal(g.renderEntities().find(e => e.id === b.id).hp, hp);
+  b.hp = 0;
+  g.updateFog();
+  assert.ok(g.renderEntities().find(e => e.id === b.id)?.memory);
+  const restored = Game.load(JSON.parse(JSON.stringify(g.save())));
+  assert.equal(restored.knownBuildings[b.id].hp, hp);
+  for (const u of g.entities.filter(e => e.owner === 0)) { u.x = b.x + 25; u.z = b.z + 25; }
+  g.updateFog();
+  assert.equal(g.knownBuildings[b.id], undefined);
+});
+test('a move command puts aircraft in a persistent guard orbit, while Stop returns them to base', () => {
+  const g = new Game({ mode: 'sandbox', map: 'medium', players: 1 });
+  const b = g.add('usa_airfield', 0, -350, -200), u = g.add('raptor', 0, b.x, b.z);
+  g.baseAircraft(u, b);
+  g.command({ type: 'order', ids: [u.id], order: 'move', x: -100, z: 200 });
+  run(g, 30);
+  assert.equal(u.order.type, 'airGuard');
+  assert.equal(u.flightState, 'flying');
+  const previous = { x: u.x, z: u.z };
+  run(g, 2);
+  assert.ok(distance(previous, u) > 20);
+  assert.ok(distance(u, { x: -100, z: 200 }) < 70);
+  const restored = Game.load(g.save());
+  assert.equal(restored.get(u.id).order.type, 'airGuard');
+  g.command({ type: 'order', ids: [u.id], order: 'stop' });
+  run(g, 45);
+  assert.equal(u.flightState, 'parked');
+  const events = g.drain();
+  assert.equal(events.filter(e => e.type === 'aircraft_takeoff' && e.id === u.id).length, 1);
+  assert.equal(events.filter(e => e.type === 'aircraft_landing' && e.id === u.id).length, 1);
 });
 test("A* crosses land bridges and avoids blocked water and structures", () => {
   const map = { size: 600 },

@@ -5,7 +5,9 @@
     "missile": "audio/effects/missile.mp3",
     "explosion": "audio/effects/explosion.mp3",
     "engine": "audio/effects/engine.mp3",
-    "laser": "audio/effects/laser.mp3"
+    "laser": "audio/effects/laser.mp3",
+    "takeoff": "audio/effects/takeoff.mp3",
+    "landing": "audio/effects/landing.mp3"
   },
   "announcements": {
     "building_complete": "audio/announcer/building_complete.mp3",
@@ -14,5 +16,11 @@
     "under_attack": "audio/announcer/under_attack.mp3",
     "super_detected": "audio/announcer/super_detected.mp3",
     "promotion": "audio/announcer/promotion.mp3"
+  },
+  "music": {
+    "menu": "audio/music/steel-tempest.wav",
+    "usa": "audio/music/steel-tempest.wav",
+    "china": "audio/music/steel-tempest.wav",
+    "gla": "audio/music/steel-tempest.wav"
   }
 }

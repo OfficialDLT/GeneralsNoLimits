@@ -78,9 +78,11 @@ for (const [name, text] of Object.entries(announcements))
     text, model_id: 'eleven_multilingual_v2',
     voice_settings: { stability: 0.7, similarity_boost: 0.75, use_speaker_boost: true },
   });
+const previousAssets = JSON.parse(await readFile(resolve(root, 'src/config/audio-assets.json'), 'utf8'));
 await writeFile(resolve(root, 'src/config/audio-assets.json'), JSON.stringify({
-  effects: Object.fromEntries(Object.keys(effects).map(name => [name, `audio/effects/${name}.mp3`])),
-  announcements: Object.fromEntries(Object.keys(announcements).map(name => [name, `audio/announcer/${name}.mp3`])),
+  ...previousAssets,
+  effects: { ...previousAssets.effects, ...Object.fromEntries(Object.keys(effects).map(name => [name, `audio/effects/${name}.mp3`])) },
+  announcements: { ...previousAssets.announcements, ...Object.fromEntries(Object.keys(announcements).map(name => [name, `audio/announcer/${name}.mp3`])) },
 }, null, 2) + '\n');
 const tracks = {
   'iron-horizon': 'Cinematic military strategy briefing, restrained strings, low brass, snare drums, tense atmospheric desert warfare.',

@@ -68,6 +68,7 @@ try {
   await page.goto(url, { waitUntil: 'domcontentloaded', timeout: 60000 });
   await page.waitForFunction(() => document.querySelector('.main-menu') && document.fonts.status === 'loaded');
   await page.screenshot({ path: 'docs/menu-assets.png' });
+  if (!process.env.PRESENTATION_ONLY) {
   await page.getByRole("button", { name: "Sandbox" }).click();
   await page.locator("#map").selectOption("small");
   await page.getByRole("button", { name: "Start operatie" }).click();
@@ -96,7 +97,7 @@ try {
       if (!audio.buffers.has(`effect:${name}`)) throw Error(`Effect failed: ${name}`);
     return { count, activeEffects: audio.activeEffects };
   });
-  assert.equal(audioCheck.count, 174);
+  assert.equal(audioCheck.count, 176);
   assert.ok(audioCheck.activeEffects <= 12);
   await page.screenshot({ path: 'docs/game-assets.png' });
   await page.mouse.move(700, 350);
@@ -341,7 +342,8 @@ try {
       return (
         p.game.explored[p.view.fogIndex(b.x, b.z)] &&
         !p.game.isVisible(b) &&
-        !p.view.meshes.get(b.id).mesh.visible
+        p.view.meshes.get(b.id).mesh.visible && p.view.meshes.get(b.id).memory &&
+        p.view.meshes.get(b.id).materials[0].color.r < 0.4
       );
     }),
   );
@@ -401,9 +403,63 @@ try {
   });
   await page.waitForTimeout(150);
   await page.screenshot({ path: 'docs/highland-town.png' });
+  } else {
+    await page.getByRole('button', { name: 'Sandbox' }).click();
+    await page.evaluate(() => { const p = window.__probe; p.activate(new p.Game({ mode: 'sandbox', faction: 'usa', players: 1, map: 'medium' })); });
+  }
+  const mixedIds = await page.evaluate(() => {
+    const p = window.__probe; p.game.paused = false;
+    const ids = [p.game.buildings.find(b => b.owner === 0).id, p.game.units.find(u => u.owner === 0).id];
+    p.controls.select(ids); return ids;
+  });
+  await page.keyboard.press('Shift+2');
+  await page.evaluate(() => window.__probe.controls.select([]));
+  await page.keyboard.press('2');
+  assert.deepEqual(await page.evaluate(() => window.__probe.controls.selected), mixedIds);
+  await page.evaluate(() => {
+    const p = window.__probe;
+    p.controls.select(p.game.units.filter(u => u.owner === 0).slice(0, 3).map(u => u.id));
+  });
+  await page.getByRole('button', { name: /^Linie/ }).click();
+  assert.equal(await page.evaluate(() => window.__probe.controls.formation), 'line');
+  const presentation = await page.evaluate(async () => {
+    const p = window.__probe, audio = p.ui.audio;
+    const score = await audio.context.decodeAudioData(await (await fetch('audio/music/steel-tempest.wav')).arrayBuffer());
+    await audio.effect('takeoff'); await audio.effect('landing');
+    const portraits = ['ranger', 'pathfinder', 'crusader', 'overlord', 'raptor', 'mig'].map(id => p.view.portrait(id, 'unit'));
+    p.activate(new p.Game({ mode: 'sandbox', players: 1, faction: 'usa', map: 'medium' }));
+    const g = p.game, b = g.add('usa_airfield', 0, -350, -200), u = g.add('raptor', 0, b.x, b.z);
+    g.baseAircraft(u, b);
+    g.command({ type: 'order', ids: [u.id], order: 'move', x: -100, z: 200 });
+    for (let i = 0; i < 350; i++) { g.step(0.1); g.drain(); }
+    const guard = u.order.type === 'airGuard' && u.flightState === 'flying';
+    const bridges = p.view.root.children.filter(o => o.name === 'fogged-bridge');
+    const bridgeFog = bridges.length === 3 && bridges.every(bridge => {
+      const shader = { uniforms: {}, vertexShader: '#include <begin_vertex>', fragmentShader: '#include <color_fragment>' };
+      bridge.children[0].material.onBeforeCompile(shader);
+      return shader.uniforms.rtsFog?.value === p.view.fogTexture;
+    });
+    g.paused = true;
+    const types = ['raptor', 'mig', 'b52', 'aurora', 'stealth_fighter', 'crusader', 'overlord', 'scud_launcher', 'comanche', 'chinook', 'ranger', 'pathfinder', 'burton', 'worker'];
+    types.forEach((type, i) => {
+      const model = g.add(type, 0, -300 + (i % 5 - 2) * 30, 200 + (Math.floor(i / 5) - 1) * 34);
+      model.landed = true; model.altitude = 1.2;
+    });
+    g.updateFog(); p.view.focus.set(-300, 0, 225); p.view.zoom = 155; p.view.yaw = -0.2; p.view.sync();
+    p.view.effect({ type: 'destroyed', owner: 0, x: -225, z: 195, radius: 16 });
+    return { guard, bridgeFog, duration: score.duration, portraits: new Set(portraits).size,
+      flightSounds: audio.buffers.has('effect:takeoff') && audio.buffers.has('effect:landing') };
+  });
+  assert.equal(presentation.guard, true);
+  assert.equal(presentation.bridgeFog, true);
+  assert.ok(presentation.duration > 50);
+  assert.equal(presentation.portraits, 6);
+  assert.equal(presentation.flightSounds, true);
+  await page.waitForTimeout(250);
+  await page.screenshot({ path: 'docs/unit-and-effects-update.png' });
   assert.deepEqual(errors, []);
   console.log(
-    "PASS browser: menus, 174 audio assets, 3 factions, 8-player start, camera/controls, queues, placement, saves, 4km town map and full airport sortie/rearm/return cycle",
+    "PASS browser: 176 audio assets and original score, mixed Shift groups, formations, unique portraits, remembered buildings, particles, aircraft guard and full sortie/rearm cycle",
   );
 } finally {
   await browser?.close();

@@ -4,6 +4,7 @@ import { ordersMethods } from "./orders.js";
 import { aiMethods } from "./ai.js";
 import { aircraftMethods } from './aircraft.js';
 import { AIRFIELD } from '../config/airfield.js';
+import { formationOffset } from './formations.js';
 import { visionMethods } from "./vision.js";
 import {
   factions,
@@ -43,6 +44,7 @@ export class Game {
     this.tick = 0;
     this.nextId = 1;
     this.entities = [];
+    this.knownBuildings = {};
     this.byId = new Map();
     this.effectCache = new Map();
     this.supplies = [];
@@ -450,7 +452,11 @@ export class Game {
           .filter(
             (u) => u && u.owner === owner && u.kind === "unit" && !u.inside,
           );
-        const cols = Math.ceil(Math.sqrt(list.length));
+        const center = list.reduce((p, u) => ({ x: p.x + u.x / list.length, z: p.z + u.z / list.length }), { x: 0, z: 0 });
+        const facing = Math.atan2((c.x ?? center.x) - center.x, (c.z ?? center.z) - center.z);
+        const spacing = Math.max(12, ...list.map(u => (u.radius || 2) * 2 + 4));
+        const ground = list.filter(u => units[u.type]?.kind !== 'air');
+        const formationSpeed = c.formation && ground.length > 1 ? Math.min(...ground.map(u => units[u.type]?.speed || 24)) : null;
         list.forEach((u, i) => {
           const order = {
             type: c.order,
@@ -464,8 +470,12 @@ export class Game {
             ) &&
             list.length > 1
           ) {
-            order.x += ((i % cols) - (cols - 1) / 2) * 10;
-            order.z += (Math.floor(i / cols) - (cols - 1) / 2) * 10;
+            if (units[u.type]?.kind !== 'air') order.formationSpeed = formationSpeed;
+            const offset = formationOffset(i, list.length, c.formation, spacing);
+            order.x += offset.x * Math.cos(facing) + offset.z * Math.sin(facing);
+            order.z += -offset.x * Math.sin(facing) + offset.z * Math.cos(facing);
+            order.x = clamp(order.x, -this.map.size / 2 + 5, this.map.size / 2 - 5);
+            order.z = clamp(order.z, -this.map.size / 2 + 5, this.map.size / 2 - 5);
           }
           if (c.order === "patrol") order.origin = { x: u.x, z: u.z };
           if (c.order === "scatter") {
@@ -718,6 +728,7 @@ export class Game {
           nextId: this.nextId,
           seed: this.seed,
           entities: this.entities,
+          knownBuildings: this.knownBuildings,
           supplies: this.supplies,
           crates: this.crates,
           projectiles: this.projectiles,
@@ -755,6 +766,7 @@ export class Game {
       throw Error("Ongeldige savegegevens");
     const g = new Game(data.settings);
     Object.assign(g, data.state);
+    g.knownBuildings = data.state.knownBuildings || {};
     g.byId = new Map(g.entities.map((e) => [e.id, e]));
     g.effectCache = new Map();
     g.explored = Uint8Array.from(data.state.explored);

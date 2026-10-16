@@ -9,6 +9,7 @@ import {
   definition as def,
 } from "../config/index.js";
 import { defaultHotkeys } from "./controls.js";
+import { formations } from '../simulation/formations.js';
 const $ = (s) => document.querySelector(s);
 const escape = (s) =>
   String(s).replace(
@@ -116,7 +117,7 @@ export class Interface {
     this.overlay.className = "main-menu";
     if (this.game) this.game.paused = true;
     this.overlay.hidden = false;
-    this.overlay.innerHTML = `<div class="menu-horizon"></div><div class="menu-topline"><span><i></i> GLOBAL COMMAND NETWORK</span><span>GNL / STRATEGIC OPERATIONS</span></div><main class="menu-shell"><div class="brand-kicker"><span></span> REAL-TIME STRATEGY <span></span></div><h1 class="metal-title">GENERALS</h1><div class="brand-subtitle"><span></span> NO LIMITS <span></span></div><p class="menu-tagline">THE WORLD IS YOUR BATTLEFIELD.</p><div class="menu-buttons"><button id="skirmish" class="menu-primary"><em>01</em><div>SKIRMISH<small>Bouw je leger. Bepaal je strategie. Win de oorlog.</small></div><b>↗</b></button><button id="campaign"><em>02</em><div>CAMPAIGN<small>Drie facties. Drie fronten.</small></div><b>›</b></button><button id="sandbox"><em>03</em><div>SANDBOX<small>Een open slagveld. Jouw regels.</small></div><b>›</b></button></div><div class="menu-secondary"><button id="load-save">SPEL LADEN</button><button id="load-replay">REPLAY</button><button id="options">OPTIES</button><button id="instructions">HANDLEIDING</button>${this.game ? '<button id="resume">VERDER SPELEN</button>' : ""}</div></main><div class="menu-brief"><small>OPERATION // IRON HORIZON</small><div class="brief-rule"></div><h2>COMMAND.<br>CONQUER.<br>REPEAT.</h2><p>USA · CHINA · GLA</p><div class="brief-coordinates">24° 37′ N &nbsp; 067° 12′ E<br><span>THEATER OF OPERATIONS — ACTIVE</span></div></div><div class="menu-bottomline"><button id="music-toggle"></button><span>ORIGINAL SCORE · IRON HORIZON</span><small>GENERALS NO LIMITS / FIELD EDITION</small></div>`;
+    this.overlay.innerHTML = `<div class="menu-horizon"></div><div class="menu-topline"><span><i></i> GLOBAL COMMAND NETWORK</span><span>GNL / STRATEGIC OPERATIONS</span></div><main class="menu-shell"><div class="brand-kicker"><span></span> REAL-TIME STRATEGY <span></span></div><h1 class="metal-title">GENERALS</h1><div class="brand-subtitle"><span></span> NO LIMITS <span></span></div><p class="menu-tagline">THE WORLD IS YOUR BATTLEFIELD.</p><div class="menu-buttons"><button id="skirmish" class="menu-primary"><em>01</em><div>SKIRMISH<small>Bouw je leger. Bepaal je strategie. Win de oorlog.</small></div><b>↗</b></button><button id="campaign"><em>02</em><div>CAMPAIGN<small>Drie facties. Drie fronten.</small></div><b>›</b></button><button id="sandbox"><em>03</em><div>SANDBOX<small>Een open slagveld. Jouw regels.</small></div><b>›</b></button></div><div class="menu-secondary"><button id="load-save">SPEL LADEN</button><button id="load-replay">REPLAY</button><button id="options">OPTIES</button><button id="instructions">HANDLEIDING</button>${this.game ? '<button id="resume">VERDER SPELEN</button>' : ""}</div></main><div class="menu-brief"><small>OPERATION // IRON HORIZON</small><div class="brief-rule"></div><h2>COMMAND.<br>CONQUER.<br>REPEAT.</h2><p>USA · CHINA · GLA</p><div class="brief-coordinates">24° 37′ N &nbsp; 067° 12′ E<br><span>THEATER OF OPERATIONS — ACTIVE</span></div></div><div class="menu-bottomline"><button id="music-toggle"></button><span>ORIGINAL SCORE · STEEL TEMPEST</span><small>GENERALS NO LIMITS / FIELD EDITION</small></div>`;
     $("#music-toggle").onclick = () => {
       const first = !this.audio.unlocked;
       this.audio.unlock();
@@ -376,8 +377,6 @@ export class Interface {
     this.refreshActions();
   }
   cameo(d, id) {
-    if (d.kind === 'infantry') return `${import.meta.env.BASE_URL}art/soldier.png`;
-    if (d.kind === 'tank') return `${import.meta.env.BASE_URL}art/tank.png`;
     if (id && this.view?.game)
       return this.view.portrait(id, buildings[id] ? "building" : "unit");
     return d.kind === "infantry"
@@ -488,6 +487,10 @@ export class Interface {
             );
       }
       if (e.kind === "unit") {
+        if (this.ids.filter(id => g.get(id)?.kind === 'unit' && g.get(id)?.owner === 0).length > 1)
+          for (const [formation, label] of Object.entries(formations)) this.button(label,
+            this.controls.formation === formation ? 'ACTIEVE FORMATIE' : 'Bij volgende verplaatsing',
+            () => { this.controls.formation = formation; this.refreshActions(); });
         for (const order of [
           "attackMove",
           "guard",

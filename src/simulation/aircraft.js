@@ -62,7 +62,7 @@ export const aircraftMethods = {
       e.order = order = { type: 'guard' };
       target = null;
     }
-    const mission = ['attack', 'attackMove', 'move', 'patrol', 'forceFire', 'scatter'].includes(order.type);
+    const mission = ['attack', 'attackMove', 'move', 'patrol', 'forceFire', 'scatter', 'airGuard'].includes(order.type);
     if (previousBase && previousBase !== e.homeAirfieldId) {
       e.flightState = 'returning'; e.landed = false; e.rearm = 0;
     }
@@ -98,7 +98,10 @@ export const aircraftMethods = {
       e.landed = true; e.altitude = 1.2;
       const taxi = airfieldPoint(base, 0, AIRFIELD.parkingZ[e.parkingSlot]);
       if (this.flyTo(e, e.taxiStage ? start : taxi, dt, 18)) {
-        if (e.taxiStage && !runwayBusy) { e.flightState = 'takeoff'; e.landed = false; }
+        if (e.taxiStage && !runwayBusy) {
+          e.flightState = 'takeoff'; e.landed = false;
+          this.emit('aircraft_takeoff', { id: e.id, owner: e.owner, x: e.x, z: e.z });
+        }
         else e.taxiStage = 1;
       }
       return;
@@ -113,7 +116,10 @@ export const aircraftMethods = {
     if (base && e.flightState === 'returning') {
       e.landed = false; e.altitude = Math.min(28, e.altitude + dt * 10);
       if (runwayBusy) this.orbitAircraft(e, base, dt, 95, speed);
-      else if (this.flyTo(e, end, dt, speed)) e.flightState = 'landing';
+      else if (this.flyTo(e, end, dt, speed)) {
+        e.flightState = 'landing';
+        this.emit('aircraft_landing', { id: e.id, owner: e.owner, x: e.x, z: e.z });
+      }
       return;
     }
     if (base && e.flightState === 'landing') {
@@ -133,6 +139,15 @@ export const aircraftMethods = {
     }
     e.flightState = 'flying'; e.landed = false; e.altitude = 28;
     if (e.ammo === 0) return;
+    if (order.type === 'airGuard') {
+      this.orbitAircraft(e, order, dt, 55, speed);
+      const threat = this.findEnemy(e, d.range, d.antiAir);
+      if (threat && distance(threat, order) < 140 && e.cooldown <= 0) {
+        this.fire(e, threat); e.cooldown = d.reload / (1 + e.veterancy * 0.15);
+        if (e.ammo === 0) e.flightState = 'returning';
+      }
+      return;
+    }
     if (order.type === 'forceFire') target = { x: order.x, z: order.z, kind: 'ground', id: null };
     if (!target && ['attackMove', 'patrol'].includes(order.type)) target = this.findEnemy(e, d.range + 90, d.antiAir);
     if (target) {
@@ -154,7 +169,8 @@ export const aircraftMethods = {
           const previous = { x: order.x, z: order.z };
           Object.assign(order, order.origin); order.origin = previous;
         } else if (e.waypoints?.length) e.order = { type: 'move', ...e.waypoints.shift() };
-        else e.order = { type: 'guard' };
+        else e.order = ['move', 'scatter'].includes(order.type)
+          ? { type: 'airGuard', x: order.x, z: order.z } : { type: 'guard' };
       }
     } else if (base) e.flightState = 'returning';
   },

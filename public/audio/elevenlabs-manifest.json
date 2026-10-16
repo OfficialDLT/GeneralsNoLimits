@@ -868,5 +868,15 @@
     "provider": "ElevenLabs",
     "signature": "{\"endpoint\":\"text-to-speech/EXAVITQu4vr4xnSDxMaL?output_format=mp3_44100_128\",\"body\":{\"text\":\"You have been promoted\",\"model_id\":\"eleven_multilingual_v2\",\"voice_settings\":{\"stability\":0.7,\"similarity_boost\":0.75,\"use_speaker_boost\":true}}}",
     "bytes": 24284
+  },
+  "audio/effects/takeoff.mp3": {
+    "provider": "ElevenLabs",
+    "signature": "{\"endpoint\":\"sound-generation\",\"body\":{\"text\":\"A realistic military jet accelerating down a runway and taking off, turbine whine rising into a powerful afterburner roar, distant outdoor airfield perspective. No speech or music.\",\"duration_seconds\":5,\"model_id\":\"eleven_text_to_sound_v2\",\"prompt_influence\":0.6}}",
+    "bytes": 81127
+  },
+  "audio/effects/landing.mp3": {
+    "provider": "ElevenLabs",
+    "signature": "{\"endpoint\":\"sound-generation\",\"body\":{\"text\":\"A realistic military jet landing on a runway, approaching turbine roar, brief tire chirp at touchdown, air brakes and engine winding down. No speech or music.\",\"duration_seconds\":5,\"model_id\":\"eleven_text_to_sound_v2\",\"prompt_influence\":0.6}}",
+    "bytes": 81127
   }
 }

@@ -18,6 +18,8 @@ export class Controls {
     this.canvas = view.canvas;
     this.keys = new Set();
     this.groups = {};
+    this.view.groups = this.groups;
+    this.formation = 'box';
     this.selected = [];
     this.pointer = null;
     this.drag = null;
@@ -95,6 +97,7 @@ export class Controls {
   setGame(g) {
     this.game = g;
     this.groups = {};
+    this.view.groups = this.groups;
     this.cancel();
     this.select([
       g.buildings.find((b) => b.owner === 0 && buildings[b.type].role === "hq")
@@ -317,7 +320,7 @@ export class Controls {
     } else {
       const hit = this.view.pick(e);
       if (hit) {
-        if (d.shift && hit.owner === 0 && hit.kind === "unit") {
+        if (d.shift && hit.owner === 0) {
           this.select(
             this.selected.includes(hit.id)
               ? this.selected.filter((id) => id !== hit.id)
@@ -341,6 +344,7 @@ export class Controls {
       x: p.x,
       z: p.z,
       targetId,
+      formation: this.formation,
     });
     this.ui.audio.voice(
       ["attack", "forceFire", "attackMove"].includes(order) ? "attack" : "move",
@@ -369,14 +373,18 @@ export class Controls {
     this.keys.add(key);
     if (["arrowup", "arrowdown", "arrowleft", "arrowright", " "].includes(key))
       e.preventDefault();
-    if (/^[1-9]$/.test(key)) {
+    const number = /^(?:Digit|Numpad)([0-9])$/.exec(e.code || '')?.[1] || (/^[0-9]$/.test(key) ? key : null);
+    if (number !== null) {
       e.preventDefault();
-      if (e.ctrlKey) this.groups[key] = [...this.selected];
-      else if (this.groups[key]) {
-        this.select(this.groups[key]);
-        if (this.lastGroup === key && performance.now() - this.groupTime < 350)
+      if (e.repeat) return;
+      if (e.ctrlKey || e.shiftKey) {
+        this.groups[number] = this.selected.filter(id => this.game.get(id)?.owner === 0);
+        this.ui.toast(`Groep ${number} opgeslagen · ${this.groups[number].length} objecten`);
+      } else if (this.groups[number]) {
+        this.select(this.groups[number].filter(id => this.game.get(id)?.owner === 0));
+        if (this.lastGroup === number && performance.now() - this.groupTime < 350)
           this.center(this.game.get(this.selected[0]));
-        this.lastGroup = key;
+        this.lastGroup = number;
         this.groupTime = performance.now();
       }
       return;

@@ -249,6 +249,7 @@ export const ordersMethods = {
       return;
     }
     let speed = d.speed || 24;
+    if (e.order.formationSpeed) speed = Math.min(speed, e.order.formationSpeed);
     const p = this.players[e.owner],
       sub = p ? factions[p.faction].subs[p.subfaction] || {} : {};
     speed *= sub.speed || 1;

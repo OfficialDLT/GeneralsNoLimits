@@ -2,6 +2,7 @@ import * as THREE from "three";
 import { mergeGeometries } from "three/addons/utils/BufferGeometryUtils.js";
 import { applyWeathering } from './materials.js';
 import { AIRFIELD } from '../config/airfield.js';
+import { RoundedBoxGeometry } from 'three/addons/geometries/RoundedBoxGeometry.js';
 const neutralMaterial = new THREE.MeshStandardMaterial({
   vertexColors: true,
   roughness: 0.78,
@@ -28,6 +29,9 @@ function part(g, geometry, color, x = 0, y = 0, z = 0) {
 }
 function cylinder(g, r, h, color, x = 0, y = h / 2, z = 0, r2 = r, n = 10) {
   return part(g, new THREE.CylinderGeometry(r2, r, h, n), color, x, y, z);
+}
+function panel(g, w, h, d, color, x = 0, y = h / 2, z = 0) {
+  return part(g, new RoundedBoxGeometry(w, h, d, 1, Math.min(w, h, d) * 0.14), color, x, y, z);
 }
 function sphere(g, r, color, x, y, z, sx = 1, sy = 1, sz = 1) {
   const m = part(g, new THREE.SphereGeometry(r, 10, 7), color, x, y, z);
@@ -201,12 +205,24 @@ function infantry(type, d, p) {
       : type === "jarmen"
         ? 0x77775c
         : p.body;
-  box(g, 0.52, 1.65, 0.65, p.dark, -0.42, 0.9);
-  box(g, 0.52, 1.65, 0.65, p.dark, 0.42, 0.9);
+  for (const side of [-1, 1]) {
+    cylinder(g, 0.29, 1.65, suit, side * 0.42, 1.05, 0, 0.25, 8);
+    panel(g, 0.5, 0.55, 0.25, p.dark, side * 0.42, 1.15, -0.35);
+  }
   box(g, 0.7, 0.35, 1, p.track, -0.42, 0.2, -0.15);
   box(g, 0.7, 0.35, 1, p.track, 0.42, 0.2, -0.15);
-  wedge(g, 1.7, 1.85, 1.0, suit, 0, 2.5);
-  box(g, 1.05, 1.0, 0.2, p.trim, 0, 2.6, -0.54);
+  panel(g, 1.65, 1.8, 1.0, suit, 0, 2.5);
+  panel(g, 1.18, 1.2, 0.25, worker ? 0xc3aa65 : p.dark, 0, 2.6, -0.54);
+  for (const x of [-0.42, 0, 0.42]) panel(g, 0.3, 0.48, 0.2, p.body, x, 2.3, -0.74);
+  for (const x of [-0.68, 0.68]) {
+    box(g, 0.14, 1.3, 0.12, p.light, x, 2.8, -0.55);
+    sphere(g, 0.26, 0xc6a789, x * 1.35, 2.1, -0.8, 0.7, 1, 0.7);
+  }
+  box(g, 1.7, 0.18, 1.1, p.dark, 0, 1.85);
+  if (!worker) {
+    box(g, 0.12, 1.6, 0.12, p.dark, -0.6, 3.6, 0.8);
+    panel(g, 0.45, 0.8, 0.3, p.body, 0.9, 2.65, 0.3);
+  }
   box(g, 1.1, 1.3, 0.6, p.dark, 0, 2.6, 0.7);
   sphere(g, 0.52, 0xc6a789, 0, 4.0, 0, 0.86, 1.1, 0.85);
   if (type === "lotus") {
@@ -247,6 +263,20 @@ function infantry(type, d, p) {
     );
   }
   if (hero) box(g, 0.3, 0.2, 0.2, 0xdfc56b, -0.45, 3.1, -0.58);
+  if (type === 'mini_gunner') {
+    cylinder(g, 0.45, 0.5, p.dark, 0.8, 2.6, -1.3, 0.45, 8);
+    for (let i = 0; i < 6; i++) barrel(g, 0.06, 2.5, 0x66736c, 0.8 + Math.cos(i * Math.PI / 3) * 0.22, 2.6 + Math.sin(i * Math.PI / 3) * 0.22, -2.1);
+  }
+  if (type === 'toxin_rebel') {
+    for (const x of [-0.35, 0.35]) cylinder(g, 0.28, 1.6, 0x8a9846, x, 2.8, 1.1, 0.22, 8);
+    sphere(g, 0.3, p.dark, 0, 3.9, -0.45);
+    barrel(g, 0.18, 2.6, 0x71874a, 0.85, 2.8, -2);
+  }
+  if (type === 'stealth_hijacker') {
+    sphere(g, 0.61, 0x37443d, 0, 4.18, 0.1, 1, 0.8, 1);
+    panel(g, 0.85, 0.3, 0.2, 0x364b50, 0, 4.02, -0.48);
+    panel(g, 1.4, 1.6, 0.35, 0x3c4c40, 0, 2.7, 0.85);
+  }
   if (type === "terrorist")
     for (let x = -0.6; x <= 0.6; x += 0.4)
       box(g, 0.26, 0.8, 0.26, 0x8c4e3c, x, 2.2, -0.65);
@@ -437,42 +467,123 @@ function aircraft(type, d, p) {
       box(g, 0.18, 1, 0.18, p.dark, x, 1.1, 0);
       box(g, 0.25, 0.25, 7, p.dark, x, 0.6, 0);
       if (!cargo) barrel(g, 0.4, 3, p.dark, x, 2.7, -2);
+      panel(g, 0.18, 2, cargo ? 5 : 2.5, p.dark, x * 1.3, 3, 1);
+      barrel(g, 0.45, 2.2, 0x535c59, x * 0.65, 4.9, 1.4);
+      sphere(g, 0.13, x < 0 ? 0xd45c4e : 0x6cbd82, x * 1.7, 3, 0);
     }
+    box(g, 0.2, 0.4, 2, p.dark, 0, 1.2, -3.3);
     return g;
   }
-  const bomber = ["b52", "aurora", "alpha_aurora"].includes(type),
-    stealth = type === "stealth_fighter";
-  const span = bomber ? 19 : 15,
-    length = bomber ? 20 : 14;
-  sphere(g, 1, p.body, 0, 1, 0, 1.7, 1, length / 2);
-  sphere(g, 0.9, p.glass, 0, 2, -length * 0.22, 0.7, 0.5, 1.5);
-  fin(
-    g,
-    [
-      [-span / 2, 3],
-      [-1, -length * 0.28],
-      [0, -length * 0.48],
-      [1, -length * 0.28],
-      [span / 2, 3],
-      [span / 2 - 1, 4],
-      [2, 2],
-      [1, length * 0.42],
-      [-1, length * 0.42],
-      [-2, 2],
-      [-span / 2 + 1, 4],
-    ],
-    stealth ? p.dark : p.light,
-    1,
-  );
-  for (const x of [-1.5, 1.5]) {
-    box(g, 0.4, 2.5, 3, p.body, x, 2.3, length * 0.3);
-    barrel(g, 0.6, 5, p.dark, x, 0.8, length * 0.1);
-    barrel(g, 0.42, 0.6, 0x80b9d6, x, 0.8, length * 0.3);
-    box(g, 1, 0.15, 2, p.trim, x * 3.6, 1.35, 1.8);
-    if (!stealth) barrel(g, 0.22, 3, p.light, x * 3.6, 0.55, -1);
+  const bomber = type === 'b52', delta = ['aurora', 'alpha_aurora', 'mig'].includes(type), stealth = type === 'stealth_fighter';
+  const span = bomber ? 21 : stealth ? 18 : delta ? 17 : 15, length = bomber ? 25 : delta ? 21 : 18;
+  const skin = stealth ? 0x4a565a : d.faction === 'china' ? 0x969c8a : 0xa7b0ae;
+  const profile = [[0.03, -0.5], [0.45, -0.4], [0.95, -0.23], [1.2, 0.05], [1.05, 0.32], [0.65, 0.49]];
+  const hull = part(g, new THREE.LatheGeometry(profile.map(([r, z]) => new THREE.Vector2(r, z * length)), 18), skin, 0, 1.8, 0);
+  hull.rotation.x = Math.PI / 2;
+  sphere(g, 1, 0x304d56, 0, 2.8, -length * 0.24, 0.63, 0.52, bomber ? 1.6 : 2.2);
+  for (const side of [-1, 1]) {
+    const wing = delta || stealth
+      ? [[side, -5], [side * span / 2, 4], [side * (span / 2 - 1), 5], [side, 4]]
+      : [[side, -2], [side * span / 2, 1.5], [side * (span / 2 - 0.4), 3.7], [side, 3]];
+    fin(g, wing, skin, 1.8);
+    fin(g, [[side, length * 0.25], [side * 5, length * 0.39], [side * 4.7, length * 0.48], [side, length * 0.43]], 0x87938f, 2);
+    // Vertical triangular faces, tilted outwards on twin-tail fighters.
+    const finGeometry = new THREE.BufferGeometry();
+    finGeometry.setAttribute('position', new THREE.Float32BufferAttribute([
+      side * 0.9, 2, length * 0.2, side * 1.4, 5.2, length * 0.37, side * 1.6, 2, length * 0.48,
+      side * 1.6, 2, length * 0.48, side * 1.4, 5.2, length * 0.37, side * 0.9, 2, length * 0.2,
+    ], 3));
+    finGeometry.computeVertexNormals(); part(g, finGeometry, skin);
+    barrel(g, 0.7, 4.5, 0x626e6c, side * 1.15, 1.5, length * 0.25);
+    barrel(g, 0.49, 0.3, 0x202c30, side * 1.15, 1.5, length * 0.38);
+    panel(g, 0.65, 0.65, 2.4, 0x3a4547, side * 1.5, 1.2, -2);
+    for (const x of bomber ? [4.5, 7.5] : [4]) {
+      if (bomber) barrel(g, 0.6, 4.5, 0x626e6c, side * x, 0.8, 2.5);
+      else {
+        barrel(g, 0.22, 3.8, 0xc3c6b4, side * x, 1.2, 0.3);
+        sphere(g, 0.22, 0x646e6c, side * x, 1.2, -1.8, 1, 1, 1.6);
+      }
+    }
+    box(g, 1.4, 0.07, 0.5, p.trim, side * (span / 2 - 1.5), 2.08, 2.2);
+    sphere(g, 0.13, side < 0 ? 0xd95146 : 0x70b68a, side * span / 2, 1.9, 2.4);
+    for (let n = 0; n < (type === 'king_raptor' ? 3 : 1); n++)
+      box(g, 0.12, 0.08, 2.5, p.trim, side * (2.3 + n * 0.25), 2.1, 2);
   }
-  if (bomber) for (const x of [-5.5, 5.5]) barrel(g, 0.6, 3, p.dark, x, 0.4, 1);
+  barrel(g, 0.1, 2, 0x333e3d, 0.7, 1.5, -length * 0.45);
+  const gear = new THREE.Group();
+  for (const [x, z] of [[0, -4], [-1.7, 2.5], [1.7, 2.5]]) {
+    cylinder(gear, 0.1, 1.2, 0x7f8985, x, 0.8, z, 0.1, 6);
+    const tire = cylinder(gear, 0.35, 0.22, p.track, x, 0.35, z, 0.35, 10);
+    tire.rotation.z = Math.PI / 2;
+  }
+  const bakedGear = bake(gear).children[0];
+  bakedGear.name = 'landing-gear'; bakedGear.userData.dynamic = true; g.add(bakedGear);
   return g;
+}
+function equipment(g, type, d, p) {
+  if ((d.kind === 'infantry' && type !== 'demo_bike') || d.kind === 'air') {
+    if (type === 'alpha_aurora') for (const x of [-3, 3]) {
+      panel(g, 1, 0.65, 4.5, 0x7b8d93, x, 1.7, 1);
+      barrel(g, 0.3, 4, 0xc2b38a, x, 0.7, 1);
+    }
+    return;
+  }
+  if (d.kind === 'boat') {
+    for (const x of [-3, 3]) for (let z = -4; z <= 4; z += 2) box(g, 0.12, 1.3, 0.12, p.light, x, 4, z);
+    box(g, 0.15, 5, 0.15, p.dark, 0, 7, 3);
+    sphere(g, 0.3, p.light, 0, 9.5, 3);
+    return;
+  }
+  if (type === 'demo_bike') {
+    panel(g, 0.65, 1.3, 1.1, p.dark, 0, 3, 0.7);
+    sphere(g, 0.45, p.body, 0, 4.1, 0.4);
+    return;
+  }
+  const heavy = ['overlord', 'emperor'].includes(type), width = heavy ? 8 : 6, length = heavy ? 11 : 8;
+  if (d.kind === 'tank' || d.builder || d.artillery) {
+    for (const side of [-1, 1]) {
+      for (let z = -length / 2 + 0.3; z < length / 2; z += 0.65) {
+        box(g, 1.3, 0.12, 0.22, 0x4b5049, side * width / 2, 0.2, z);
+        box(g, 0.12, 0.45, 0.25, 0x596056, side * (width / 2 + 0.7), 1.35, z);
+      }
+      for (let z = -2.8; z <= 2.8; z += 1.4)
+        panel(g, 0.4, 0.9, 1.15, p.body, side * (width / 2 - 0.15), 2.4, z);
+      cylinder(g, 0.18, 0.35, 0xa0a497, side * 2, 3.4, 1.8, 0.18, 6);
+    }
+  }
+  for (let x = -1.6; x <= 1.6; x += 0.45) box(g, 0.2, 0.15, 1.5, p.dark, x, 3.15, 2.2);
+  panel(g, 1.4, 0.65, 1.1, 0x777c65, 1.7, 3.3, 2.6);
+  box(g, 0.13, 0.7, 1.2, p.dark, 1.7, 3.3, 2.6);
+  if (d.kind === 'tank') {
+    panel(g, 1.3, 0.25, 1.3, p.dark, -0.8, 4.55, 0.5);
+    for (const x of [-0.8, 0.8]) panel(g, 0.6, 0.35, 0.4, 0x4e7982, x, 4.6, -1.5);
+    cylinder(g, 0.09, 3.4, p.dark, 1.3, 6, 1.5, 0.05, 6);
+    barrel(g, 0.12, 2.8, p.dark, -0.8, 4.8, -1.3);
+    if (type === 'marauder') {
+      panel(g, 3, 1.4, 2.8, p.body, 0.4, 4.5, 0);
+      barrel(g, 0.28, 6, p.dark, 0.8, 4, -5);
+    }
+    if (type === 'nuke_battlemaster') for (const x of [-1.7, 1.7]) {
+      cylinder(g, 0.45, 1.7, 0xb6a657, x, 4.1, 1.3, 0.35, 10);
+      box(g, 0.9, 0.3, 0.6, p.dark, x, 4, 1.3);
+    }
+    if (type === 'emperor') for (const x of [-1.5, 1.5]) {
+      const speaker = cylinder(g, 0.8, 1.4, p.dark, x, 6.8, 0.5, 0.35, 10);
+      speaker.rotation.x = Math.PI / 2;
+    }
+    if (type === 'paladin') sphere(g, 0.8, 0x748d8c, 0, 5.3, 1.2);
+    if (type === 'laser_crusader') panel(g, 1.8, 0.8, 2, 0x668c96, 0, 4.8, -0.6);
+  } else {
+    for (const side of [-1, 1]) {
+      box(g, 0.14, 1.8, 0.14, p.dark, side * 2.2, 4, -1);
+      panel(g, 0.2, 0.5, 0.6, p.dark, side * 2.7, 4.3, -2.1);
+    }
+  }
+  if (type === 'troop_crawler') for (const z of [0, 1.8, 3.6]) panel(g, 3.5, 0.25, 1.2, p.dark, 0, 5.45, z);
+  if (type === 'quad') {
+    panel(g, 3, 1, 2.8, p.body, 0, 5.3, 0.5);
+    for (const x of [-0.35, 0.35]) for (const y of [5.6, 6.1]) barrel(g, 0.14, 4.8, p.dark, x, y, -2);
+  }
 }
 function windows(g, p, w, d, y = 5) {
   for (let x = -w / 2 + 2; x < w / 2; x += 3.5) {
@@ -566,6 +677,13 @@ function townBuilding(type, p) {
 function building(type, d, p) {
   if (d.role === 'airfield') return airport(p);
   if (type.startsWith('town_')) return townBuilding(type, p);
+  if (type === 'demo_trap') {
+    const trap = new THREE.Group();
+    cylinder(trap, 4.5, 0.6, 0x7d8065, 0, 0.4, 0, 4.2, 16);
+    cylinder(trap, 1.2, 0.3, 0xa69457, 0, 0.9, 0, 1.2, 10);
+    for (const x of [-2, 2]) box(trap, 0.4, 0.1, 5, p.dark, x, 0.76);
+    return trap;
+  }
   const g = new THREE.Group(),
     f = d.faction,
     role = d.role;
@@ -717,18 +835,35 @@ function building(type, d, p) {
     box(g, 14, 0.8, 1, p.dark, 0, 21);
     cylinder(g, 2, 10, p.body, 8, 8, 0);
   }
+  if (type === 'fire_base') {
+    for (const x of [-8, 8]) box(g, 2, 2, 12, 0x8c866c, x, 10.5, 0);
+    barrel(g, 0.65, 14, p.dark, 0, 12, -6);
+  }
+  if (d.role === 'refinery') for (const x of [-6, 0, 6]) cylinder(g, 2.5, 7, 0xa6a58b, x, 12, 1, 2.5, 12);
+  if (d.role === 'repair') {
+    for (const x of [-8, 8]) box(g, 1.3, 10, 1.3, 0x9e976f, x, 13, 0);
+    box(g, 19, 1.2, 1.2, p.dark, 0, 18, 0);
+    cylinder(g, 0.1, 5, p.dark, 0, 14.5, 0, 0.1, 6);
+  }
+  if (d.role === 'reinforcement') {
+    box(g, 13, 0.2, 13, p.dark, 0, 9);
+    for (const x of [-3, 3]) box(g, 1, 0.1, 7, 0xdfd8bc, x, 9.2);
+    box(g, 6, 0.1, 1, 0xdfd8bc, 0, 9.2);
+  }
   return g;
 }
 export function entityModel(type, d, color = "#63b9ff") {
   const p = palette(d.faction, color);
   let g = d.role
     ? building(type, d, p)
+    : type === 'demo_bike' ? vehicle(type, { ...d, kind: 'vehicle' }, p)
     : d.kind === "air"
       ? aircraft(type, d, p)
       : d.kind === "infantry" || type === "civilian_unit"
         ? infantry(type, d, p)
         : vehicle(type, d, p);
   if (d.role && d.role !== 'airfield') g.rotation.y = Math.PI;
+  if (!d.role) equipment(g, type, d, p);
   return bake(g);
 }
 // Retained primitive API for scenery and older prototype integrations.
